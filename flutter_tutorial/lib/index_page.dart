@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:flutter_tutorial/building/building/building_layout_page.dart';
+import 'package:flutter_tutorial/building/building_layout_page.dart';
 
 class IndexPage extends StatelessWidget {
   const IndexPage({Key? key}) : super(key: key);
