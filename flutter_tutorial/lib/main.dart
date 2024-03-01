@@ -15,12 +15,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData(
-        // ダークモード用のテーマ設定
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[900],
+          foregroundColor: Colors.white,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.grey[900],
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey[700],
+        ),
         brightness: Brightness.dark,
         primarySwatch: Colors.blueGrey,
       ),
       themeMode: ThemeMode.dark,
-      home: IndexPage(),
+      home: const IndexPage(),
     );
   }
 }
