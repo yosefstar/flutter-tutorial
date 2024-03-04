@@ -11,10 +11,37 @@ class YoutubePage extends StatelessWidget {
       body: Column(
         children: [
           _TrendingVideosSection(),
+          _TrendingVideosHeader(),
           _VideoListSection(),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(),
+    );
+  }
+}
+
+class _TrendingVideosHeader extends StatelessWidget {
+  const _TrendingVideosHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 56.0,
+      color: Colors.grey[900],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(width: 20),
+          const Text(
+            '急上昇動画',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
