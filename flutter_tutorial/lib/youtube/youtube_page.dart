@@ -54,7 +54,7 @@ class _TrendingVideosSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12.0),
       height: 240.0,
-      child: CardGridView(cardItems: cardItems), // cardItemsは外部から渡す必要があります
+      child: CardGridView(cardItems: cardItems),
     );
   }
 }
@@ -87,85 +87,92 @@ class VideoListItem extends StatelessWidget {
             Image.network(
               'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  const Icon(Icons.equalizer, color: Colors.white, size: 24.0),
-                  const SizedBox(width: 8.0),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 2.0, vertical: 1.0),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: const Text(
-                      '9:49',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
+                  Icon(Icons.equalizer, color: Colors.white, size: 24.0),
+                  SizedBox(width: 8.0),
+                  VideoTime(time: '9:49'),
                 ],
               ),
             ),
           ],
         ),
         Container(
+          padding: const EdgeInsets.all(8.0),
           height: 76,
           color: Colors.grey[900],
           child: Row(
             children: [
-              Expanded(
+              const ProfileIcon(
+                url:
+                    'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+              ),
+              const SizedBox(width: 8),
+              Flexible(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 8),
-                                const ProfileIcon(
-                                  url:
-                                      'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-                                ),
-                                const SizedBox(width: 12),
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 8),
-                                      VideoTitle(index: index),
-                                      const Text(
-                                        'ARASHI・127万 回視聴・1日前',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                    VideoTitle(index: index),
+                    const Row(
+                      children: [
+                        Text(
+                          'ARASHI・',
+                          style: TextStyle(
+                            color: Colors.grey,
                           ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          '127万 回視聴・',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          '1日前',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.more_vert, size: 27),
-              const SizedBox(width: 12),
+              const Align(
+                alignment: Alignment.topCenter, // 上部中央に配置
+                child: Icon(Icons.more_vert, size: 25),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class VideoTime extends StatelessWidget {
+  final String time;
+
+  const VideoTime({Key? key, required this.time}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 1.0),
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: Text(
+        time,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      ),
     );
   }
 }
@@ -178,7 +185,6 @@ class ProfileIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 12),
         ClipOval(
           child: Image.network(
             url,
@@ -195,7 +201,7 @@ class ProfileIcon extends StatelessWidget {
 class VideoTitle extends StatelessWidget {
   final int index;
   final List<String> titles = [
-    'FlutterとはFlutterとはFlutterとはFlutterとはFlutterとは',
+    'FlutterとはFlutterとはFlutterとはFlutterとはFlutterとはFlutterとは',
     '今日の天気',
     'スポーツ情報スポーツ情報スポーツ情報スポーツ情報スポーツ情報',
     '経済の動向',
@@ -210,7 +216,8 @@ class VideoTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return SizedBox(
+      height: 40,
       child: Column(
         children: [
           Text(
