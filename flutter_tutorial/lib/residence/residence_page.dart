@@ -7,29 +7,171 @@ class ResidencePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
-      floatingActionButton: SizedBox(
-        height: 70.0,
-        width: 70.0,
-        child: FloatingActionButton(
-          backgroundColor: CustomColors.deepGreen,
-          onPressed: () {},
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0),
+      appBar: CustomAppBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+      body: ResidenceListView(),
+      floatingActionButton: CustomFloatingActionButton(),
+    );
+  }
+}
+
+class DataListDisplay<T> extends StatelessWidget {
+  final List<T> dataList;
+  final Widget Function(T) itemBuilder;
+
+  const DataListDisplay({
+    Key? key,
+    required this.dataList,
+    required this.itemBuilder,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: dataList.length,
+      itemBuilder: (context, index) {
+        return itemBuilder(dataList[index]);
+      },
+    );
+  }
+}
+
+class ResidenceListView extends StatelessWidget {
+  final List<String> myDataList = [
+    'アイテム1',
+    'アイテム2',
+    'アイテム3',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          SearchFilterBar(),
+          ...myDataList.map((item) => ListTile(title: Text(item))).toList(),
+        ],
+      ),
+      floatingActionButton: CustomFloatingActionButton(),
+    );
+  }
+}
+
+class SearchFilterBar extends StatelessWidget {
+  const SearchFilterBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120.0,
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white, // Containerの背景色
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2), // 影の色
+            spreadRadius: 0.1, // 影の広がり
+            blurRadius: 5, // ぼかしの量
+            offset: Offset(0, 1), // 影の方向と距離
           ),
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.search, color: Colors.white, size: 32.0),
-              Text('物件',
+        ],
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'テスト',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.bold,
-                  )),
-            ],
-          ),
+                  ),
+                ),
+                Text(
+                  'テスト',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'テスト',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Color(0xffefebe9),
+                borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'テスト',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -43,7 +185,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: const IconThemeData(
-        color: CustomColors.deepGreen, // 戻るボタンの色をカスタムカラーに設定
+        color: CustomColors.deepGreen,
       ),
       title: const Row(
         children: [
@@ -89,14 +231,14 @@ class CustomCard extends StatelessWidget {
     return Card(
       color: const Color(0xffeeeeee),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25.0), // 角の丸みを調整
+        borderRadius: BorderRadius.circular(25.0),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
         child: Text(
           text,
           style: const TextStyle(
-            color: CustomColors.deepGreen, // テキストの色をカスタムカラーに設定
+            color: CustomColors.deepGreen,
           ),
         ),
       ),
@@ -126,10 +268,10 @@ class StackNumber extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // 影の色
-            spreadRadius: 0.1, // 影の範囲
-            blurRadius: 2, // ぼかしの量
-            offset: const Offset(2, 2), // 影の位置
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 0.1,
+            blurRadius: 2,
+            offset: const Offset(2, 2),
           ),
         ],
       ),
@@ -138,7 +280,7 @@ class StackNumber extends StatelessWidget {
           number,
           style: const TextStyle(
             color: textColor,
-            fontSize: size * 0.75, // Adjust font size based on container size
+            fontSize: size * 0.75,
           ),
         ),
       ),
@@ -203,20 +345,18 @@ class BottomNavItemFactory {
     int? stackNumber,
   }) {
     Widget icon = SizedBox(
-      width: 48.0, // アイコンよりも大きい幅
-      height: 48.0, // アイコンよりも大きい高さ
+      width: 48.0,
+      height: 48.0,
       child: Align(
         alignment: Alignment.center,
-        child: Icon(iconData, size: iconSize), // アイコンを中央に配置
+        child: Icon(iconData, size: iconSize),
       ),
     );
     if (stackNumber != null && stackNumber != 0) {
       icon = Stack(
         children: [
           SizedBox(
-              width: 48.0, // アイコンよりも大きい幅
-              height: 48.0,
-              child: Icon(iconData, size: iconSize)),
+              width: 48.0, height: 48.0, child: Icon(iconData, size: iconSize)),
           Positioned(
             right: 0,
             top: 5,
@@ -228,6 +368,37 @@ class BottomNavItemFactory {
     return BottomNavigationBarItem(
       icon: icon,
       label: label,
+    );
+  }
+}
+
+class CustomFloatingActionButton extends StatelessWidget {
+  const CustomFloatingActionButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 70.0,
+      width: 70.0,
+      child: FloatingActionButton(
+        backgroundColor: CustomColors.deepGreen,
+        onPressed: () {},
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search, color: Colors.white, size: 32.0),
+            Text('物件',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                )),
+          ],
+        ),
+      ),
     );
   }
 }
