@@ -28,11 +28,11 @@ class _TrendingVideosHeader extends StatelessWidget {
     return Container(
       height: 56.0,
       color: Colors.grey[900],
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(width: 20),
-          const Text(
+          SizedBox(width: 20),
+          Text(
             '急上昇動画',
             style: TextStyle(
               color: Colors.white,
@@ -139,6 +139,7 @@ class VideoListItem extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      const SizedBox(height: 8),
                                       VideoTitle(index: index),
                                       const Text(
                                         'ARASHI・127万 回視聴・1日前',
@@ -212,16 +213,13 @@ class VideoTitle extends StatelessWidget {
     return Flexible(
       child: Column(
         children: [
-          const SizedBox(height: 8),
-          Flexible(
-            child: Text(
-              titles[index],
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-              softWrap: true,
-              overflow: TextOverflow.clip,
+          Text(
+            titles[index],
+            style: const TextStyle(
+              color: Colors.white,
             ),
+            softWrap: true,
+            overflow: TextOverflow.clip,
           ),
         ],
       ),
