@@ -36,23 +36,175 @@ class DataListDisplay<T> extends StatelessWidget {
   }
 }
 
+class CustomData {
+  final String imageUrl1;
+  final String imageUrl2;
+  final String text1;
+  final String text2;
+  final String text3;
+  final String text4;
+  final int number;
+
+  CustomData({
+    required this.imageUrl1,
+    required this.imageUrl2,
+    required this.text1,
+    required this.text2,
+    required this.text3,
+    required this.text4,
+    required this.number,
+  });
+}
+
 class ResidenceListView extends StatelessWidget {
-  final List<String> myDataList = [
-    'アイテム1',
-    'アイテム2',
-    'アイテム3',
+  // テストデータのリストを作成
+  final List<CustomData> dataList = [
+    CustomData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'テキスト1',
+      text2: 'テキスト2',
+      text3: 'テキスト3',
+      text4: 'テキスト4',
+      number: 5,
+    ),
+    // 以下、同様にデータを4つ追加して合計5つのデータを用意
+    // 例:
+    CustomData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'テキスト5',
+      text2: 'テキスト6',
+      text3: 'テキスト7',
+      text4: 'テキスト8',
+      number: 10,
+    ),
+    CustomData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'テキスト5',
+      text2: 'テキスト6',
+      text3: 'テキスト7',
+      text4: 'テキスト8',
+      number: 10,
+    ),
+    CustomData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'テキスト5',
+      text2: 'テキスト6',
+      text3: 'テキスト7',
+      text4: 'テキスト8',
+      number: 10,
+    ),
+    CustomData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'テキスト5',
+      text2: 'テキスト6',
+      text3: 'テキスト7',
+      text4: 'テキスト8',
+      number: 10,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          SearchFilterBar(),
-          ...myDataList.map((item) => ListTile(title: Text(item))).toList(),
+    return Column(
+      children: [
+        SearchFilterBar(),
+        Expanded(
+          child: ListView.builder(
+            itemCount: dataList.length,
+            itemBuilder: (context, index) {
+              final data = dataList[index];
+              return CustomDataDisplayWidget(
+                imageUrl1: data.imageUrl1,
+                imageUrl2: data.imageUrl2,
+                text1: data.text1,
+                text2: data.text2,
+                text3: data.text3,
+                text4: data.text4,
+                number: data.number,
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CustomDataDisplayWidget extends StatelessWidget {
+  final String imageUrl1;
+  final String imageUrl2;
+  final String text1;
+  final String text2;
+  final String text3;
+  final String text4;
+  final int number;
+
+  const CustomDataDisplayWidget({
+    Key? key,
+    required this.imageUrl1,
+    required this.imageUrl2,
+    required this.text1,
+    required this.text2,
+    required this.text3,
+    required this.text4,
+    required this.number,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
         ],
       ),
-      floatingActionButton: CustomFloatingActionButton(),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Image.network(imageUrl1, width: 100, height: 100),
+              Image.network(imageUrl2, width: 100, height: 100),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(text1),
+                Text(text2),
+                Text(text3),
+                Text(text4),
+                Text('Number: $number'),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
