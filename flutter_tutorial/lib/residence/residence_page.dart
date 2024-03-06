@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ResidencePage extends StatelessWidget {
   const ResidencePage({super.key});
@@ -7,10 +8,10 @@ class ResidencePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
-      bottomNavigationBar: CustomBottomNavigationBar(),
-      body: ResidenceListView(),
-      floatingActionButton: CustomFloatingActionButton(),
+      appBar: const _CustomAppBar(),
+      bottomNavigationBar: const _CustomBottomNavigationBar(),
+      body: _ResidenceListView(),
+      floatingActionButton: const _CustomFloatingActionButton(),
     );
   }
 }
@@ -36,7 +37,7 @@ class DataListDisplay<T> extends StatelessWidget {
   }
 }
 
-class CustomData {
+class _CustomData {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -45,7 +46,7 @@ class CustomData {
   final String text4;
   final int number;
 
-  CustomData({
+  _CustomData({
     required this.imageUrl1,
     required this.imageUrl2,
     required this.text1,
@@ -56,67 +57,67 @@ class CustomData {
   });
 }
 
-class ResidenceListView extends StatelessWidget {
+class _ResidenceListView extends StatelessWidget {
   // テストデータのリストを作成
-  final List<CustomData> dataList = [
-    CustomData(
+  final List<_CustomData> dataList = [
+    _CustomData(
       imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
       imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'テキスト1',
-      text2: 'テキスト2',
-      text3: 'テキスト3',
-      text4: 'テキスト4',
-      number: 5,
+          'https://www.homes.co.jp/cont/wp-content/uploads/cont/83258/img/1.png',
+      text1: 'Rising place 川崎',
+      text2: '京線本線 京急川崎駅 より 徒歩9分',
+      text3: '1K / 21.24㎡ 南西向き',
+      text4: '2階/15階建 築5年',
+      number: 2000,
     ),
-    // 以下、同様にデータを4つ追加して合計5つのデータを用意
-    // 例:
-    CustomData(
+    _CustomData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'テキスト5',
-      text2: 'テキスト6',
-      text3: 'テキスト7',
-      text4: 'テキスト8',
-      number: 10,
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      text1: 'Sunny Apartments 渋谷',
+      text2: '山手線 渋谷駅 より 徒歩5分',
+      text3: '2LDK / 35.75㎡ 南向き',
+      text4: '6階/20階建 築3年',
+      number: 5000,
     ),
-    CustomData(
+    _CustomData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'テキスト5',
-      text2: 'テキスト6',
-      text3: 'テキスト7',
-      text4: 'テキスト8',
-      number: 10,
+      text1: 'Harmony Tower 新宿',
+      text2: '中央線 新宿駅 より 徒歩7分',
+      text3: '1LDK / 25.50㎡ 東向き',
+      text4: '10階/25階建 築2年',
+      number: 4500,
     ),
-    CustomData(
+    _CustomData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'テキスト5',
-      text2: 'テキスト6',
-      text3: 'テキスト7',
-      text4: 'テキスト8',
-      number: 10,
+      text1: 'Green Residence 池袋',
+      text2: '有楽町線 池袋駅 より 徒歩10分',
+      text3: '1R / 20.10㎡ 西向き',
+      text4: '5階/15階建 築1年',
+      number: 3000,
     ),
-    CustomData(
+    _CustomData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'テキスト5',
-      text2: 'テキスト6',
-      text3: 'テキスト7',
-      text4: 'テキスト8',
-      number: 10,
+      text1: 'Blue Ocean 横浜',
+      text2: 'みなとみらい線 横浜駅 より 徒歩8分',
+      text3: '3DK / 45.60㎡ 北向き',
+      text4: '8階/30階建 築4年',
+      number: 6000,
     ),
   ];
+
+  _ResidenceListView();
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +126,11 @@ class ResidenceListView extends StatelessWidget {
       itemBuilder: (context, index) {
         if (index == 0) {
           // 最初のアイテムとしてSearchFilterBarを表示
-          return const SearchFilterBar();
+          return const _SearchFilterBar();
         }
         // indexを1減らして、0番目をSearchFilterBarにしたことを調整
         final data = dataList[index - 1];
-        return CustomDataDisplayWidget(
+        return _CustomDataDisplayWidget(
           imageUrl1: data.imageUrl1,
           imageUrl2: data.imageUrl2,
           text1: data.text1,
@@ -143,7 +144,32 @@ class ResidenceListView extends StatelessWidget {
   }
 }
 
-class CustomDataDisplayWidget extends StatelessWidget {
+class _IconTextRow extends StatelessWidget {
+  final IconData iconData;
+  final String text;
+
+  const _IconTextRow({
+    Key? key,
+    required this.iconData,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const double iconSize = 18.0;
+    const TextStyle textStyle = TextStyle(fontSize: 14.0);
+
+    return Row(
+      children: [
+        Icon(iconData, size: iconSize),
+        const SizedBox(width: 8.0),
+        Text(text, style: textStyle),
+      ],
+    );
+  }
+}
+
+class _CustomDataDisplayWidget extends StatelessWidget {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -152,7 +178,7 @@ class CustomDataDisplayWidget extends StatelessWidget {
   final String text4;
   final int number;
 
-  const CustomDataDisplayWidget({
+  const _CustomDataDisplayWidget({
     Key? key,
     required this.imageUrl1,
     required this.imageUrl2,
@@ -182,22 +208,121 @@ class CustomDataDisplayWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.network(imageUrl1, width: 100, height: 100),
-              Image.network(imageUrl2, width: 100, height: 100),
+              Expanded(
+                child: SizedBox(
+                  height: 200,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                    ),
+                    child: Image.network(
+                      imageUrl1,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 200,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(8.0),
+                    ),
+                    child: Image.network(
+                      imageUrl2,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    text1,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${NumberFormat("#,###").format(number)}万円',
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                  _IconTextRow(
+                    iconData: Icons.train,
+                    text: text2,
+                  ),
+                  const SizedBox(height: 4),
+                  _IconTextRow(
+                    iconData: Icons.monetization_on,
+                    text: text3,
+                  ),
+                  const SizedBox(height: 4),
+                  _IconTextRow(
+                    iconData: Icons.info_outline,
+                    text: text4,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(text1),
-                Text(text2),
-                Text(text3),
-                Text(text4),
-                Text('Number: $number'),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: _CustomColors.lightBeige, width: 2.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.delete, color: _CustomColors.lightBeige),
+                        SizedBox(width: 8),
+                        Text("興味なし"),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: _CustomColors.lightBeige, width: 2.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.favorite_border_outlined,
+                            color: _CustomColors.lightBeige),
+                        SizedBox(width: 8),
+                        Text("お気に入り"),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -207,146 +332,152 @@ class CustomDataDisplayWidget extends StatelessWidget {
   }
 }
 
-class SearchFilterBar extends StatelessWidget {
-  const SearchFilterBar({Key? key}) : super(key: key);
+class _SearchFilterBar extends StatelessWidget {
+  const _SearchFilterBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.0,
+      height: 140.0,
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.white, // Containerの背景色
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2), // 影の色
             spreadRadius: 0.1, // 影の広がり
             blurRadius: 5, // ぼかしの量
-            offset: Offset(0, 1), // 影の方向と距離
+            offset: const Offset(0, 1), // 影の方向と距離
           ),
         ],
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Container(
-        margin: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(8.0),
+            child: const Row(
               children: [
+                SizedBox(width: 8.0),
                 Text(
-                  'テスト',
+                  'カウルのおすすめ',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(width: 8.0),
                 Text(
-                  'テスト',
+                  '新着3件',
                   style: TextStyle(
                     fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
                   ),
                 ),
+                Spacer(),
                 Text(
-                  'テスト',
+                  '編集',
                   style: TextStyle(
                     fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
+                    color: _CustomColors.deepGreen,
                   ),
+                ),
+                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: const Color(0xffefebe9),
+              borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+            ),
+            child: const Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.train,
+                      size: 18.0,
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(
+                      '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.monetization_on,
+                          size: 18.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          '下限なし〜2000万円',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 18.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Color(0xffefebe9),
-                borderRadius: BorderRadius.circular(8.0), // 角を丸くする
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'テスト',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _CustomAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: const IconThemeData(
-        color: CustomColors.deepGreen,
+        color: _CustomColors.deepGreen,
       ),
       title: const Row(
         children: [
-          CustomCard(text: 'おすすめ'),
+          _CustomCard(text: 'おすすめ'),
           Stack(
             children: [
-              CustomCard(text: 'リフォーム'),
+              _CustomCard(text: 'リフォーム'),
               Positioned(
                 right: 0,
                 top: 0,
-                child: StackNumber(number: '1'),
+                child: _StackNumber(number: '1'),
               ),
             ],
           ),
@@ -354,7 +485,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Icon(
             Icons.add_circle,
             size: 40.0,
-            color: CustomColors.deepGreen,
+            color: _CustomColors.deepGreen,
           ),
         ],
       ),
@@ -368,13 +499,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class CustomColors {
+class _CustomColors {
   static const Color deepGreen = Color(0xff26a69a);
+  static const Color lightBeige = Color.fromARGB(255, 189, 187, 186);
 }
 
-class CustomCard extends StatelessWidget {
+class _CustomCard extends StatelessWidget {
   final String text;
-  const CustomCard({Key? key, required this.text}) : super(key: key);
+  const _CustomCard({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -388,7 +520,7 @@ class CustomCard extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            color: CustomColors.deepGreen,
+            color: _CustomColors.deepGreen,
           ),
         ),
       ),
@@ -396,10 +528,10 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-class StackNumber extends StatelessWidget {
+class _StackNumber extends StatelessWidget {
   final String number;
 
-  const StackNumber({
+  const _StackNumber({
     Key? key,
     required this.number,
   }) : super(key: key);
@@ -438,23 +570,23 @@ class StackNumber extends StatelessWidget {
   }
 }
 
-class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({super.key});
+class _CustomBottomNavigationBar extends StatelessWidget {
+  const _CustomBottomNavigationBar();
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: [
-        BottomNavItemFactory.createItem(iconData: Icons.home, label: 'ホーム'),
-        BottomNavItemFactory.createItem(
+        _BottomNavItemFactory.createItem(iconData: Icons.home, label: 'ホーム'),
+        _BottomNavItemFactory.createItem(
             iconData: Icons.favorite_border, label: 'お気に入り'),
-        BottomNavItemFactory.createItem(
+        _BottomNavItemFactory.createItem(
             iconData: Icons.message, label: 'メッセージ', stackNumber: 1),
-        BottomNavItemFactory.createItem(
+        _BottomNavItemFactory.createItem(
             iconData: Icons.person_outline, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
-      selectedItemColor: CustomColors.deepGreen,
+      selectedItemColor: _CustomColors.deepGreen,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: const TextStyle(
         fontSize: 10.0,
@@ -468,26 +600,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 }
 
-class CustomIconButton extends StatelessWidget {
-  final IconData iconData;
-  final VoidCallback onPressed;
-
-  const CustomIconButton({
-    Key? key,
-    required this.iconData,
-    required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(iconData),
-      onPressed: onPressed,
-    );
-  }
-}
-
-class BottomNavItemFactory {
+class _BottomNavItemFactory {
   static BottomNavigationBarItem createItem({
     required IconData iconData,
     required String label,
@@ -510,7 +623,7 @@ class BottomNavItemFactory {
           Positioned(
             right: 0,
             top: 5,
-            child: StackNumber(number: "$stackNumber"),
+            child: _StackNumber(number: "$stackNumber"),
           ),
         ],
       );
@@ -522,8 +635,8 @@ class BottomNavItemFactory {
   }
 }
 
-class CustomFloatingActionButton extends StatelessWidget {
-  const CustomFloatingActionButton({Key? key}) : super(key: key);
+class _CustomFloatingActionButton extends StatelessWidget {
+  const _CustomFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -531,7 +644,7 @@ class CustomFloatingActionButton extends StatelessWidget {
       height: 70.0,
       width: 70.0,
       child: FloatingActionButton(
-        backgroundColor: CustomColors.deepGreen,
+        backgroundColor: _CustomColors.deepGreen,
         onPressed: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -540,12 +653,14 @@ class CustomFloatingActionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.search, color: Colors.white, size: 32.0),
-            Text('物件',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                )),
+            Text(
+              '物件',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
