@@ -120,27 +120,25 @@ class ResidenceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SearchFilterBar(),
-        Expanded(
-          child: ListView.builder(
-            itemCount: dataList.length,
-            itemBuilder: (context, index) {
-              final data = dataList[index];
-              return CustomDataDisplayWidget(
-                imageUrl1: data.imageUrl1,
-                imageUrl2: data.imageUrl2,
-                text1: data.text1,
-                text2: data.text2,
-                text3: data.text3,
-                text4: data.text4,
-                number: data.number,
-              );
-            },
-          ),
-        ),
-      ],
+    return ListView.builder(
+      itemCount: dataList.length + 1, // SearchFilterBarを含めるために+1します
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          // 最初のアイテムとしてSearchFilterBarを表示
+          return const SearchFilterBar();
+        }
+        // indexを1減らして、0番目をSearchFilterBarにしたことを調整
+        final data = dataList[index - 1];
+        return CustomDataDisplayWidget(
+          imageUrl1: data.imageUrl1,
+          imageUrl2: data.imageUrl2,
+          text1: data.text1,
+          text2: data.text2,
+          text3: data.text3,
+          text4: data.text4,
+          number: data.number,
+        );
+      },
     );
   }
 }
