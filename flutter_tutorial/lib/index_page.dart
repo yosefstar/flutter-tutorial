@@ -1,5 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+// Project imports:
+import 'package:flutter_tutorial/building/building_layout_page.dart';
 
 class IndexPage extends StatelessWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -9,7 +11,13 @@ class IndexPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const BuildingLayoutPage()),
+            );
+          },
           child: const Text('Tutorial1'),
         ),
       ),
