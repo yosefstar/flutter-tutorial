@@ -1,7 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
 // Project imports:
-import 'package:flutter_tutorial/building/building_layout_page.dart';
+import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -14,11 +15,10 @@ class IndexPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const BuildingLayoutPage()),
+              MaterialPageRoute(builder: (context) => const YoutubePage()),
             );
           },
-          child: const Text('Tutorial1'),
+          child: const Text('Youtube'),
         ),
       ),
     );
