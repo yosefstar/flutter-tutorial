@@ -16,51 +16,46 @@ class IndexPage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BuildingLayoutPage()),
-                    );
-                  },
-                  child: const Text('BuildingLayout'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AnimationPage()),
-                    );
-                  },
-                  child: const Text('Animation'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const YoutubePage()),
-                    );
-                  },
-                  child: const Text('Youtube'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ResidencePage()),
-                    );
-                  },
-                  child: const Text('Residence'),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BuildingLayoutPage()),
+                );
+              },
+              child: const Text('BuildingLayout'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AnimationPage()),
+                );
+              },
+              child: const Text('Animation'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const YoutubePage()),
+                );
+              },
+              child: const Text('Youtube'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ResidencePage()),
+                );
+              },
+              child: const Text('Residence'),
             ),
           ],
         ),
