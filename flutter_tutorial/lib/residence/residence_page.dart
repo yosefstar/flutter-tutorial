@@ -9,9 +9,122 @@ class ResidencePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const _CustomAppBar(),
-      bottomNavigationBar: const _CustomBottomNavigationBar(),
       body: _ResidenceListView(),
       floatingActionButton: const _CustomFloatingActionButton(),
+      bottomNavigationBar: const _CustomBottomNavigationBar(),
+    );
+  }
+}
+
+class _CustomColors {
+  static const Color deepGreen = Color(0xff26a69a);
+  static const Color lightBeige = Color(0xFFBDBBBA);
+  static const Color lightGrey = Color(0xffefebe9);
+  static const Color lighterGrey = Color(0xffeeeeee);
+}
+
+class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _CustomAppBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      iconTheme: const IconThemeData(
+        color: _CustomColors.deepGreen,
+      ),
+      title: const Row(
+        children: [
+          _CustomCard(text: 'おすすめ'),
+          Stack(
+            children: [
+              _CustomCard(text: 'リフォーム'),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: _StackNumber(number: '1'),
+              ),
+            ],
+          ),
+          Spacer(),
+          Icon(
+            Icons.add_circle,
+            size: 40.0,
+            color: _CustomColors.deepGreen,
+          ),
+        ],
+      ),
+      elevation: 2,
+      shadowColor: Colors.black,
+      backgroundColor: Colors.white,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomCard extends StatelessWidget {
+  final String text;
+  const _CustomCard({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: _CustomColors.lighterGrey,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: _CustomColors.deepGreen,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StackNumber extends StatelessWidget {
+  final String number;
+
+  const _StackNumber({
+    Key? key,
+    required this.number,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const double size = 16.0;
+    const Color color = Colors.red;
+    const Color textColor = Colors.white;
+
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 0.1,
+            blurRadius: 2,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text(
+          number,
+          style: const TextStyle(
+            color: textColor,
+            fontSize: size * 0.75,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -144,27 +257,129 @@ class _ResidenceListView extends StatelessWidget {
   }
 }
 
-class _IconTextRow extends StatelessWidget {
-  final IconData iconData;
-  final String text;
-
-  const _IconTextRow({
-    Key? key,
-    required this.iconData,
-    required this.text,
-  }) : super(key: key);
+class _SearchFilterBar extends StatelessWidget {
+  const _SearchFilterBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const double iconSize = 18.0;
-    const TextStyle textStyle = TextStyle(fontSize: 14.0);
-
-    return Row(
-      children: [
-        Icon(iconData, size: iconSize),
-        const SizedBox(width: 8.0),
-        Text(text, style: textStyle),
-      ],
+    return Container(
+      height: 140.0,
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2), // 影の色
+            spreadRadius: 0.1, // 影の広がり
+            blurRadius: 5, // ぼかしの量
+            offset: const Offset(0, 1), // 影の方向と距離
+          ),
+        ],
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(8.0),
+            child: const Row(
+              children: [
+                SizedBox(width: 8.0),
+                Text(
+                  'カウルのおすすめ',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                Text(
+                  '新着3件',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.red,
+                  ),
+                ),
+                Spacer(),
+                Text(
+                  '編集',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: _CustomColors.deepGreen,
+                  ),
+                ),
+                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: _CustomColors.lightGrey,
+              borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+            ),
+            child: const Column(
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.train,
+                      size: 18.0,
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(
+                      '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.monetization_on,
+                          size: 18.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          '下限なし〜2000万円',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 18.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -332,238 +547,58 @@ class _CustomDataDisplayWidget extends StatelessWidget {
   }
 }
 
-class _SearchFilterBar extends StatelessWidget {
-  const _SearchFilterBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 140.0,
-      margin: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2), // 影の色
-            spreadRadius: 0.1, // 影の広がり
-            blurRadius: 5, // ぼかしの量
-            offset: const Offset(0, 1), // 影の方向と距離
-          ),
-        ],
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(8.0),
-            child: const Row(
-              children: [
-                SizedBox(width: 8.0),
-                Text(
-                  'カウルのおすすめ',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  '新着3件',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.red,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  '編集',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: _CustomColors.deepGreen,
-                  ),
-                ),
-                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            decoration: BoxDecoration(
-              color: const Color(0xffefebe9),
-              borderRadius: BorderRadius.circular(8.0), // 角を丸くする
-            ),
-            child: const Column(
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.train,
-                      size: 18.0,
-                    ),
-                    SizedBox(width: 8.0),
-                    Text(
-                      '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.monetization_on,
-                          size: 18.0,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          '下限なし〜2000万円',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          size: 18.0,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _CustomAppBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      iconTheme: const IconThemeData(
-        color: _CustomColors.deepGreen,
-      ),
-      title: const Row(
-        children: [
-          _CustomCard(text: 'おすすめ'),
-          Stack(
-            children: [
-              _CustomCard(text: 'リフォーム'),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: _StackNumber(number: '1'),
-              ),
-            ],
-          ),
-          Spacer(),
-          Icon(
-            Icons.add_circle,
-            size: 40.0,
-            color: _CustomColors.deepGreen,
-          ),
-        ],
-      ),
-      elevation: 2,
-      shadowColor: Colors.black,
-      backgroundColor: Colors.white,
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _CustomColors {
-  static const Color deepGreen = Color(0xff26a69a);
-  static const Color lightBeige = Color.fromARGB(255, 189, 187, 186);
-}
-
-class _CustomCard extends StatelessWidget {
+class _IconTextRow extends StatelessWidget {
+  final IconData iconData;
   final String text;
-  const _CustomCard({Key? key, required this.text}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: const Color(0xffeeeeee),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: _CustomColors.deepGreen,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StackNumber extends StatelessWidget {
-  final String number;
-
-  const _StackNumber({
+  const _IconTextRow({
     Key? key,
-    required this.number,
+    required this.iconData,
+    required this.text,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const double size = 16.0;
-    const Color color = Colors.red;
-    const Color textColor = Colors.white;
+    const double iconSize = 18.0;
+    const TextStyle textStyle = TextStyle(fontSize: 14.0);
 
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 0.1,
-            blurRadius: 2,
-            offset: const Offset(2, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          number,
-          style: const TextStyle(
-            color: textColor,
-            fontSize: size * 0.75,
-          ),
+    return Row(
+      children: [
+        Icon(iconData, size: iconSize),
+        const SizedBox(width: 8.0),
+        Text(text, style: textStyle),
+      ],
+    );
+  }
+}
+
+class _CustomFloatingActionButton extends StatelessWidget {
+  const _CustomFloatingActionButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 70.0,
+      width: 70.0,
+      child: FloatingActionButton(
+        backgroundColor: _CustomColors.deepGreen,
+        onPressed: () {},
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search, color: Colors.white, size: 32.0),
+            Text(
+              '物件',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -631,39 +666,6 @@ class _BottomNavItemFactory {
     return BottomNavigationBarItem(
       icon: icon,
       label: label,
-    );
-  }
-}
-
-class _CustomFloatingActionButton extends StatelessWidget {
-  const _CustomFloatingActionButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 70.0,
-      width: 70.0,
-      child: FloatingActionButton(
-        backgroundColor: _CustomColors.deepGreen,
-        onPressed: () {},
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.search, color: Colors.white, size: 32.0),
-            Text(
-              '物件',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
