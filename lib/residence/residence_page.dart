@@ -129,27 +129,6 @@ class _StackNumber extends StatelessWidget {
   }
 }
 
-class DataListDisplay<T> extends StatelessWidget {
-  final List<T> dataList;
-  final Widget Function(T) itemBuilder;
-
-  const DataListDisplay({
-    Key? key,
-    required this.dataList,
-    required this.itemBuilder,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dataList.length,
-      itemBuilder: (context, index) {
-        return itemBuilder(dataList[index]);
-      },
-    );
-  }
-}
-
 class _CustomData {
   final String imageUrl1;
   final String imageUrl2;
@@ -229,8 +208,6 @@ class _ResidenceListView extends StatelessWidget {
       number: 6000,
     ),
   ];
-
-  _ResidenceListView();
 
   @override
   Widget build(BuildContext context) {
