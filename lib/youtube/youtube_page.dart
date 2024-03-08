@@ -6,16 +6,30 @@ class YoutubePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
-      body: Column(
-        children: [
-          _TrendingVideosSection(),
-          _TrendingVideosHeader(),
-          _VideoListSection(),
-        ],
+    return Theme(
+      data: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[900],
+          foregroundColor: Colors.white,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.grey[900],
+          selectedItemColor: Colors.white,
+        ),
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blueGrey,
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      child: Scaffold(
+        appBar: CustomAppBar(),
+        body: Column(
+          children: [
+            _TrendingVideosSection(),
+            _TrendingVideosHeader(),
+            _VideoListSection(),
+          ],
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
+      ),
     );
   }
 }
