@@ -10,7 +10,7 @@ class ResidencePage extends StatelessWidget {
     return Scaffold(
       appBar: const _CustomAppBar(),
       body: _ResidenceListView(),
-      floatingActionButton: const _CustomFloatingActionButton(),
+      floatingActionButton: const _SearchFloatingActionButton(),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
@@ -129,7 +129,7 @@ class _StackNumber extends StatelessWidget {
   }
 }
 
-class _CustomData {
+class _ResidenceData {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -138,7 +138,7 @@ class _CustomData {
   final String text4;
   final int number;
 
-  _CustomData({
+  _ResidenceData({
     required this.imageUrl1,
     required this.imageUrl2,
     required this.text1,
@@ -150,9 +150,9 @@ class _CustomData {
 }
 
 class _ResidenceListView extends StatelessWidget {
-  // テストデータのリストを作成
-  final List<_CustomData> dataList = [
-    _CustomData(
+  // ダミーデータのリストを作成
+  final List<_ResidenceData> dataList = [
+    _ResidenceData(
       imageUrl1:
           'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
       imageUrl2:
@@ -163,7 +163,7 @@ class _ResidenceListView extends StatelessWidget {
       text4: '2階/15階建 築5年',
       number: 2000,
     ),
-    _CustomData(
+    _ResidenceData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -174,7 +174,7 @@ class _ResidenceListView extends StatelessWidget {
       text4: '6階/20階建 築3年',
       number: 5000,
     ),
-    _CustomData(
+    _ResidenceData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -185,7 +185,7 @@ class _ResidenceListView extends StatelessWidget {
       text4: '10階/25階建 築2年',
       number: 4500,
     ),
-    _CustomData(
+    _ResidenceData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -196,7 +196,7 @@ class _ResidenceListView extends StatelessWidget {
       text4: '5階/15階建 築1年',
       number: 3000,
     ),
-    _CustomData(
+    _ResidenceData(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -220,7 +220,7 @@ class _ResidenceListView extends StatelessWidget {
         }
         // indexを1減らして、0番目をSearchFilterBarにしたことを調整
         final data = dataList[index - 1];
-        return _CustomDataDisplayWidget(
+        return _ResidenceDataDisplayWidget(
           imageUrl1: data.imageUrl1,
           imageUrl2: data.imageUrl2,
           text1: data.text1,
@@ -361,7 +361,7 @@ class _SearchFilterBar extends StatelessWidget {
   }
 }
 
-class _CustomDataDisplayWidget extends StatelessWidget {
+class _ResidenceDataDisplayWidget extends StatelessWidget {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -370,7 +370,7 @@ class _CustomDataDisplayWidget extends StatelessWidget {
   final String text4;
   final int number;
 
-  const _CustomDataDisplayWidget({
+  const _ResidenceDataDisplayWidget({
     Key? key,
     required this.imageUrl1,
     required this.imageUrl2,
@@ -549,8 +549,8 @@ class _IconTextRow extends StatelessWidget {
   }
 }
 
-class _CustomFloatingActionButton extends StatelessWidget {
-  const _CustomFloatingActionButton({Key? key}) : super(key: key);
+class _SearchFloatingActionButton extends StatelessWidget {
+  const _SearchFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
