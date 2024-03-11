@@ -38,6 +38,10 @@ import_sorter
 2.12
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/import_sorter-4.6.0/
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/import_sorter-4.6.0/lib/
+intl
+3.0
+file:///Users/yoseimine/.pub-cache/hosted/pub.dev/intl-0.19.0/
+file:///Users/yoseimine/.pub-cache/hosted/pub.dev/intl-0.19.0/lib/
 lints
 3.0
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/lints-2.1.1/
@@ -58,6 +62,10 @@ path
 2.12
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/path-1.8.3/
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/path-1.8.3/lib/
+pedantic_mono
+3.1
+file:///Users/yoseimine/.pub-cache/hosted/pub.dev/pedantic_mono-1.24.0+1/
+file:///Users/yoseimine/.pub-cache/hosted/pub.dev/pedantic_mono-1.24.0+1/lib/
 source_span
 2.18
 file:///Users/yoseimine/.pub-cache/hosted/pub.dev/source_span-1.10.0/

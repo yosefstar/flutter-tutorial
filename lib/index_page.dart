@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({Key? key}) : super(key: key);
+  const IndexPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,9 @@ class IndexPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const YoutubePage()),
+              MaterialPageRoute<YoutubePage>(
+                builder: (context) => const YoutubePage(),
+              ),
             );
           },
           child: const Text('Youtube'),

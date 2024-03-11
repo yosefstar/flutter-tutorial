@@ -74,6 +74,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/yoseimine/.pub-cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/yoseimine/.pub-cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
@@ -102,6 +108,12 @@
       "rootUri": "file:///Users/yoseimine/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "pedantic_mono",
+      "rootUri": "file:///Users/yoseimine/.pub-cache/hosted/pub.dev/pedantic_mono-1.24.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
     },
     {
       "name": "sky_engine",
@@ -176,7 +188,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-03-08T08:05:53.060729Z",
+  "generated": "2024-03-11T07:40:01.903320Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }
