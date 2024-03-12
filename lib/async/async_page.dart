@@ -54,6 +54,8 @@ class AsyncPageState extends State<AsyncPage> {
   }
 
   void _showEditDialog(BuildContext context, Map<String, String> userInfo) {
+    final formKey = GlobalKey<FormState>();
+
     final nameController = TextEditingController(text: userInfo['name']);
     final ageController = TextEditingController(text: userInfo['age']);
     final birthdayController =
@@ -61,136 +63,77 @@ class AsyncPageState extends State<AsyncPage> {
 
     showDialog<void>(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('登録'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              UserInfoTextField(
-                labelText: '名前',
-                controller: nameController,
-              ),
-              UserInfoTextField(
-                labelText: '年齢',
-                controller: ageController,
-                keyboardType: TextInputType.number,
-              ),
-              UserInfoTextField(
-                labelText: '誕生日',
-                controller: birthdayController,
-              ),
-            ],
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _UserInfoTextField(
+                  labelText: '名前',
+                  controller: nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '名前は必須です';
+                    }
+                    return null;
+                  },
+                ),
+                _UserInfoTextField(
+                  labelText: '年齢',
+                  controller: ageController,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '年齢は必須です';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return '年齢は数値である必要があります';
+                    }
+                    return null;
+                  },
+                ),
+                _UserInfoTextField(
+                  labelText: '誕生日',
+                  controller: birthdayController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '誕生日は必須です';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-              child: const Text('Cancel'),
+              child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
-                _userInfoStorage
-                    .saveUserInfo(
-                  nameController.text,
-                  ageController.text,
-                  birthdayController.text,
-                )
-                    .then((_) {
-                  Navigator.of(context).pop();
-                  setState(() {});
-                });
+                if (formKey.currentState!.validate()) {
+                  // バリデーションが成功した場合のみ保存処理を実行
+                  _userInfoStorage
+                      .saveUserInfo(
+                    nameController.text,
+                    ageController.text,
+                    birthdayController.text,
+                  )
+                      .then((_) {
+                    Navigator.of(context).pop();
+                    setState(() {});
+                  });
+                }
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
               child: const Text('保存'),
             ),
           ],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
         );
       },
-    );
-  }
-}
-
-class UserInfoTextField extends StatefulWidget {
-  const UserInfoTextField({
-    super.key,
-    required this.labelText,
-    required this.controller,
-    this.keyboardType = TextInputType.text,
-  });
-
-  final String labelText;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-
-  @override
-  UserInfoTextFieldState createState() => UserInfoTextFieldState();
-}
-
-class UserInfoTextFieldState extends State<UserInfoTextField> {
-  late FocusNode _focusNode;
-  Color _labelColor = Colors.grey; // デフォルトのラベル色
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(_handleFocusChange);
-  }
-
-  void _handleFocusChange() {
-    if (_focusNode.hasFocus) {
-      setState(() {
-        _labelColor = Colors.blue; // フォーカス時の色
-      });
-    } else {
-      setState(() {
-        _labelColor = Colors.grey; // フォーカスが外れた時の色
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _focusNode
-      ..removeListener(_handleFocusChange)
-      ..dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      focusNode: _focusNode,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        labelStyle: TextStyle(color: _labelColor),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-      ),
-      cursorColor: Colors.blue,
-      controller: widget.controller,
-      keyboardType: widget.keyboardType,
     );
   }
 }
@@ -210,5 +153,64 @@ class _UserInfoStorage {
     await prefs.setString('name', name);
     await prefs.setString('age', age);
     await prefs.setString('birthday', birthday);
+  }
+}
+
+class _UserInfoTextField extends StatefulWidget {
+  const _UserInfoTextField({
+    required this.labelText,
+    required this.controller,
+    this.keyboardType = TextInputType.text,
+    this.validator,
+  });
+
+  final String labelText;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+
+  @override
+  _UserInfoTextFieldState createState() => _UserInfoTextFieldState();
+}
+
+class _UserInfoTextFieldState extends State<_UserInfoTextField> {
+  late FocusNode _focusNode;
+  Color _labelColor = Colors.grey;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  void _handleFocusChange() {
+    setState(() {
+      _labelColor = _focusNode.hasFocus ? Colors.blue : Colors.grey;
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: _focusNode,
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        labelStyle: TextStyle(color: _labelColor),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue),
+        ),
+      ),
+      cursorColor: Colors.blue,
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
+      validator: widget.validator,
+    );
   }
 }
