@@ -1,5 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_tutorial/animation/animation_page.dart';
+import 'package:flutter_tutorial/async/async_page.dart';
+import 'package:flutter_tutorial/building/building_layout_page.dart';
 
 // Project imports:
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
@@ -11,16 +14,54 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<YoutubePage>(
-                builder: (context) => const YoutubePage(),
-              ),
-            );
-          },
-          child: const Text('Youtube'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<BuildingLayoutPage>(
+                    builder: (context) => const BuildingLayoutPage(),
+                  ),
+                );
+              },
+              child: const Text('BuildingLayout'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<AnimationPage>(
+                    builder: (context) => const AnimationPage(),
+                  ),
+                );
+              },
+              child: const Text('Animation'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<YoutubePage>(
+                    builder: (context) => const YoutubePage(),
+                  ),
+                );
+              },
+              child: const Text('Youtube'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<AsyncPage>(
+                    builder: (context) => const AsyncPage(),
+                  ),
+                );
+              },
+              child: const Text('AsyncPage'),
+            ),
+          ],
         ),
       ),
     );
