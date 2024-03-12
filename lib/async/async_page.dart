@@ -111,16 +111,7 @@ class AsyncPageState extends State<AsyncPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-              child: const Text('Cancel'),
+              child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
@@ -138,21 +129,9 @@ class AsyncPageState extends State<AsyncPage> {
                   });
                 }
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
               child: const Text('保存'),
             ),
           ],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
         );
       },
     );
