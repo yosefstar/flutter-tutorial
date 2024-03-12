@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
         "cSpell.words": [
                 "ARASHI",
                 "Blüemlisalp",
@@ -11,4 +12,14 @@
                 "Mercari",
                 "Oeschinen"
         ]
+=======
+    "cSpell.words": [
+        "ARASHI",
+        "Blüemlisalp",
+        "cupertino",
+        "Kandersteg",
+        "Oeschinen",
+        "prefs"
+    ]
+>>>>>>> 1ab0d87 (AsyncPageを実装。)
 }
