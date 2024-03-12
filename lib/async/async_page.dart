@@ -85,7 +85,16 @@ class AsyncPageState extends State<AsyncPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('キャンセル'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -100,33 +109,88 @@ class AsyncPageState extends State<AsyncPage> {
                   setState(() {});
                 });
               },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
               child: const Text('保存'),
             ),
           ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
         );
       },
     );
   }
 }
 
-class UserInfoTextField extends StatelessWidget {
+class UserInfoTextField extends StatefulWidget {
   const UserInfoTextField({
     super.key,
     required this.labelText,
     required this.controller,
     this.keyboardType = TextInputType.text,
   });
+
   final String labelText;
   final TextEditingController controller;
   final TextInputType keyboardType;
 
   @override
+  UserInfoTextFieldState createState() => UserInfoTextFieldState();
+}
+
+class UserInfoTextFieldState extends State<UserInfoTextField> {
+  late FocusNode _focusNode;
+  Color _labelColor = Colors.grey; // デフォルトのラベル色
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  void _handleFocusChange() {
+    if (_focusNode.hasFocus) {
+      setState(() {
+        _labelColor = Colors.blue; // フォーカス時の色
+      });
+    } else {
+      setState(() {
+        _labelColor = Colors.grey; // フォーカスが外れた時の色
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode
+      ..removeListener(_handleFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
-      decoration: InputDecoration(labelText: labelText),
+      focusNode: _focusNode,
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        labelStyle: TextStyle(color: _labelColor),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue),
+        ),
+      ),
       cursorColor: Colors.blue,
-      controller: controller,
-      keyboardType: keyboardType,
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
     );
   }
 }
