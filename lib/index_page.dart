@@ -10,7 +10,7 @@ import 'package:flutter_tutorial/async/async_page.dart';
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({super.key});
+  const IndexPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
