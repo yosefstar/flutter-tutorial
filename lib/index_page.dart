@@ -14,6 +14,7 @@ class IndexPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // これを追加
           children: [
             ElevatedButton(
               onPressed: () {
