@@ -6,7 +6,7 @@ class BuildingLayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Flutter layout demo';
+    const String appTitle = 'Flutter layout demo';
     return Scaffold(
       appBar: AppBar(
         title: const Text(appTitle),
@@ -24,13 +24,11 @@ class BuildingLayoutPage extends StatelessWidget {
             ButtonSection(),
             TextSection(
               description:
-                  'Lake Oeschinen lies at the foot of the Blüemlisalp in the '
-                  'Bernese Alps. Situated 1,578 meters above sea level, it is '
-                  'one of the larger Alpine Lakes. A gondola ride from '
-                  'Kandersteg, followed by a half-hour walk through pastures '
-                  'and pine forest, leads you to the lake, which warms to 20 '
-                  'degrees Celsius in the summer. Activities enjoyed here '
-                  'include rowing, and riding the summer toboggan run.',
+                  'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. '
+                  'Situated 1,578 meters above sea level, it is one of the larger Alpine Lakes. '
+                  'A gondola ride from Kandersteg, followed by a half-hour walk through pastures '
+                  'and pine forest, leads you to the lake, which warms to 20 degrees Celsius in the summer. '
+                  'Activities enjoyed here include rowing, and riding the summer toboggan run.',
             ),
           ],
         ),
@@ -93,7 +91,7 @@ class ButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
+    final Color color = Theme.of(context).primaryColor;
     return SizedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
