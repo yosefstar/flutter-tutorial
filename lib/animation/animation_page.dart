@@ -55,7 +55,7 @@ class _AnimationPageState extends State<AnimationPage>
     with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
-  Logger logger = Logger();
+  var logger = Logger();
 
   @override
   void initState() {
