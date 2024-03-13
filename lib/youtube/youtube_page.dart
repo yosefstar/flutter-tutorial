@@ -6,33 +6,16 @@ class YoutubePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ダークテーマを取得
-    final ThemeData darkTheme = ThemeData(
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.grey[900],
-        foregroundColor: Colors.white,
+    return const Scaffold(
+      appBar: CustomAppBar(),
+      body: Column(
+        children: [
+          _TrendingVideosSection(),
+          _TrendingVideosHeader(),
+          _VideoListSection(),
+        ],
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.grey[900],
-        selectedItemColor: Colors.white,
-      ),
-      brightness: Brightness.dark,
-      primarySwatch: Colors.blueGrey,
-    );
-
-    return Theme(
-      data: darkTheme, // ここでダークテーマを適用
-      child: const Scaffold(
-        appBar: CustomAppBar(),
-        body: Column(
-          children: [
-            _TrendingVideosSection(),
-            _TrendingVideosHeader(),
-            _VideoListSection(),
-          ],
-        ),
-        bottomNavigationBar: CustomBottomNavigationBar(),
-      ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
