@@ -230,8 +230,6 @@ class _ResidenceListView extends StatelessWidget {
     ),
   ];
 
-  _ResidenceListView();
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
