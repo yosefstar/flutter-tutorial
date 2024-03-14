@@ -17,10 +17,12 @@ class ResidencePage extends StatelessWidget {
 }
 
 class _CustomColors {
-  static const Color deepGreen = Color(0xff26a69a);
-  static const Color lightBeige = Color(0xFFBDBBBA);
-  static const Color lightGrey = Color(0xffefebe9);
-  static const Color lighterGrey = Color(0xffeeeeee);
+  static const Color green1 = Color(0xff26a69a);
+  static const Color primaryColor = green1;
+  static const Color grey1 = Color(0xFFBDBBBA);
+  static const Color grey2 = Color(0xffefebe9);
+  static const Color grey3 = Color(0xffeeeeee);
+  static const Color black = Color(0xffeeeeee);
 }
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -30,7 +32,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: const IconThemeData(
-        color: _CustomColors.deepGreen,
+        color: _CustomColors.primaryColor,
       ),
       title: const Row(
         children: [
@@ -49,7 +51,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Icon(
             Icons.add_circle,
             size: 40.0,
-            color: _CustomColors.deepGreen,
+            color: _CustomColors.primaryColor,
           ),
         ],
       ),
@@ -70,7 +72,7 @@ class _CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _CustomColors.lighterGrey,
+      color: _CustomColors.grey3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
@@ -79,7 +81,7 @@ class _CustomCard extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            color: _CustomColors.deepGreen,
+            color: _CustomColors.primaryColor,
           ),
         ),
       ),
@@ -104,15 +106,15 @@ class _StackNumber extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: _CustomColors.black,
             spreadRadius: 0.1,
             blurRadius: 2,
-            offset: const Offset(2, 2),
+            offset: Offset(2, 2),
           ),
         ],
       ),
@@ -265,12 +267,12 @@ class _SearchFilterBar extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // 影の色
+            color: _CustomColors.black, // 影の色
             spreadRadius: 0.1, // 影の広がり
             blurRadius: 5, // ぼかしの量
-            offset: const Offset(0, 1), // 影の方向と距離
+            offset: Offset(0, 1), // 影の方向と距離
           ),
         ],
         borderRadius: BorderRadius.circular(8.0),
@@ -302,10 +304,10 @@ class _SearchFilterBar extends StatelessWidget {
                   '編集',
                   style: TextStyle(
                     fontSize: 14.0,
-                    color: _CustomColors.deepGreen,
+                    color: _CustomColors.primaryColor,
                   ),
                 ),
-                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
+                Icon(Icons.edit, color: _CustomColors.primaryColor, size: 20.0),
               ],
             ),
           ),
@@ -313,7 +315,7 @@ class _SearchFilterBar extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
-              color: _CustomColors.lightGrey,
+              color: _CustomColors.grey2,
               borderRadius: BorderRadius.circular(8.0), // 角を丸くする
             ),
             child: const Column(
@@ -409,12 +411,12 @@ class _CustomDataDisplayWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: _CustomColors.black,
             spreadRadius: 1,
             blurRadius: 5,
-            offset: const Offset(0, 3),
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -474,17 +476,17 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                       color: Colors.red,
                     ),
                   ),
-                  _IconTextRow(
+                  _IconWithTextLabel(
                     iconData: Icons.train,
                     text: text2,
                   ),
                   const SizedBox(height: 4),
-                  _IconTextRow(
+                  _IconWithTextLabel(
                     iconData: Icons.monetization_on,
                     text: text3,
                   ),
                   const SizedBox(height: 4),
-                  _IconTextRow(
+                  _IconWithTextLabel(
                     iconData: Icons.info_outline,
                     text: text4,
                   ),
@@ -502,14 +504,14 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: _CustomColors.lightBeige, width: 2.0),
+                      border:
+                          Border.all(color: _CustomColors.grey1, width: 2.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.delete, color: _CustomColors.lightBeige),
+                        Icon(Icons.delete, color: _CustomColors.grey1),
                         SizedBox(width: 8),
                         Text("興味なし"),
                       ],
@@ -521,15 +523,15 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: _CustomColors.lightBeige, width: 2.0),
+                      border:
+                          Border.all(color: _CustomColors.grey1, width: 2.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.favorite_border_outlined,
-                            color: _CustomColors.lightBeige),
+                            color: _CustomColors.grey1),
                         SizedBox(width: 8),
                         Text("お気に入り"),
                       ],
@@ -545,11 +547,11 @@ class _CustomDataDisplayWidget extends StatelessWidget {
   }
 }
 
-class _IconTextRow extends StatelessWidget {
+class _IconWithTextLabel extends StatelessWidget {
   final IconData iconData;
   final String text;
 
-  const _IconTextRow({
+  const _IconWithTextLabel({
     Key? key,
     required this.iconData,
     required this.text,
@@ -579,7 +581,7 @@ class _CustomFloatingActionButton extends StatelessWidget {
       height: 70.0,
       width: 70.0,
       child: FloatingActionButton(
-        backgroundColor: _CustomColors.deepGreen,
+        backgroundColor: _CustomColors.primaryColor,
         onPressed: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -619,7 +621,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
             iconData: Icons.person_outline, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
-      selectedItemColor: _CustomColors.deepGreen,
+      selectedItemColor: _CustomColors.primaryColor,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: const TextStyle(
         fontSize: 10.0,
