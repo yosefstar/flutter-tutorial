@@ -16,9 +16,11 @@ class MercariPage extends StatelessWidget {
 }
 
 class _CustomColors {
-  static const Color lightRed = Color(0xffff5252);
-  static const Color lightBlue = Color(0xff2196f3);
-  static const Color lightGrey = Color(0xFFEAEAE9);
+  static const Color red = Color(0xffff5252);
+  static const Color primaryColor = red;
+  static const Color blue = Color(0xff2196f3);
+  static const Color grey = Color(0xFFEAEAE9);
+  static const Color black = Color(0x33000000);
 }
 
 class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -119,7 +121,7 @@ class _PostingListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: _CustomColors.lightGrey,
+      color: _CustomColors.grey,
       child: ListView.builder(
         itemCount: dataList.length +
             3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
@@ -290,7 +292,7 @@ class _PostingDataHeadBar extends StatelessWidget {
           Text(
             'すべてを見る＞',
             style: TextStyle(
-              color: _CustomColors.lightBlue,
+              color: _CustomColors.blue,
               fontSize: 14,
             ),
           ),
@@ -374,7 +376,7 @@ class _PostingDataListView extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.local_fire_department,
-                          color: _CustomColors.lightBlue,
+                          color: _CustomColors.blue,
                           size: 16.0,
                         ),
                         const SizedBox(width: 4.0),
@@ -405,7 +407,7 @@ class _PostingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Card(
-      color: _CustomColors.lightRed, // 赤い背景色を設定
+      color: _CustomColors.primaryColor, // 赤い背景色を設定
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Text(
@@ -428,7 +430,7 @@ class _PostingFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: FloatingActionButton(
-        backgroundColor: _CustomColors.lightRed,
+        backgroundColor: _CustomColors.primaryColor,
         onPressed: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -474,7 +476,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
             iconData: Icons.account_circle, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
-      selectedItemColor: _CustomColors.lightBlue,
+      selectedItemColor: _CustomColors.blue,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: TextStyle(
         fontSize: fontSize, // レスポンシブなフォントサイズを使用
@@ -540,15 +542,15 @@ class _StackNumber extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: _CustomColors.black,
             spreadRadius: 0.1,
             blurRadius: 2,
-            offset: const Offset(2, 2),
+            offset: Offset(2, 2),
           ),
         ],
       ),
