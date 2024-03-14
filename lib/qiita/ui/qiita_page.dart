@@ -11,6 +11,7 @@ class QiitaPage extends ConsumerWidget {
     final state = ref.watch(qiitaViewModelProvider);
     final notifier = ref.read(qiitaViewModelProvider.notifier);
 
+    /// flutter ver 3.10.0 以降は、willPopが使えないので、 PopScopeに変更。
     return PopScope(
       canPop: state.isReadyData,
       onPopInvoked: (popResult) {
