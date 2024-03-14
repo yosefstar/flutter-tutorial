@@ -7,22 +7,21 @@ import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({super.key});
+  const IndexPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center, // これを追加
           children: [
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute<BuildingLayoutPage>(
-                    builder: (context) => const BuildingLayoutPage(),
-                  ),
+                  MaterialPageRoute(
+                      builder: (context) => const BuildingLayoutPage()),
                 );
               },
               child: const Text('BuildingLayout'),
@@ -31,9 +30,8 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute<AnimationPage>(
-                    builder: (context) => const AnimationPage(),
-                  ),
+                  MaterialPageRoute(
+                      builder: (context) => const AnimationPage()),
                 );
               },
               child: const Text('Animation'),
