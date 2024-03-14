@@ -8,7 +8,7 @@ import 'package:flutter_tutorial/qiita/ui/qiita_page.dart';
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({Key? key}) : super(key: key);
+  const IndexPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QiitaPage()),
+                  MaterialPageRoute<QiitaPage>(
+                    builder: (context) => const QiitaPage(),
+                  ),
                 );
               },
               child: const Text('Qiita'),
