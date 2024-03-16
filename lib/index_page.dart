@@ -43,15 +43,6 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const YoutubePage()),
-                );
-              },
-              child: const Text('Youtube'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
                   MaterialPageRoute(
                       builder: (context) => const ResidencePage()),
                 );
@@ -67,7 +58,7 @@ class IndexPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Residence'),
+              child: const Text('Youtube'),
             ),
           ],
         ),
