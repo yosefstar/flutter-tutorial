@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
+import 'package:flutter_tutorial/residence/residence_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
 
 // Project imports:
@@ -45,6 +46,16 @@ class IndexPage extends StatelessWidget {
                 );
               },
               child: const Text('Youtube'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ResidencePage()),
+                );
+              },
+              child: const Text('Residence'),
             ),
             ElevatedButton(
               onPressed: () {
