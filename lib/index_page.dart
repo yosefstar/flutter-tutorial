@@ -43,22 +43,22 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ResidencePage()),
-                );
-              },
-              child: const Text('Residence'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
                   MaterialPageRoute<YoutubePage>(
                     builder: (context) => const YoutubePage(),
                   ),
                 );
               },
               child: const Text('Youtube'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ResidencePage()),
+                );
+              },
+              child: const Text('Residence'),
             ),
           ],
         ),
