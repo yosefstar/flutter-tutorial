@@ -15,7 +15,7 @@ class IndexPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // これを追加
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () {
@@ -50,7 +50,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute<YoutubePage>(
+                  MaterialPageRoute<ResidencePage>(
                     builder: (context) => const ResidencePage(),
                   ),
                 );
