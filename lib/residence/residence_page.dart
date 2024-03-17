@@ -220,6 +220,7 @@ class _ResidenceListView extends StatelessWidget {
         }
         // indexを1減らして、0番目をSearchFilterBarにしたことを調整
         final data = dataList[index - 1];
+
         return _ResidenceDataDisplayWidget(
           imageUrl1: data.imageUrl1,
           imageUrl2: data.imageUrl2,
