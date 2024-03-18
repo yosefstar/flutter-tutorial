@@ -8,23 +8,40 @@ class YoutubePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: _CustomColors.darkGrey,
-          foregroundColor: Colors.white,
+      data: _buildThemeData(),
+      child: Scaffold(
+        appBar: const _CustomAppBar(),
+        body: ListView.builder(
+          // dummyDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとして、＋2する。
+          itemCount: _dummyVideoData.length + 2,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const _VideosCardsSection();
+            } else if (index == 1) {
+              return const _VideosHeader();
+            } else {
+              // dummyDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとしたので、indexを-2する。
+              return _VideoList(index: index - 2);
+            }
+          },
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: _CustomColors.darkGrey,
-          selectedItemColor: Colors.white,
-        ),
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blueGrey,
+        bottomNavigationBar: const _CustomBottomNavigationBar(),
       ),
-      child: const Scaffold(
-        appBar: _CustomAppBar(),
-        body: _CustomListView(),
-        bottomNavigationBar: _CustomBottomNavigationBar(),
+    );
+  }
+
+  ThemeData _buildThemeData() {
+    return ThemeData(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: _CustomColors.darkGrey,
+        foregroundColor: Colors.white,
       ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: _CustomColors.darkGrey,
+        selectedItemColor: Colors.white,
+      ),
+      brightness: Brightness.dark,
+      primarySwatch: Colors.blueGrey,
     );
   }
 }
@@ -58,26 +75,6 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _CustomListView extends StatelessWidget {
-  const _CustomListView();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _dummyVideoData.length + 2,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return const _VideosCardsSection();
-        } else if (index == 1) {
-          return const _VideosHeader();
-        } else {
-          return _VideoItemList(index: index - 2);
-        }
-      },
-    );
-  }
 }
 
 class _VideosCardsSection extends StatelessWidget {
@@ -269,9 +266,9 @@ final List<_VideoInfo> _dummyVideoData = [
   ),
 ];
 
-class _VideoItemList extends StatelessWidget {
+class _VideoList extends StatelessWidget {
   final int index;
-  const _VideoItemList({Key? key, required this.index}) : super(key: key);
+  const _VideoList({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
