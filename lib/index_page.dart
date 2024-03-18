@@ -60,6 +60,15 @@ class IndexPage extends StatelessWidget {
               },
               child: const Text('Residence'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MercariPage()),
+                );
+              },
+              child: const Text('Mercari'),
+            ),
           ],
         ),
       ),
