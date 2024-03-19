@@ -3,17 +3,95 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ResidencePage extends StatelessWidget {
-  const ResidencePage({super.key});
+  ResidencePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const _CustomAppBar(),
-      body: _ResidenceListView(),
+      body: ListView.builder(
+        itemCount: residenceDataList.length + 1, // SearchFilterBarを含めるために+1します
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            // 最初のアイテムとしてSearchFilterBarを表示
+            return const _SearchFilterBar();
+          }
+          // indexを1減らして、0番目をSearchFilterBarにしたことを調整
+          final data = residenceDataList[index - 1];
+
+          return _ResidenceDataDisplayWidget(
+            imageUrl1: data.imageUrl1,
+            imageUrl2: data.imageUrl2,
+            text1: data.text1,
+            text2: data.text2,
+            text3: data.text3,
+            text4: data.text4,
+            number: data.number,
+          );
+        },
+      ),
       floatingActionButton: const _SearchFloatingActionButton(),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
+
+  final List<ResidenceData> residenceDataList = [
+    ResidenceData(
+      imageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      imageUrl2:
+          'https://www.homes.co.jp/cont/wp-content/uploads/cont/83258/img/1.png',
+      text1: 'Rising place 川崎',
+      text2: '京線本線 京急川崎駅 より 徒歩9分',
+      text3: '1K / 21.24㎡ 南西向き',
+      text4: '2階/15階建 築5年',
+      number: 2000,
+    ),
+    ResidenceData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      text1: 'Sunny Apartments 渋谷',
+      text2: '山手線 渋谷駅 より 徒歩5分',
+      text3: '2LDK / 35.75㎡ 南向き',
+      text4: '6階/20階建 築3年',
+      number: 5000,
+    ),
+    ResidenceData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Harmony Tower 新宿',
+      text2: '中央線 新宿駅 より 徒歩7分',
+      text3: '1LDK / 25.50㎡ 東向き',
+      text4: '10階/25階建 築2年',
+      number: 4500,
+    ),
+    ResidenceData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Green Residence 池袋',
+      text2: '有楽町線 池袋駅 より 徒歩10分',
+      text3: '1R / 20.10㎡ 西向き',
+      text4: '5階/15階建 築1年',
+      number: 3000,
+    ),
+    ResidenceData(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Blue Ocean 横浜',
+      text2: 'みなとみらい線 横浜駅 より 徒歩8分',
+      text3: '3DK / 45.60㎡ 北向き',
+      text4: '8階/30階建 築4年',
+      number: 6000,
+    ),
+  ];
 }
 
 class _CustomColors {
@@ -129,7 +207,7 @@ class _StackNumber extends StatelessWidget {
   }
 }
 
-class _ResidenceData {
+class ResidenceData {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -138,7 +216,7 @@ class _ResidenceData {
   final String text4;
   final int number;
 
-  _ResidenceData({
+  ResidenceData({
     required this.imageUrl1,
     required this.imageUrl2,
     required this.text1,
@@ -147,92 +225,6 @@ class _ResidenceData {
     required this.text4,
     required this.number,
   });
-}
-
-class _ResidenceListView extends StatelessWidget {
-  // ダミーデータのリストを作成
-  final List<_ResidenceData> dataList = [
-    _ResidenceData(
-      imageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      imageUrl2:
-          'https://www.homes.co.jp/cont/wp-content/uploads/cont/83258/img/1.png',
-      text1: 'Rising place 川崎',
-      text2: '京線本線 京急川崎駅 より 徒歩9分',
-      text3: '1K / 21.24㎡ 南西向き',
-      text4: '2階/15階建 築5年',
-      number: 2000,
-    ),
-    _ResidenceData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      text1: 'Sunny Apartments 渋谷',
-      text2: '山手線 渋谷駅 より 徒歩5分',
-      text3: '2LDK / 35.75㎡ 南向き',
-      text4: '6階/20階建 築3年',
-      number: 5000,
-    ),
-    _ResidenceData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Harmony Tower 新宿',
-      text2: '中央線 新宿駅 より 徒歩7分',
-      text3: '1LDK / 25.50㎡ 東向き',
-      text4: '10階/25階建 築2年',
-      number: 4500,
-    ),
-    _ResidenceData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Green Residence 池袋',
-      text2: '有楽町線 池袋駅 より 徒歩10分',
-      text3: '1R / 20.10㎡ 西向き',
-      text4: '5階/15階建 築1年',
-      number: 3000,
-    ),
-    _ResidenceData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Blue Ocean 横浜',
-      text2: 'みなとみらい線 横浜駅 より 徒歩8分',
-      text3: '3DK / 45.60㎡ 北向き',
-      text4: '8階/30階建 築4年',
-      number: 6000,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dataList.length + 1, // SearchFilterBarを含めるために+1します
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          // 最初のアイテムとしてSearchFilterBarを表示
-          return const _SearchFilterBar();
-        }
-        // indexを1減らして、0番目をSearchFilterBarにしたことを調整
-        final data = dataList[index - 1];
-
-        return _ResidenceDataDisplayWidget(
-          imageUrl1: data.imageUrl1,
-          imageUrl2: data.imageUrl2,
-          text1: data.text1,
-          text2: data.text2,
-          text3: data.text3,
-          text4: data.text4,
-          number: data.number,
-        );
-      },
-    );
-  }
 }
 
 class _SearchFilterBar extends StatelessWidget {
