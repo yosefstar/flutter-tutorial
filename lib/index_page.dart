@@ -40,7 +40,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const YoutubePage()),
+                  MaterialPageRoute(builder: (context) => YoutubePage()),
                 );
               },
               child: const Text('Youtube'),

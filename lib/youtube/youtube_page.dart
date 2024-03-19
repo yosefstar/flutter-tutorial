@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class YoutubePage extends StatelessWidget {
-  const YoutubePage({super.key});
+  YoutubePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class YoutubePage extends StatelessWidget {
       child: Scaffold(
         appBar: const _CustomAppBar(),
         body: ListView.builder(
-          // dummyDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとして、＋2する。
+          // _dummyVideoDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとして、＋2する。
           itemCount: _dummyVideoData.length + 2,
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -20,8 +20,8 @@ class YoutubePage extends StatelessWidget {
             } else if (index == 1) {
               return const _VideosHeader();
             } else {
-              // dummyDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとしたので、indexを-2する。
-              return _VideoList(index: index - 2);
+              // _dummyVideoDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとしたので、indexを-2する。
+              return _VideoList(videoInfo: _dummyVideoData[index - 2]);
             }
           },
         ),
@@ -29,6 +29,49 @@ class YoutubePage extends StatelessWidget {
       ),
     );
   }
+
+  final List<_VideoInfo> _dummyVideoData = [
+    _VideoInfo(
+      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+      iconUrl:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      title: 'デザイナーが教える!サムネイル作成、3つのコツ',
+      channelName: 'ARASHI',
+      streamNumber: 1276543,
+      date: 1,
+      videoTime: '12:34',
+    ),
+    _VideoInfo(
+      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+      iconUrl:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
+      channelName: 'チャンネル2',
+      streamNumber: 2000,
+      date: 3,
+      videoTime: '5:27',
+    ),
+    _VideoInfo(
+      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+      iconUrl:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      title: 'ビデオタイトル3',
+      channelName: 'チャンネル3',
+      streamNumber: 157832,
+      date: 2,
+      videoTime: '1:47',
+    ),
+    _VideoInfo(
+      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+      iconUrl:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      title: 'ビデオタイトル4',
+      channelName: 'チャンネル4',
+      streamNumber: 20,
+      date: 1,
+      videoTime: '3:57',
+    ),
+  ];
 
   ThemeData _buildThemeData() {
     return ThemeData(
@@ -223,56 +266,12 @@ class _VideoInfo {
   });
 }
 
-final List<_VideoInfo> _dummyVideoData = [
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'デザイナーが教える!サムネイル作成、3つのコツ',
-    channelName: 'ARASHI',
-    streamNumber: 1276543,
-    date: 1,
-    videoTime: '12:34',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
-    channelName: 'チャンネル2',
-    streamNumber: 2000,
-    date: 3,
-    videoTime: '5:27',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル3',
-    channelName: 'チャンネル3',
-    streamNumber: 157832,
-    date: 2,
-    videoTime: '1:47',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル4',
-    channelName: 'チャンネル4',
-    streamNumber: 20,
-    date: 1,
-    videoTime: '3:57',
-  ),
-];
-
 class _VideoList extends StatelessWidget {
-  final int index;
-  const _VideoList({Key? key, required this.index}) : super(key: key);
+  final _VideoInfo videoInfo;
+  const _VideoList({Key? key, required this.videoInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final videoInfo = _dummyVideoData[index];
     final formattedViewCount =
         _ViewCountFormatter.format(videoInfo.streamNumber);
 
