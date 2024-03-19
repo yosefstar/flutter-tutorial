@@ -11,49 +11,48 @@ class YoutubePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ProviderからvideoInfoStateを読み込む
     final videoInfoState = ref.watch(videoInfoProvider);
 
-    // AsyncValueの状態に応じてUIを分岐
     return videoInfoState.when(
-      loading: () => const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-      error: (error, stack) => Scaffold(
-        body: Center(
-          child: Text('Error: $error'),
-        ),
-      ),
-      data: (videoInfos) {
-        // データ取得成功時のUI
-        return Theme(
-          data: _buildThemeData(),
-          child: Scaffold(
-            appBar: const _CustomAppBar(),
-            body: ListView.builder(
-              itemCount: videoInfos.length + 2,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const _VideosCardsSection();
-                } else if (index == 1) {
-                  return const _VideosHeader();
-                } else {
-                  // videoInfosからビデオ情報を取得して表示
-                  final videoInfo = videoInfos[index - 2];
-                  return _VideoList(videoInfo: videoInfo);
-                }
-              },
-            ),
-            bottomNavigationBar: const _CustomBottomNavigationBar(),
-          ),
-        );
-      },
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stack) => _createErrorUI(error),
+      data: (videoInfos) => _createDataUI(videoInfos),
     );
   }
 
-  ThemeData _buildThemeData() {
+  Scaffold _createErrorUI(Object error) {
+    return Scaffold(
+      body: Center(
+        child: Text('An error occurred: $error'),
+      ),
+    );
+  }
+
+  Theme _createDataUI(List<VideoInfo> videoInfos) {
+    return Theme(
+      data: _themeData(),
+      child: Scaffold(
+        appBar: const _CustomAppBar(),
+        body: ListView.builder(
+          itemCount: videoInfos.length + 2,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const _VideosCardsSection();
+            } else if (index == 1) {
+              return const _VideosHeader();
+            } else {
+              final videoInfo = videoInfos[index - 2];
+              return _VideoList(videoInfo: videoInfo);
+            }
+          },
+        ),
+        bottomNavigationBar: const _CustomBottomNavigationBar(),
+      ),
+    );
+  }
+
+  ThemeData _themeData() {
     return ThemeData(
       appBarTheme: const AppBarTheme(
         backgroundColor: _CustomColors.darkGrey,
@@ -226,70 +225,6 @@ class _VideosHeader extends StatelessWidget {
   }
 }
 
-// class _VideoInfo {
-//   final String imageUrl;
-//   final String iconUrl;
-//   final String title;
-//   final String channelName;
-//   final int streamNumber;
-//   final int date;
-//   final String videoTime;
-
-//   _VideoInfo({
-//     required this.imageUrl,
-//     required this.iconUrl,
-//     required this.title,
-//     required this.channelName,
-//     required this.streamNumber,
-//     required this.date,
-//     required this.videoTime,
-//   });
-// }
-
-// final List<_VideoInfo> _dummyVideoData = [
-//   _VideoInfo(
-//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-//     iconUrl:
-//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-//     title: 'デザイナーが教える!サムネイル作成、3つのコツ',
-//     channelName: 'ARASHI',
-//     streamNumber: 1276543,
-//     date: 1,
-//     videoTime: '12:34',
-//   ),
-//   _VideoInfo(
-//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-//     iconUrl:
-//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-//     title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
-//     channelName: 'チャンネル2',
-//     streamNumber: 2000,
-//     date: 3,
-//     videoTime: '5:27',
-//   ),
-//   _VideoInfo(
-//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-//     iconUrl:
-//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-//     title: 'ビデオタイトル3',
-//     channelName: 'チャンネル3',
-//     streamNumber: 157832,
-//     date: 2,
-//     videoTime: '1:47',
-//   ),
-//   _VideoInfo(
-//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-//     iconUrl:
-//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-//     title: 'ビデオタイトル4',
-//     channelName: 'チャンネル4',
-//     streamNumber: 20,
-//     date: 1,
-//     videoTime: '3:57',
-//   ),
-// ];
-// // 仮定のimport文
-
 class _VideoList extends StatelessWidget {
   final VideoInfo videoInfo;
   const _VideoList({Key? key, required this.videoInfo}) : super(key: key);
@@ -297,7 +232,7 @@ class _VideoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedViewCount =
-        _ViewCountFormatter.format(videoInfo.streamNumber ?? 0);
+        _ViewCountFormatter.format(videoInfo.streamNumber);
 
     return Column(
       children: <Widget>[
@@ -305,7 +240,7 @@ class _VideoList extends StatelessWidget {
           alignment: Alignment.bottomLeft, // アイコンとテキストの位置を調整
           children: <Widget>[
             Image.network(
-              videoInfo.imageUrl ?? '',
+              videoInfo.imageUrl,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -314,7 +249,7 @@ class _VideoList extends StatelessWidget {
                 children: <Widget>[
                   const Icon(Icons.equalizer, color: Colors.white, size: 24.0),
                   const SizedBox(width: 8.0),
-                  _VideoTime(time: videoInfo.videoTime ?? ''),
+                  _VideoTime(time: videoInfo.videoTime),
                 ],
               ),
             ),
@@ -327,7 +262,7 @@ class _VideoList extends StatelessWidget {
           child: Row(
             children: [
               _VideoProfileIcon(
-                url: videoInfo.iconUrl ?? '',
+                url: videoInfo.iconUrl,
               ),
               const SizedBox(width: 8),
               Flexible(
@@ -336,7 +271,7 @@ class _VideoList extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 36,
-                      child: Text(videoInfo.title ?? ''),
+                      child: Text(videoInfo.title),
                     ),
                     Row(
                       children: [
