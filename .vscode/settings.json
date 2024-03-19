@@ -7,9 +7,14 @@
                 "Kandersteg",
                 "LTRB",
                 "Mercari",
+<<<<<<< HEAD
                 "nodoc",
                 "Oeschinen",
                 "riverpod",
                 "vsync"
+=======
+                "Oeschinen",
+                "riverpod"
+>>>>>>> 5f4bee1 (firebase hostingからデータを取得して、画面を描画。アーキテクチャ構成も、ほぼほぼ完成。)
         ]
 }
