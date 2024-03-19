@@ -8,9 +8,13 @@
                 "nodoc",
                 "Oeschinen",
                 "vsync",
-                "Mercari",
+                "LTRB",
+                "Oeschinen",
+                "interps",
+                "Kandersteg",
                 "LTRB",
                 "Mercari",
-                "Oeschinen"
+                "Oeschinen",
+                "riverpod"
         ]
 }
