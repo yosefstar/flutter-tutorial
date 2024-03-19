@@ -2,17 +2,113 @@
 import 'package:flutter/material.dart';
 
 class MercariPage extends StatelessWidget {
-  const MercariPage({super.key});
+  MercariPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const _PostingAppBar(),
       floatingActionButton: const _PostingFloatingActionButton(),
-      body: _PostingListView(),
+      body: Container(
+        color: _CustomColors.lightGrey,
+        child: ListView.builder(
+          itemCount: _productDataList.length +
+              3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const _MainPhoto(); // 最初のアイテム
+            } else if (index == 1) {
+              return const _ShortCutCardList(); // 2番目のアイテム
+            } else if (index == 2) {
+              return const _PostingDataHeadBar(); // 3番目のアイテム
+            }
+            final data =
+                _productDataList[index - 3]; // productDataList のインデックスを調整
+            return _PostingDataListView(
+              produceImageUrl1: data.produceImageUrl1,
+              productName: data.productName,
+              priceJPY: data.priceJPY,
+              numberOfSearcher: data.numberOfSearcher,
+            );
+          },
+        ),
+      ),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
+
+  final List<_ProductData> _productDataList = [
+    _ProductData(
+      produceImageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      productName: 'sony a7iii',
+      priceJPY: 2000,
+      numberOfSearcher: 200,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'panasonic b6ttt',
+      priceJPY: 1500,
+      numberOfSearcher: 80,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sharp u2hhh',
+      priceJPY: 5500,
+      numberOfSearcher: 850,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'intel core i9',
+      priceJPY: 800,
+      numberOfSearcher: 15,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sony b9uuu',
+      priceJPY: 2200,
+      numberOfSearcher: 150,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      productName: 'sony a7iii',
+      priceJPY: 2000,
+      numberOfSearcher: 200,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'panasonic b6ttt',
+      priceJPY: 1500,
+      numberOfSearcher: 80,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sharp u2hhh',
+      priceJPY: 5500,
+      numberOfSearcher: 850,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'intel core i9',
+      priceJPY: 800,
+      numberOfSearcher: 15,
+    ),
+    _ProductData(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sony b9uuu',
+      priceJPY: 2200,
+      numberOfSearcher: 150,
+    ),
+  ];
 }
 
 class _CustomColors {
@@ -39,35 +135,6 @@ class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _PostingListView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: _CustomColors.lightGrey,
-      child: ListView.builder(
-        itemCount: _dataList.length +
-            3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return const _MainPhoto(); // 最初のアイテム
-          } else if (index == 1) {
-            return const _ShortCutCardList(); // 2番目のアイテム
-          } else if (index == 2) {
-            return const _PostingDataHeadBar(); // 3番目のアイテム
-          }
-          final data = _dataList[index - 3]; // dataList のインデックスを調整
-          return _PostingDataListView(
-            produceImageUrl1: data.produceImageUrl1,
-            productName: data.productName,
-            priceJPY: data.priceJPY,
-            numberOfSearcher: data.numberOfSearcher,
-          );
-        },
-      ),
-    );
-  }
 }
 
 class _MainPhoto extends StatelessWidget {
@@ -242,78 +309,6 @@ class _ProductData {
 }
 
 // テストデータのリストを作成
-final List<_ProductData> _dataList = [
-  _ProductData(
-    produceImageUrl1:
-        'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-    productName: 'sony a7iii',
-    priceJPY: 2000,
-    numberOfSearcher: 200,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'panasonic b6ttt',
-    priceJPY: 1500,
-    numberOfSearcher: 80,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'sharp u2hhh',
-    priceJPY: 5500,
-    numberOfSearcher: 850,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'intel core i9',
-    priceJPY: 800,
-    numberOfSearcher: 15,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'sony b9uuu',
-    priceJPY: 2200,
-    numberOfSearcher: 150,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-    productName: 'sony a7iii',
-    priceJPY: 2000,
-    numberOfSearcher: 200,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'panasonic b6ttt',
-    priceJPY: 1500,
-    numberOfSearcher: 80,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'sharp u2hhh',
-    priceJPY: 5500,
-    numberOfSearcher: 850,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'intel core i9',
-    priceJPY: 800,
-    numberOfSearcher: 15,
-  ),
-  _ProductData(
-    produceImageUrl1:
-        'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-    productName: 'sony b9uuu',
-    priceJPY: 2200,
-    numberOfSearcher: 150,
-  ),
-];
 
 class _PostingDataListView extends StatelessWidget {
   final String produceImageUrl1;

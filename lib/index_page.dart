@@ -62,7 +62,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MercariPage()),
+                  MaterialPageRoute(builder: (context) => MercariPage()),
                 );
               },
               child: const Text('Mercari'),
