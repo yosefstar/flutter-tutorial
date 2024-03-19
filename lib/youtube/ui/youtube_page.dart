@@ -1,30 +1,70 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_tutorial/youtube/ui/video_info_state.dart';
+import 'package:flutter_tutorial/youtube/ui/youtube_view_model.dart';
 import 'package:intl/intl.dart';
 
-class YoutubePage extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class YoutubePage extends ConsumerWidget {
   const YoutubePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: _CustomColors.darkGrey,
-          foregroundColor: Colors.white,
+  Widget build(BuildContext context, WidgetRef ref) {
+    // ProviderからvideoInfoStateを読み込む
+    final videoInfoState = ref.watch(videoInfoProvider);
+
+    // AsyncValueの状態に応じてUIを分岐
+    return videoInfoState.when(
+      loading: () => const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: _CustomColors.darkGrey,
-          selectedItemColor: Colors.white,
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(
+          child: Text('Error: $error'),
         ),
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blueGrey,
       ),
-      child: const Scaffold(
-        appBar: _CustomAppBar(),
-        body: _CustomListView(),
-        bottomNavigationBar: _CustomBottomNavigationBar(),
+      data: (videoInfos) {
+        // データ取得成功時のUI
+        return Theme(
+          data: _buildThemeData(),
+          child: Scaffold(
+            appBar: const _CustomAppBar(),
+            body: ListView.builder(
+              itemCount: videoInfos.length + 2,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return const _VideosCardsSection();
+                } else if (index == 1) {
+                  return const _VideosHeader();
+                } else {
+                  // videoInfosからビデオ情報を取得して表示
+                  final videoInfo = videoInfos[index - 2];
+                  return _VideoList(videoInfo: videoInfo);
+                }
+              },
+            ),
+            bottomNavigationBar: const _CustomBottomNavigationBar(),
+          ),
+        );
+      },
+    );
+  }
+
+  ThemeData _buildThemeData() {
+    return ThemeData(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: _CustomColors.darkGrey,
+        foregroundColor: Colors.white,
       ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: _CustomColors.darkGrey,
+        selectedItemColor: Colors.white,
+      ),
+      brightness: Brightness.dark,
+      primarySwatch: Colors.blueGrey,
     );
   }
 }
@@ -58,26 +98,6 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _CustomListView extends StatelessWidget {
-  const _CustomListView();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _dummyVideoData.length + 2,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return const _VideosCardsSection();
-        } else if (index == 1) {
-          return const _VideosHeader();
-        } else {
-          return _VideoItemList(index: index - 2);
-        }
-      },
-    );
-  }
 }
 
 class _VideosCardsSection extends StatelessWidget {
@@ -206,78 +226,78 @@ class _VideosHeader extends StatelessWidget {
   }
 }
 
-class _VideoInfo {
-  final String imageUrl;
-  final String iconUrl;
-  final String title;
-  final String channelName;
-  final int streamNumber;
-  final int date;
-  final String videoTime;
+// class _VideoInfo {
+//   final String imageUrl;
+//   final String iconUrl;
+//   final String title;
+//   final String channelName;
+//   final int streamNumber;
+//   final int date;
+//   final String videoTime;
 
-  _VideoInfo({
-    required this.imageUrl,
-    required this.iconUrl,
-    required this.title,
-    required this.channelName,
-    required this.streamNumber,
-    required this.date,
-    required this.videoTime,
-  });
-}
+//   _VideoInfo({
+//     required this.imageUrl,
+//     required this.iconUrl,
+//     required this.title,
+//     required this.channelName,
+//     required this.streamNumber,
+//     required this.date,
+//     required this.videoTime,
+//   });
+// }
 
-final List<_VideoInfo> _dummyVideoData = [
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'デザイナーが教える!サムネイル作成、3つのコツ',
-    channelName: 'ARASHI',
-    streamNumber: 1276543,
-    date: 1,
-    videoTime: '12:34',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
-    channelName: 'チャンネル2',
-    streamNumber: 2000,
-    date: 3,
-    videoTime: '5:27',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル3',
-    channelName: 'チャンネル3',
-    streamNumber: 157832,
-    date: 2,
-    videoTime: '1:47',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル4',
-    channelName: 'チャンネル4',
-    streamNumber: 20,
-    date: 1,
-    videoTime: '3:57',
-  ),
-];
+// final List<_VideoInfo> _dummyVideoData = [
+//   _VideoInfo(
+//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+//     iconUrl:
+//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+//     title: 'デザイナーが教える!サムネイル作成、3つのコツ',
+//     channelName: 'ARASHI',
+//     streamNumber: 1276543,
+//     date: 1,
+//     videoTime: '12:34',
+//   ),
+//   _VideoInfo(
+//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+//     iconUrl:
+//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+//     title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
+//     channelName: 'チャンネル2',
+//     streamNumber: 2000,
+//     date: 3,
+//     videoTime: '5:27',
+//   ),
+//   _VideoInfo(
+//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+//     iconUrl:
+//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+//     title: 'ビデオタイトル3',
+//     channelName: 'チャンネル3',
+//     streamNumber: 157832,
+//     date: 2,
+//     videoTime: '1:47',
+//   ),
+//   _VideoInfo(
+//     imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+//     iconUrl:
+//         'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+//     title: 'ビデオタイトル4',
+//     channelName: 'チャンネル4',
+//     streamNumber: 20,
+//     date: 1,
+//     videoTime: '3:57',
+//   ),
+// ];
+// // 仮定のimport文
 
-class _VideoItemList extends StatelessWidget {
-  final int index;
-  const _VideoItemList({Key? key, required this.index}) : super(key: key);
+class _VideoList extends StatelessWidget {
+  final VideoInfo videoInfo;
+  const _VideoList({Key? key, required this.videoInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final videoInfo = _dummyVideoData[index];
     final formattedViewCount =
-        _ViewCountFormatter.format(videoInfo.streamNumber);
+        _ViewCountFormatter.format(videoInfo.streamNumber ?? 0);
 
     return Column(
       children: <Widget>[
@@ -285,7 +305,7 @@ class _VideoItemList extends StatelessWidget {
           alignment: Alignment.bottomLeft, // アイコンとテキストの位置を調整
           children: <Widget>[
             Image.network(
-              videoInfo.imageUrl,
+              videoInfo.imageUrl ?? '',
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -294,7 +314,7 @@ class _VideoItemList extends StatelessWidget {
                 children: <Widget>[
                   const Icon(Icons.equalizer, color: Colors.white, size: 24.0),
                   const SizedBox(width: 8.0),
-                  _VideoTime(time: videoInfo.videoTime),
+                  _VideoTime(time: videoInfo.videoTime ?? ''),
                 ],
               ),
             ),
@@ -303,11 +323,11 @@ class _VideoItemList extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8.0),
           height: 76,
-          color: _CustomColors.darkGrey,
+          color: Colors.grey[850], // _CustomColors.darkGreyの代わり
           child: Row(
             children: [
               _VideoProfileIcon(
-                url: videoInfo.iconUrl,
+                url: videoInfo.iconUrl ?? '',
               ),
               const SizedBox(width: 8),
               Flexible(
@@ -316,7 +336,7 @@ class _VideoItemList extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 36,
-                      child: Text(videoInfo.title),
+                      child: Text(videoInfo.title ?? ''),
                     ),
                     Row(
                       children: [
