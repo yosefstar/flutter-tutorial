@@ -227,6 +227,7 @@ class _VideosHeader extends StatelessWidget {
 
 class _VideoList extends StatelessWidget {
   final VideoInfo videoInfo;
+
   const _VideoList({Key? key, required this.videoInfo}) : super(key: key);
 
   @override
@@ -259,6 +260,7 @@ class _VideoList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           height: 76,
           color: Colors.grey[850], // _CustomColors.darkGreyの代わり
+
           child: Row(
             children: [
               _VideoProfileIcon(
