@@ -10,24 +10,16 @@ class ResidencePage extends StatelessWidget {
     return Scaffold(
       appBar: const _CustomAppBar(),
       body: ListView.builder(
-        itemCount: residenceDataList.length + 1, // SearchFilterBarを含めるために+1します
+        itemCount: residenceList.length + 1, // SearchFilterItemを含めるために+1します
         itemBuilder: (context, index) {
           if (index == 0) {
-            // 最初のアイテムとしてSearchFilterBarを表示
-            return const _SearchFilterBar();
+            // 最初のアイテムとして_SearchFilterItemを表示
+            return const _SearchFilterItem();
+          } else {
+            // indexを1減らして、0番目を_SearchFilterItemにしたことを調整
+            final data = residenceList[index - 1];
+            return _ResidenceItem(data: data);
           }
-          // indexを1減らして、0番目をSearchFilterBarにしたことを調整
-          final data = residenceDataList[index - 1];
-
-          return _ResidenceDataDisplayWidget(
-            imageUrl1: data.imageUrl1,
-            imageUrl2: data.imageUrl2,
-            text1: data.text1,
-            text2: data.text2,
-            text3: data.text3,
-            text4: data.text4,
-            number: data.number,
-          );
         },
       ),
       floatingActionButton: const _SearchFloatingActionButton(),
@@ -35,8 +27,8 @@ class ResidencePage extends StatelessWidget {
     );
   }
 
-  final List<ResidenceData> residenceDataList = [
-    ResidenceData(
+  final List<Residence> residenceList = [
+    Residence(
       imageUrl1:
           'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
       imageUrl2:
@@ -47,7 +39,7 @@ class ResidencePage extends StatelessWidget {
       text4: '2階/15階建 築5年',
       number: 2000,
     ),
-    ResidenceData(
+    Residence(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -58,7 +50,7 @@ class ResidencePage extends StatelessWidget {
       text4: '6階/20階建 築3年',
       number: 5000,
     ),
-    ResidenceData(
+    Residence(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -69,7 +61,7 @@ class ResidencePage extends StatelessWidget {
       text4: '10階/25階建 築2年',
       number: 4500,
     ),
-    ResidenceData(
+    Residence(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -80,7 +72,7 @@ class ResidencePage extends StatelessWidget {
       text4: '5階/15階建 築1年',
       number: 3000,
     ),
-    ResidenceData(
+    Residence(
       imageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       imageUrl2:
@@ -112,10 +104,10 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: const Row(
         children: [
-          _CustomCard(text: 'おすすめ'),
+          _CustomChips(text: 'おすすめ'),
           Stack(
             children: [
-              _CustomCard(text: 'リフォーム'),
+              _CustomChips(text: 'リフォーム'),
               Positioned(
                 right: 0,
                 top: 0,
@@ -141,9 +133,9 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _CustomCard extends StatelessWidget {
+class _CustomChips extends StatelessWidget {
   final String text;
-  const _CustomCard({Key? key, required this.text}) : super(key: key);
+  const _CustomChips({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +199,7 @@ class _StackNumber extends StatelessWidget {
   }
 }
 
-class ResidenceData {
+class Residence {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -216,7 +208,7 @@ class ResidenceData {
   final String text4;
   final int number;
 
-  ResidenceData({
+  Residence({
     required this.imageUrl1,
     required this.imageUrl2,
     required this.text1,
@@ -227,8 +219,8 @@ class ResidenceData {
   });
 }
 
-class _SearchFilterBar extends StatelessWidget {
-  const _SearchFilterBar({Key? key}) : super(key: key);
+class _SearchFilterItem extends StatelessWidget {
+  const _SearchFilterItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -354,7 +346,26 @@ class _SearchFilterBar extends StatelessWidget {
   }
 }
 
-class _ResidenceDataDisplayWidget extends StatelessWidget {
+class _ResidenceItem extends StatelessWidget {
+  final Residence data;
+
+  const _ResidenceItem({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _ResidenceDataDisplay(
+      imageUrl1: data.imageUrl1,
+      imageUrl2: data.imageUrl2,
+      text1: data.text1,
+      text2: data.text2,
+      text3: data.text3,
+      text4: data.text4,
+      number: data.number,
+    );
+  }
+}
+
+class _ResidenceDataDisplay extends StatelessWidget {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -363,7 +374,7 @@ class _ResidenceDataDisplayWidget extends StatelessWidget {
   final String text4;
   final int number;
 
-  const _ResidenceDataDisplayWidget({
+  const _ResidenceDataDisplay({
     Key? key,
     required this.imageUrl1,
     required this.imageUrl2,
