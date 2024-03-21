@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class YoutubePage extends StatelessWidget {
-  const YoutubePage({super.key});
+  YoutubePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +142,9 @@ class _VideosCardsGridView extends StatelessWidget {
       }),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _VideosCardsItem {
@@ -239,6 +242,7 @@ class _VideoInfo {
     required this.date,
     required this.videoTime,
   });
+
   final String imageUrl;
   final String iconUrl;
   final String title;
@@ -299,7 +303,6 @@ class _VideoItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     final videoInfo = _dummyVideoData[index];
     final formattedViewCount = formatViewCount(videoInfo.streamNumber);
-
     return Column(
       children: <Widget>[
         Stack(
