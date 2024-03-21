@@ -12,7 +12,7 @@ class MercariPage extends StatelessWidget {
       body: Container(
         color: _CustomColors.lightGrey,
         child: ListView.builder(
-          itemCount: _productDataList.length +
+          itemCount: _productList.length +
               3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -21,15 +21,11 @@ class MercariPage extends StatelessWidget {
               return const _ShortCutCardList(); // 2番目のアイテム
             } else if (index == 2) {
               return const _PostingDataHeadBar(); // 3番目のアイテム
+            } else {
+              final data =
+                  _productList[index - 3]; // productDataList のインデックスを調整
+              return _PostingItem(data: data);
             }
-            final data =
-                _productDataList[index - 3]; // productDataList のインデックスを調整
-            return _PostingDataListView(
-              produceImageUrl1: data.produceImageUrl1,
-              productName: data.productName,
-              priceJPY: data.priceJPY,
-              numberOfSearcher: data.numberOfSearcher,
-            );
           },
         ),
       ),
@@ -37,71 +33,71 @@ class MercariPage extends StatelessWidget {
     );
   }
 
-  final List<_ProductData> _productDataList = [
-    _ProductData(
+  final List<_Product> _productList = [
+    _Product(
       produceImageUrl1:
           'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
       productName: 'sony a7iii',
       priceJPY: 2000,
       numberOfSearcher: 200,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'panasonic b6ttt',
       priceJPY: 1500,
       numberOfSearcher: 80,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'sharp u2hhh',
       priceJPY: 5500,
       numberOfSearcher: 850,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'intel core i9',
       priceJPY: 800,
       numberOfSearcher: 15,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'sony b9uuu',
       priceJPY: 2200,
       numberOfSearcher: 150,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
       productName: 'sony a7iii',
       priceJPY: 2000,
       numberOfSearcher: 200,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'panasonic b6ttt',
       priceJPY: 1500,
       numberOfSearcher: 80,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'sharp u2hhh',
       priceJPY: 5500,
       numberOfSearcher: 850,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'intel core i9',
       priceJPY: 800,
       numberOfSearcher: 15,
     ),
-    _ProductData(
+    _Product(
       produceImageUrl1:
           'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
       productName: 'sony b9uuu',
@@ -294,13 +290,13 @@ class _PostingDataHeadBar extends StatelessWidget {
   }
 }
 
-class _ProductData {
+class _Product {
   final String produceImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
 
-  _ProductData({
+  _Product({
     required this.produceImageUrl1,
     required this.productName,
     required this.priceJPY,
@@ -308,7 +304,21 @@ class _ProductData {
   });
 }
 
-// テストデータのリストを作成
+class _PostingItem extends StatelessWidget {
+  final _Product data;
+
+  const _PostingItem({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _PostingDataListView(
+      produceImageUrl1: data.produceImageUrl1,
+      productName: data.productName,
+      priceJPY: data.priceJPY,
+      numberOfSearcher: data.numberOfSearcher,
+    );
+  }
+}
 
 class _PostingDataListView extends StatelessWidget {
   final String produceImageUrl1;
