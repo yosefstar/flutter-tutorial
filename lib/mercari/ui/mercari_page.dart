@@ -1,110 +1,44 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tutorial/mercari/ui/product_data_state.dart';
+import 'product_view_model.dart'; // productDataListProviderを含むファイルをインポート
 
-class MercariPage extends StatelessWidget {
-  MercariPage({super.key});
+class MercariPage extends ConsumerWidget {
+  const MercariPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // productDataListProviderからデータを非同期に取得
+    final productListAsyncValue = ref.watch(productDataListProvider);
+
     return Scaffold(
-      appBar: const _PostingAppBar(),
-      floatingActionButton: const _PostingFloatingActionButton(),
-      body: ColoredBox(
+      body: Container(
         color: _CustomColors.lightGrey,
-        child: ListView.builder(
-          itemCount: _productList.length +
-              3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const _MainPhoto(); // 最初のアイテム
-            } else if (index == 1) {
-              return const _ShortCutCardList(); // 2番目のアイテム
-            } else if (index == 2) {
-              return const _PostingDataHeadBar(); // 3番目のアイテム
-            } else {
-              final data =
-                  _productList[index - 3]; // productDataList のインデックスを調整
-              return _PostingItem(data: data);
-            }
-          },
+        child: productListAsyncValue.when(
+          data: (productList) => ListView.builder(
+            itemCount: productList.length + 3, // ヘッダー部分を考慮して+3
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const _MainPhoto(); // 最初のアイテム
+              } else if (index == 1) {
+                return const _ShortCutCardList(); // 2番目のアイテム
+              } else if (index == 2) {
+                return const _PostingDataHeadBar(); // 3番目のアイテム
+              } else {
+                // productListからデータを取得して表示
+                final data = productList[index - 3];
+                return _PostingItem(data: data);
+              }
+            },
+          ),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stack) => Text('Error: $error'),
         ),
       ),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
-
-  final List<_Product> _productList = [
-    _Product(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-    _Product(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-  ];
 }
 
 class _CustomColors {
@@ -113,8 +47,8 @@ class _CustomColors {
   static const Color lightGrey = Color(0xFFEAEAE9);
 }
 
-class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _PostingAppBar();
+class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const PostingAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -134,26 +68,26 @@ class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _MainPhoto extends StatelessWidget {
-  const _MainPhoto();
+  const _MainPhoto({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+      height: 200.0,
+      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
       child: Image.asset('images/photo_mercari.png', fit: BoxFit.cover),
     );
   }
 }
 
 class _ShortCutCardList extends StatelessWidget {
-  const _ShortCutCardList();
+  const _ShortCutCardList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
+      height: 140.0,
+      margin: const EdgeInsets.symmetric(horizontal: 12.0),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -161,26 +95,15 @@ class _ShortCutCardList extends StatelessWidget {
           SizedBox(height: 4),
           Row(
             children: [
-              _ShortCutCard(
-                text: '写真を撮る',
-                iconData: Icons.camera_alt_outlined,
-              ),
+              _ShortCutCard(text: '写真を撮る', iconData: Icons.camera_alt_outlined),
+              SizedBox(width: 8),
+              _ShortCutCard(text: 'アルバム', iconData: Icons.image),
               SizedBox(width: 8),
               _ShortCutCard(
-                text: 'アルバム',
-                iconData: Icons.image,
-              ),
+                  text: 'バーコード', text2: '（本・コスメ）', iconData: Icons.qr_code),
               SizedBox(width: 8),
               _ShortCutCard(
-                text: 'バーコード',
-                text2: '（本・コスメ）',
-                iconData: Icons.qr_code,
-              ),
-              SizedBox(width: 8),
-              _ShortCutCard(
-                text: '下書き一覧',
-                iconData: Icons.content_paste_outlined,
-              ),
+                  text: '下書き一覧', iconData: Icons.content_paste_outlined),
             ],
           ),
         ],
@@ -190,14 +113,16 @@ class _ShortCutCardList extends StatelessWidget {
 }
 
 class _ShortCutCard extends StatelessWidget {
-  const _ShortCutCard({
-    required this.text,
-    this.text2,
-    required this.iconData,
-  });
   final String text;
   final String? text2; // オプショナルなパラメータとしてtext2を追加
   final IconData iconData;
+
+  const _ShortCutCard({
+    Key? key,
+    required this.text,
+    this.text2,
+    required this.iconData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +130,7 @@ class _ShortCutCard extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context);
 
     // 画面の幅に基づいてフォントサイズを計算
-    var fontSize = 11.0; // デフォルトのフォントサイズ
+    double fontSize = 11.0; // デフォルトのフォントサイズ
     if (screenWidth.width > 600) {
       fontSize = 13.0; // より大きなフォントサイズ
     } else if (screenWidth.width > 400) {
@@ -214,21 +139,21 @@ class _ShortCutCard extends StatelessWidget {
 
     return Expanded(
       child: SizedBox(
-        height: 112,
+        height: 112.0,
         child: Card(
           color: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   iconData,
-                  size: 34,
+                  size: 34.0,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -254,12 +179,12 @@ class _ShortCutCard extends StatelessWidget {
 }
 
 class _PostingDataHeadBar extends StatelessWidget {
-  const _PostingDataHeadBar();
+  const _PostingDataHeadBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 72,
+      height: 72.0,
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -267,6 +192,7 @@ class _PostingDataHeadBar extends StatelessWidget {
         ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(width: 12),
           Column(
@@ -298,27 +224,29 @@ class _PostingDataHeadBar extends StatelessWidget {
   }
 }
 
-class _Product {
-  _Product({
+class Product {
+  final String produceImageUrl1;
+  final String productName;
+  final int priceJPY;
+  final int numberOfSearcher;
+
+  Product({
     required this.produceImageUrl1,
     required this.productName,
     required this.priceJPY,
     required this.numberOfSearcher,
   });
-  final String produceImageUrl1;
-  final String productName;
-  final int priceJPY;
-  final int numberOfSearcher;
 }
 
 class _PostingItem extends StatelessWidget {
-  const _PostingItem({required this.data});
-  final _Product data;
+  final ProductData data; // _Product から ProductData へ変更
+
+  const _PostingItem({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _PostingDataListView(
-      produceImageUrl1: data.produceImageUrl1,
+      productImageUrl1: data.productImageUrl1,
       productName: data.productName,
       priceJPY: data.priceJPY,
       numberOfSearcher: data.numberOfSearcher,
@@ -327,38 +255,40 @@ class _PostingItem extends StatelessWidget {
 }
 
 class _PostingDataListView extends StatelessWidget {
-  const _PostingDataListView({
-    required this.produceImageUrl1,
-    required this.productName,
-    required this.priceJPY,
-    required this.numberOfSearcher,
-  });
-  final String produceImageUrl1;
+  final String productImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
 
+  const _PostingDataListView({
+    Key? key,
+    required this.productImageUrl1,
+    required this.productName,
+    required this.priceJPY,
+    required this.numberOfSearcher,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    const fontSize = 14.0;
+    const double fontSize = 14.0;
 
-    return DecoratedBox(
+    return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+            padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
             child: Row(
               children: [
                 SizedBox(
-                  width: 72,
-                  height: 72,
+                  width: 72.0,
+                  height: 72.0,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.0),
                     child: Image.network(
-                      produceImageUrl1,
+                      productImageUrl1,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -384,9 +314,9 @@ class _PostingDataListView extends StatelessWidget {
                         const Icon(
                           Icons.local_fire_department,
                           color: _CustomColors.lightBlue,
-                          size: 16,
+                          size: 16.0,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 4.0),
                         Text(
                           '$numberOfSearcher人が探しています',
                           style: const TextStyle(
@@ -409,19 +339,19 @@ class _PostingDataListView extends StatelessWidget {
 }
 
 class _PostingButton extends StatelessWidget {
-  const _PostingButton();
+  const _PostingButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Card(
       color: _CustomColors.lightRed, // 赤い背景色を設定
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Text(
           '出品する',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 14,
+            fontSize: 14.0,
           ),
           textAlign: TextAlign.center,
         ),
@@ -430,8 +360,8 @@ class _PostingButton extends StatelessWidget {
   }
 }
 
-class _PostingFloatingActionButton extends StatelessWidget {
-  const _PostingFloatingActionButton();
+class PostingFloatingActionButton extends StatelessWidget {
+  const PostingFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -440,12 +370,12 @@ class _PostingFloatingActionButton extends StatelessWidget {
         backgroundColor: _CustomColors.lightRed,
         onPressed: () {},
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(50.0),
         ),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.photo_camera_outlined, color: Colors.white, size: 28),
+            Icon(Icons.photo_camera_outlined, color: Colors.white, size: 28.0),
           ],
         ),
       ),
@@ -471,27 +401,16 @@ class _CustomBottomNavigationBar extends StatelessWidget {
 
     return BottomNavigationBar(
       items: [
-        createBottomNavItem(
-          iconData: Icons.home,
-          label: 'ホーム',
-          stackNumber: 5,
-        ),
-        createBottomNavItem(
-          iconData: Icons.notifications_none_outlined,
-          label: 'お知らせ',
-        ),
-        createBottomNavItem(
-          iconData: Icons.photo_camera_outlined,
-          label: '出品',
-        ),
-        createBottomNavItem(
-          iconData: Icons.add_comment_outlined,
-          label: 'メッセージ',
-        ),
-        createBottomNavItem(
-          iconData: Icons.account_circle,
-          label: 'マイページ',
-        ),
+        _BottomNavItemFactory.createItem(
+            iconData: Icons.home, label: 'ホーム', stackNumber: 5),
+        _BottomNavItemFactory.createItem(
+            iconData: Icons.notifications_none_outlined, label: 'お知らせ'),
+        _BottomNavItemFactory.createItem(
+            iconData: Icons.photo_camera_outlined, label: '出品'),
+        _BottomNavItemFactory.createItem(
+            iconData: Icons.add_comment_outlined, label: 'メッセージ'),
+        _BottomNavItemFactory.createItem(
+            iconData: Icons.account_circle, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
       selectedItemColor: _CustomColors.lightBlue,
@@ -508,48 +427,54 @@ class _CustomBottomNavigationBar extends StatelessWidget {
   }
 }
 
-BottomNavigationBarItem createBottomNavItem({
-  required IconData iconData,
-  required String label,
-  double iconSize = 36.0,
-  int? stackNumber,
-}) {
-  Widget icon = SizedBox(
-    width: 48,
-    height: 48,
-    child: Align(
-      child: Icon(iconData, size: iconSize),
-    ),
-  );
-  if (stackNumber != null && stackNumber > 0) {
-    icon = Stack(
-      children: [
-        SizedBox(width: 48, height: 48, child: Icon(iconData, size: iconSize)),
-        Positioned(
-          right: 0,
-          top: 5,
-          child: _StackNumber(number: '$stackNumber'),
-        ),
-      ],
+class _BottomNavItemFactory {
+  static BottomNavigationBarItem createItem({
+    required IconData iconData,
+    required String label,
+    double iconSize = 36.0,
+    int? stackNumber,
+  }) {
+    Widget icon = SizedBox(
+      width: 48.0,
+      height: 48.0,
+      child: Align(
+        alignment: Alignment.center,
+        child: Icon(iconData, size: iconSize),
+      ),
+    );
+    if (stackNumber != null && stackNumber != 0) {
+      icon = Stack(
+        children: [
+          SizedBox(
+              width: 48.0, height: 48.0, child: Icon(iconData, size: iconSize)),
+          Positioned(
+            right: 0,
+            top: 5,
+            child: _StackNumber(number: "$stackNumber"),
+          ),
+        ],
+      );
+    }
+    return BottomNavigationBarItem(
+      icon: icon,
+      label: label,
     );
   }
-  return BottomNavigationBarItem(
-    icon: icon,
-    label: label,
-  );
 }
 
 class _StackNumber extends StatelessWidget {
-  const _StackNumber({
-    required this.number,
-  });
   final String number;
+
+  const _StackNumber({
+    Key? key,
+    required this.number,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const size = 16.0;
+    const double size = 16.0;
     const Color color = Colors.red;
-    const textColor = Colors.white;
+    const Color textColor = Colors.white;
 
     return Container(
       width: size,
