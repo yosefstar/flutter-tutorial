@@ -1,30 +1,54 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tutorial/mercari/ui/product_data_state.dart';
+import 'product_view_model.dart'; // productDataListProviderを含むファイルをインポート
 
-class MercariPage extends StatelessWidget {
+class MercariPage extends ConsumerWidget {
   const MercariPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // productDataListProviderからデータを非同期に取得
+    final productListAsyncValue = ref.watch(productDataListProvider);
+
     return Scaffold(
-      appBar: const _PostingAppBar(),
-      floatingActionButton: const _PostingFloatingActionButton(),
-      body: _PostingListView(),
+      body: Container(
+        color: _CustomColors.lightGrey,
+        child: productListAsyncValue.when(
+          data: (productList) => ListView.builder(
+            itemCount: productList.length + 3, // ヘッダー部分を考慮して+3
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const _MainPhoto(); // 最初のアイテム
+              } else if (index == 1) {
+                return const _ShortCutCardList(); // 2番目のアイテム
+              } else if (index == 2) {
+                return const _PostingDataHeadBar(); // 3番目のアイテム
+              } else {
+                // productListからデータを取得して表示
+                final data = productList[index - 3];
+                return _PostingItem(data: data);
+              }
+            },
+          ),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stack) => Text('Error: $error'),
+        ),
+      ),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
 }
 
 class _CustomColors {
-  static const Color red = Color(0xffff5252);
-  static const Color primaryColor = red;
-  static const Color blue = Color(0xff2196f3);
-  static const Color grey = Color(0xFFEAEAE9);
-  static const Color black = Color(0x33000000);
+  static const Color lightRed = Color(0xffff5252);
+  static const Color lightBlue = Color(0xff2196f3);
+  static const Color lightGrey = Color(0xFFEAEAE9);
 }
 
-class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _PostingAppBar({Key? key}) : super(key: key);
+class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const PostingAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,109 +65,6 @@ class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _PostingListView extends StatelessWidget {
-  // テストデータのリストを作成
-  final List<_ProductData> dataList = [
-    _ProductData(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _ProductData(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: _CustomColors.grey,
-      child: ListView.builder(
-        itemCount: dataList.length +
-            3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return const _MainPhoto(); // 最初のアイテム
-          } else if (index == 1) {
-            return const _ShortCutCardList(); // 2番目のアイテム
-          } else if (index == 2) {
-            return const _PostingDataHeadBar(); // 3番目のアイテム
-          }
-          final data = dataList[index - 3]; // dataList のインデックスを調整
-          return _PostingDataListView(
-            produceImageUrl1: data.produceImageUrl1,
-            productName: data.productName,
-            priceJPY: data.priceJPY,
-            numberOfSearcher: data.numberOfSearcher,
-          );
-        },
-      ),
-    );
-  }
 }
 
 class _MainPhoto extends StatelessWidget {
@@ -292,7 +213,7 @@ class _PostingDataHeadBar extends StatelessWidget {
           Text(
             'すべてを見る＞',
             style: TextStyle(
-              color: _CustomColors.blue,
+              color: _CustomColors.lightBlue,
               fontSize: 14,
             ),
           ),
@@ -303,13 +224,13 @@ class _PostingDataHeadBar extends StatelessWidget {
   }
 }
 
-class _ProductData {
+class Product {
   final String produceImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
 
-  _ProductData({
+  Product({
     required this.produceImageUrl1,
     required this.productName,
     required this.priceJPY,
@@ -317,15 +238,31 @@ class _ProductData {
   });
 }
 
+class _PostingItem extends StatelessWidget {
+  final ProductData data; // _Product から ProductData へ変更
+
+  const _PostingItem({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _PostingDataListView(
+      productImageUrl1: data.productImageUrl1,
+      productName: data.productName,
+      priceJPY: data.priceJPY,
+      numberOfSearcher: data.numberOfSearcher,
+    );
+  }
+}
+
 class _PostingDataListView extends StatelessWidget {
-  final String produceImageUrl1;
+  final String productImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
 
   const _PostingDataListView({
     Key? key,
-    required this.produceImageUrl1,
+    required this.productImageUrl1,
     required this.productName,
     required this.priceJPY,
     required this.numberOfSearcher,
@@ -351,7 +288,7 @@ class _PostingDataListView extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(4.0),
                     child: Image.network(
-                      produceImageUrl1,
+                      productImageUrl1,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -376,7 +313,7 @@ class _PostingDataListView extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.local_fire_department,
-                          color: _CustomColors.blue,
+                          color: _CustomColors.lightBlue,
                           size: 16.0,
                         ),
                         const SizedBox(width: 4.0),
@@ -407,7 +344,7 @@ class _PostingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Card(
-      color: _CustomColors.primaryColor, // 赤い背景色を設定
+      color: _CustomColors.lightRed, // 赤い背景色を設定
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Text(
@@ -423,14 +360,14 @@ class _PostingButton extends StatelessWidget {
   }
 }
 
-class _PostingFloatingActionButton extends StatelessWidget {
-  const _PostingFloatingActionButton({Key? key}) : super(key: key);
+class PostingFloatingActionButton extends StatelessWidget {
+  const PostingFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: FloatingActionButton(
-        backgroundColor: _CustomColors.primaryColor,
+        backgroundColor: _CustomColors.lightRed,
         onPressed: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -476,7 +413,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
             iconData: Icons.account_circle, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
-      selectedItemColor: _CustomColors.blue,
+      selectedItemColor: _CustomColors.lightBlue,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: TextStyle(
         fontSize: fontSize, // レスポンシブなフォントサイズを使用
@@ -542,15 +479,15 @@ class _StackNumber extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: _CustomColors.black,
+            color: Colors.black.withOpacity(0.2),
             spreadRadius: 0.1,
             blurRadius: 2,
-            offset: Offset(2, 2),
+            offset: const Offset(2, 2),
           ),
         ],
       ),
