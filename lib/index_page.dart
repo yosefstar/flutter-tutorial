@@ -4,6 +4,7 @@ import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
+import 'package:flutter_tutorial/mercari/mercari_page.dart';
 
 // Project imports:
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
@@ -60,7 +61,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MercariPage()),
+                  MaterialPageRoute(builder: (context) => MercariPage()),
                 );
               },
               child: const Text('Mercari'),
