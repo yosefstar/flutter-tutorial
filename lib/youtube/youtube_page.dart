@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class YoutubePage extends StatelessWidget {
-  YoutubePage({super.key});
+  const YoutubePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,6 @@ class _VideosCardsGridView extends StatelessWidget {
     );
   }
 
-  @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
