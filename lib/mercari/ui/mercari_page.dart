@@ -5,7 +5,7 @@ import 'package:flutter_tutorial/mercari/ui/product_data_state.dart';
 import 'product_view_model.dart'; // productDataListProviderを含むファイルをインポート
 
 class MercariPage extends ConsumerWidget {
-  const MercariPage({super.key});
+  MercariPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,6 +39,79 @@ class MercariPage extends ConsumerWidget {
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
+
+  final List<Product> productList = [
+    Product(
+      produceImageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      productName: 'sony a7iii',
+      priceJPY: 2000,
+      numberOfSearcher: 200,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'panasonic b6ttt',
+      priceJPY: 1500,
+      numberOfSearcher: 80,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sharp u2hhh',
+      priceJPY: 5500,
+      numberOfSearcher: 850,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'intel core i9',
+      priceJPY: 800,
+      numberOfSearcher: 15,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sony b9uuu',
+      priceJPY: 2200,
+      numberOfSearcher: 150,
+    ),
+    Product(
+      produceImageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      productName: 'sony a7iii',
+      priceJPY: 2000,
+      numberOfSearcher: 200,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'panasonic b6ttt',
+      priceJPY: 1500,
+      numberOfSearcher: 80,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sharp u2hhh',
+      priceJPY: 5500,
+      numberOfSearcher: 850,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'intel core i9',
+      priceJPY: 800,
+      numberOfSearcher: 15,
+    ),
+    Product(
+      produceImageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      productName: 'sony b9uuu',
+      priceJPY: 2200,
+      numberOfSearcher: 150,
+    ),
+  ];
 }
 
 class _CustomColors {
