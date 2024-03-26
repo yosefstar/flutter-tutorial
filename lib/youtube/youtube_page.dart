@@ -142,6 +142,9 @@ class _VideosCardsGridView extends StatelessWidget {
       }),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _VideosCardsItem {
@@ -299,7 +302,6 @@ class _VideoItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     final videoInfo = _dummyVideoData[index];
     final formattedViewCount = formatViewCount(videoInfo.streamNumber);
-
     return Column(
       children: <Widget>[
         Stack(
