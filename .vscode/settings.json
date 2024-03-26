@@ -5,16 +5,11 @@
                 "cupertino",
                 "interps",
                 "Kandersteg",
-                "nodoc",
-                "Oeschinen",
-                "vsync",
-                "LTRB",
-                "Oeschinen",
-                "interps",
-                "Kandersteg",
                 "LTRB",
                 "Mercari",
+                "nodoc",
                 "Oeschinen",
-                "riverpod"
+                "riverpod",
+                "vsync"
         ]
 }
