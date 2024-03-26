@@ -13,7 +13,7 @@ class MercariPage extends ConsumerWidget {
     final productListAsyncValue = ref.watch(productDataListProvider);
 
     return Scaffold(
-      body: Container(
+      body: ColoredBox(
         color: _CustomColors.lightGrey,
         child: productListAsyncValue.when(
           data: (productList) => ListView.builder(
@@ -48,7 +48,7 @@ class _CustomColors {
 }
 
 class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PostingAppBar({Key? key}) : super(key: key);
+  const PostingAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,26 +68,26 @@ class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _MainPhoto extends StatelessWidget {
-  const _MainPhoto({Key? key}) : super(key: key);
+  const _MainPhoto();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
-      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
+      height: 200,
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
       child: Image.asset('images/photo_mercari.png', fit: BoxFit.cover),
     );
   }
 }
 
 class _ShortCutCardList extends StatelessWidget {
-  const _ShortCutCardList({Key? key}) : super(key: key);
+  const _ShortCutCardList();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140.0,
-      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+      height: 140,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,15 +95,26 @@ class _ShortCutCardList extends StatelessWidget {
           SizedBox(height: 4),
           Row(
             children: [
-              _ShortCutCard(text: '写真を撮る', iconData: Icons.camera_alt_outlined),
-              SizedBox(width: 8),
-              _ShortCutCard(text: 'アルバム', iconData: Icons.image),
+              _ShortCutCard(
+                text: '写真を撮る',
+                iconData: Icons.camera_alt_outlined,
+              ),
               SizedBox(width: 8),
               _ShortCutCard(
-                  text: 'バーコード', text2: '（本・コスメ）', iconData: Icons.qr_code),
+                text: 'アルバム',
+                iconData: Icons.image,
+              ),
               SizedBox(width: 8),
               _ShortCutCard(
-                  text: '下書き一覧', iconData: Icons.content_paste_outlined),
+                text: 'バーコード',
+                text2: '（本・コスメ）',
+                iconData: Icons.qr_code,
+              ),
+              SizedBox(width: 8),
+              _ShortCutCard(
+                text: '下書き一覧',
+                iconData: Icons.content_paste_outlined,
+              ),
             ],
           ),
         ],
@@ -113,16 +124,14 @@ class _ShortCutCardList extends StatelessWidget {
 }
 
 class _ShortCutCard extends StatelessWidget {
-  final String text;
-  final String? text2; // オプショナルなパラメータとしてtext2を追加
-  final IconData iconData;
-
   const _ShortCutCard({
-    Key? key,
     required this.text,
     this.text2,
     required this.iconData,
-  }) : super(key: key);
+  });
+  final String text;
+  final String? text2; // オプショナルなパラメータとしてtext2を追加
+  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +139,7 @@ class _ShortCutCard extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context);
 
     // 画面の幅に基づいてフォントサイズを計算
-    double fontSize = 11.0; // デフォルトのフォントサイズ
+    var fontSize = 11.0; // デフォルトのフォントサイズ
     if (screenWidth.width > 600) {
       fontSize = 13.0; // より大きなフォントサイズ
     } else if (screenWidth.width > 400) {
@@ -139,21 +148,21 @@ class _ShortCutCard extends StatelessWidget {
 
     return Expanded(
       child: SizedBox(
-        height: 112.0,
+        height: 112,
         child: Card(
           color: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   iconData,
-                  size: 34.0,
+                  size: 34,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -179,12 +188,12 @@ class _ShortCutCard extends StatelessWidget {
 }
 
 class _PostingDataHeadBar extends StatelessWidget {
-  const _PostingDataHeadBar({Key? key}) : super(key: key);
+  const _PostingDataHeadBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 72.0,
+      height: 72,
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -192,7 +201,6 @@ class _PostingDataHeadBar extends StatelessWidget {
         ),
       ),
       child: const Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(width: 12),
           Column(
@@ -225,23 +233,23 @@ class _PostingDataHeadBar extends StatelessWidget {
 }
 
 class Product {
-  final String produceImageUrl1;
-  final String productName;
-  final int priceJPY;
-  final int numberOfSearcher;
-
   Product({
     required this.produceImageUrl1,
     required this.productName,
     required this.priceJPY,
     required this.numberOfSearcher,
   });
+  final String produceImageUrl1;
+  final String productName;
+  final int priceJPY;
+  final int numberOfSearcher;
 }
 
 class _PostingItem extends StatelessWidget {
-  final ProductData data; // _Product から ProductData へ変更
+  // _Product から ProductData へ変更
 
-  const _PostingItem({Key? key, required this.data}) : super(key: key);
+  const _PostingItem({required this.data});
+  final ProductData data;
 
   @override
   Widget build(BuildContext context) {
@@ -255,38 +263,36 @@ class _PostingItem extends StatelessWidget {
 }
 
 class _PostingDataListView extends StatelessWidget {
+  const _PostingDataListView({
+    required this.productImageUrl1,
+    required this.productName,
+    required this.priceJPY,
+    required this.numberOfSearcher,
+  });
   final String productImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
 
-  const _PostingDataListView({
-    Key? key,
-    required this.productImageUrl1,
-    required this.productName,
-    required this.priceJPY,
-    required this.numberOfSearcher,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    const double fontSize = 14.0;
+    const fontSize = 14.0;
 
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(10.0, 8.0, 10.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
             child: Row(
               children: [
                 SizedBox(
-                  width: 72.0,
-                  height: 72.0,
+                  width: 72,
+                  height: 72,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(4),
                     child: Image.network(
                       productImageUrl1,
                       fit: BoxFit.cover,
@@ -314,9 +320,9 @@ class _PostingDataListView extends StatelessWidget {
                         const Icon(
                           Icons.local_fire_department,
                           color: _CustomColors.lightBlue,
-                          size: 16.0,
+                          size: 16,
                         ),
-                        const SizedBox(width: 4.0),
+                        const SizedBox(width: 4),
                         Text(
                           '$numberOfSearcher人が探しています',
                           style: const TextStyle(
@@ -339,19 +345,19 @@ class _PostingDataListView extends StatelessWidget {
 }
 
 class _PostingButton extends StatelessWidget {
-  const _PostingButton({Key? key}) : super(key: key);
+  const _PostingButton();
 
   @override
   Widget build(BuildContext context) {
     return const Card(
       color: _CustomColors.lightRed, // 赤い背景色を設定
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Text(
           '出品する',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 14.0,
+            fontSize: 14,
           ),
           textAlign: TextAlign.center,
         ),
@@ -361,7 +367,7 @@ class _PostingButton extends StatelessWidget {
 }
 
 class PostingFloatingActionButton extends StatelessWidget {
-  const PostingFloatingActionButton({Key? key}) : super(key: key);
+  const PostingFloatingActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -370,12 +376,12 @@ class PostingFloatingActionButton extends StatelessWidget {
         backgroundColor: _CustomColors.lightRed,
         onPressed: () {},
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.photo_camera_outlined, color: Colors.white, size: 28.0),
+            Icon(Icons.photo_camera_outlined, color: Colors.white, size: 28),
           ],
         ),
       ),
@@ -401,16 +407,27 @@ class _CustomBottomNavigationBar extends StatelessWidget {
 
     return BottomNavigationBar(
       items: [
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.home, label: 'ホーム', stackNumber: 5),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.notifications_none_outlined, label: 'お知らせ'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.photo_camera_outlined, label: '出品'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.add_comment_outlined, label: 'メッセージ'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.account_circle, label: 'マイページ'),
+        createBottomNavItem(
+          iconData: Icons.home,
+          label: 'ホーム',
+          stackNumber: 5,
+        ),
+        createBottomNavItem(
+          iconData: Icons.notifications_none_outlined,
+          label: 'お知らせ',
+        ),
+        createBottomNavItem(
+          iconData: Icons.photo_camera_outlined,
+          label: '出品',
+        ),
+        createBottomNavItem(
+          iconData: Icons.add_comment_outlined,
+          label: 'メッセージ',
+        ),
+        createBottomNavItem(
+          iconData: Icons.account_circle,
+          label: 'マイページ',
+        ),
       ],
       unselectedItemColor: Colors.grey,
       selectedItemColor: _CustomColors.lightBlue,
@@ -427,58 +444,51 @@ class _CustomBottomNavigationBar extends StatelessWidget {
   }
 }
 
-class _BottomNavItemFactory {
-  static BottomNavigationBarItem createItem({
-    required IconData iconData,
-    required String label,
-    double iconSize = 36.0,
-    int? stackNumber,
-  }) {
-    Widget icon = SizedBox(
-      width: 48.0,
-      height: 48.0,
-      child: Align(
-        alignment: Alignment.center,
-        child: Icon(iconData, size: iconSize),
-      ),
-    );
-    if (stackNumber != null && stackNumber != 0) {
-      icon = Stack(
-        children: [
-          SizedBox(
-              width: 48.0, height: 48.0, child: Icon(iconData, size: iconSize)),
-          Positioned(
-            right: 0,
-            top: 5,
-            child: _StackNumber(number: "$stackNumber"),
-          ),
-        ],
-      );
-    }
-    return BottomNavigationBarItem(
-      icon: icon,
-      label: label,
+BottomNavigationBarItem createBottomNavItem({
+  required IconData iconData,
+  required String label,
+  double iconSize = 36.0,
+  int? stackNumber,
+}) {
+  Widget icon = SizedBox(
+    width: 48,
+    height: 48,
+    child: Align(
+      child: Icon(iconData, size: iconSize),
+    ),
+  );
+  if (stackNumber != null && stackNumber > 0) {
+    icon = Stack(
+      children: [
+        SizedBox(width: 48, height: 48, child: Icon(iconData, size: iconSize)),
+        Positioned(
+          right: 0,
+          top: 5,
+          child: _StackNumber(number: '$stackNumber'),
+        ),
+      ],
     );
   }
+  return BottomNavigationBarItem(
+    icon: icon,
+    label: label,
+  );
 }
 
 class _StackNumber extends StatelessWidget {
-  final String number;
-
   const _StackNumber({
-    Key? key,
     required this.number,
-  }) : super(key: key);
+  });
+  final String number;
 
   @override
   Widget build(BuildContext context) {
-    const double size = 16.0;
     const Color color = Colors.red;
-    const Color textColor = Colors.white;
+    const textColor = Colors.white;
 
     return Container(
-      width: size,
-      height: size,
+      width: 16,
+      height: 16,
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
@@ -496,7 +506,7 @@ class _StackNumber extends StatelessWidget {
           number,
           style: const TextStyle(
             color: textColor,
-            fontSize: size * 0.75,
+            fontSize: 16 * 0.75,
           ),
         ),
       ),
