@@ -6,6 +6,7 @@ import 'package:flutter_tutorial/mercari/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
 import 'package:flutter_tutorial/youtube/ui/youtube_page.dart';
 
+
 class IndexPage extends StatelessWidget {
   const IndexPage({Key? key}) : super(key: key);
 
@@ -49,8 +50,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ResidencePage()),
+                  MaterialPageRoute(builder: (context) => ResidencePage()),
                 );
               },
               child: const Text('Residence'),
@@ -59,7 +59,7 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MercariPage()),
+                  MaterialPageRoute(builder: (context) => MercariPage()),
                 );
               },
               child: const Text('Mercari'),
