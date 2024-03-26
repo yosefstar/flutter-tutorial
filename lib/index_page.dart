@@ -72,7 +72,7 @@ class IndexPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Mercari'),
+              child: const Text('Residence'),
             ),
             ElevatedButton(
               onPressed: () {
