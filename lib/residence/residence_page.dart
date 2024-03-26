@@ -3,26 +3,94 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ResidencePage extends StatelessWidget {
-  const ResidencePage({super.key});
+  ResidencePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const _CustomAppBar(),
-      body: _ResidenceListView(),
-      floatingActionButton: const _CustomFloatingActionButton(),
+      body: ListView.builder(
+        itemCount: residenceList.length + 1, // SearchFilterItemを含めるために+1します
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            // 最初のアイテムとして_SearchFilterItemを表示
+            return const _SearchFilterItem();
+          } else {
+            // indexを1減らして、0番目を_SearchFilterItemにしたことを調整
+            final data = residenceList[index - 1];
+            return _ResidenceItem(data: data);
+          }
+        },
+      ),
+      floatingActionButton: const _SearchFloatingActionButton(),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
+
+  final List<Residence> residenceList = [
+    Residence(
+      imageUrl1:
+          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
+      imageUrl2:
+          'https://www.homes.co.jp/cont/wp-content/uploads/cont/83258/img/1.png',
+      text1: 'Rising place 川崎',
+      text2: '京線本線 京急川崎駅 より 徒歩9分',
+      text3: '1K / 21.24㎡ 南西向き',
+      text4: '2階/15階建 築5年',
+      number: 2000,
+    ),
+    Residence(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+      text1: 'Sunny Apartments 渋谷',
+      text2: '山手線 渋谷駅 より 徒歩5分',
+      text3: '2LDK / 35.75㎡ 南向き',
+      text4: '6階/20階建 築3年',
+      number: 5000,
+    ),
+    Residence(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Harmony Tower 新宿',
+      text2: '中央線 新宿駅 より 徒歩7分',
+      text3: '1LDK / 25.50㎡ 東向き',
+      text4: '10階/25階建 築2年',
+      number: 4500,
+    ),
+    Residence(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Green Residence 池袋',
+      text2: '有楽町線 池袋駅 より 徒歩10分',
+      text3: '1R / 20.10㎡ 西向き',
+      text4: '5階/15階建 築1年',
+      number: 3000,
+    ),
+    Residence(
+      imageUrl1:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      imageUrl2:
+          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
+      text1: 'Blue Ocean 横浜',
+      text2: 'みなとみらい線 横浜駅 より 徒歩8分',
+      text3: '3DK / 45.60㎡ 北向き',
+      text4: '8階/30階建 築4年',
+      number: 6000,
+    ),
+  ];
 }
 
 class _CustomColors {
-  static const Color green1 = Color(0xff26a69a);
-  static const Color primaryColor = green1;
-  static const Color grey1 = Color(0xFFBDBBBA);
-  static const Color grey2 = Color(0xffefebe9);
-  static const Color grey3 = Color(0xffeeeeee);
-  static const Color black = Color(0xffeeeeee);
+  static const Color deepGreen = Color(0xff26a69a);
+  static const Color lightBeige = Color(0xFFBDBBBA);
+  static const Color lightGrey = Color(0xffefebe9);
+  static const Color lighterGrey = Color(0xffeeeeee);
 }
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,14 +100,14 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: const IconThemeData(
-        color: _CustomColors.primaryColor,
+        color: _CustomColors.deepGreen,
       ),
       title: const Row(
         children: [
-          _CustomCard(text: 'おすすめ'),
+          _CustomChips(text: 'おすすめ'),
           Stack(
             children: [
-              _CustomCard(text: 'リフォーム'),
+              _CustomChips(text: 'リフォーム'),
               Positioned(
                 right: 0,
                 top: 0,
@@ -51,7 +119,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Icon(
             Icons.add_circle,
             size: 40.0,
-            color: _CustomColors.primaryColor,
+            color: _CustomColors.deepGreen,
           ),
         ],
       ),
@@ -65,14 +133,14 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _CustomCard extends StatelessWidget {
+class _CustomChips extends StatelessWidget {
   final String text;
-  const _CustomCard({Key? key, required this.text}) : super(key: key);
+  const _CustomChips({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _CustomColors.grey3,
+      color: _CustomColors.lighterGrey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25.0),
       ),
@@ -81,7 +149,7 @@ class _CustomCard extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            color: _CustomColors.primaryColor,
+            color: _CustomColors.deepGreen,
           ),
         ),
       ),
@@ -106,15 +174,15 @@ class _StackNumber extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: _CustomColors.black,
+            color: Colors.black.withOpacity(0.2),
             spreadRadius: 0.1,
             blurRadius: 2,
-            offset: Offset(2, 2),
+            offset: const Offset(2, 2),
           ),
         ],
       ),
@@ -131,28 +199,7 @@ class _StackNumber extends StatelessWidget {
   }
 }
 
-class DataListDisplay<T> extends StatelessWidget {
-  final List<T> dataList;
-  final Widget Function(T) itemBuilder;
-
-  const DataListDisplay({
-    Key? key,
-    required this.dataList,
-    required this.itemBuilder,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dataList.length,
-      itemBuilder: (context, index) {
-        return itemBuilder(dataList[index]);
-      },
-    );
-  }
-}
-
-class _CustomData {
+class Residence {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -161,7 +208,7 @@ class _CustomData {
   final String text4;
   final int number;
 
-  _CustomData({
+  Residence({
     required this.imageUrl1,
     required this.imageUrl2,
     required this.text1,
@@ -172,93 +219,8 @@ class _CustomData {
   });
 }
 
-class _ResidenceListView extends StatelessWidget {
-  // テストデータのリストを作成
-  final List<_CustomData> dataList = [
-    _CustomData(
-      imageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      imageUrl2:
-          'https://www.homes.co.jp/cont/wp-content/uploads/cont/83258/img/1.png',
-      text1: 'Rising place 川崎',
-      text2: '京線本線 京急川崎駅 より 徒歩9分',
-      text3: '1K / 21.24㎡ 南西向き',
-      text4: '2階/15階建 築5年',
-      number: 2000,
-    ),
-    _CustomData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      text1: 'Sunny Apartments 渋谷',
-      text2: '山手線 渋谷駅 より 徒歩5分',
-      text3: '2LDK / 35.75㎡ 南向き',
-      text4: '6階/20階建 築3年',
-      number: 5000,
-    ),
-    _CustomData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Harmony Tower 新宿',
-      text2: '中央線 新宿駅 より 徒歩7分',
-      text3: '1LDK / 25.50㎡ 東向き',
-      text4: '10階/25階建 築2年',
-      number: 4500,
-    ),
-    _CustomData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Green Residence 池袋',
-      text2: '有楽町線 池袋駅 より 徒歩10分',
-      text3: '1R / 20.10㎡ 西向き',
-      text4: '5階/15階建 築1年',
-      number: 3000,
-    ),
-    _CustomData(
-      imageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      imageUrl2:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      text1: 'Blue Ocean 横浜',
-      text2: 'みなとみらい線 横浜駅 より 徒歩8分',
-      text3: '3DK / 45.60㎡ 北向き',
-      text4: '8階/30階建 築4年',
-      number: 6000,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dataList.length + 1, // SearchFilterBarを含めるために+1します
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          // 最初のアイテムとしてSearchFilterBarを表示
-          return const _SearchFilterBar();
-        }
-        // indexを1減らして、0番目をSearchFilterBarにしたことを調整
-        final data = dataList[index - 1];
-        return _CustomDataDisplayWidget(
-          imageUrl1: data.imageUrl1,
-          imageUrl2: data.imageUrl2,
-          text1: data.text1,
-          text2: data.text2,
-          text3: data.text3,
-          text4: data.text4,
-          number: data.number,
-        );
-      },
-    );
-  }
-}
-
-class _SearchFilterBar extends StatelessWidget {
-  const _SearchFilterBar({Key? key}) : super(key: key);
+class _SearchFilterItem extends StatelessWidget {
+  const _SearchFilterItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -267,12 +229,12 @@ class _SearchFilterBar extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: _CustomColors.black, // 影の色
+            color: Colors.black.withOpacity(0.2), // 影の色
             spreadRadius: 0.1, // 影の広がり
             blurRadius: 5, // ぼかしの量
-            offset: Offset(0, 1), // 影の方向と距離
+            offset: const Offset(0, 1), // 影の方向と距離
           ),
         ],
         borderRadius: BorderRadius.circular(8.0),
@@ -304,10 +266,10 @@ class _SearchFilterBar extends StatelessWidget {
                   '編集',
                   style: TextStyle(
                     fontSize: 14.0,
-                    color: _CustomColors.primaryColor,
+                    color: _CustomColors.deepGreen,
                   ),
                 ),
-                Icon(Icons.edit, color: _CustomColors.primaryColor, size: 20.0),
+                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
               ],
             ),
           ),
@@ -315,7 +277,7 @@ class _SearchFilterBar extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: BoxDecoration(
-              color: _CustomColors.grey2,
+              color: _CustomColors.lightGrey,
               borderRadius: BorderRadius.circular(8.0), // 角を丸くする
             ),
             child: const Column(
@@ -384,7 +346,26 @@ class _SearchFilterBar extends StatelessWidget {
   }
 }
 
-class _CustomDataDisplayWidget extends StatelessWidget {
+class _ResidenceItem extends StatelessWidget {
+  final Residence data;
+
+  const _ResidenceItem({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _ResidenceDataDisplay(
+      imageUrl1: data.imageUrl1,
+      imageUrl2: data.imageUrl2,
+      text1: data.text1,
+      text2: data.text2,
+      text3: data.text3,
+      text4: data.text4,
+      number: data.number,
+    );
+  }
+}
+
+class _ResidenceDataDisplay extends StatelessWidget {
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -393,7 +374,7 @@ class _CustomDataDisplayWidget extends StatelessWidget {
   final String text4;
   final int number;
 
-  const _CustomDataDisplayWidget({
+  const _ResidenceDataDisplay({
     Key? key,
     required this.imageUrl1,
     required this.imageUrl2,
@@ -411,12 +392,12 @@ class _CustomDataDisplayWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: _CustomColors.black,
+            color: Colors.black.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -476,17 +457,17 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                       color: Colors.red,
                     ),
                   ),
-                  _IconWithTextLabel(
+                  _IconTextRow(
                     iconData: Icons.train,
                     text: text2,
                   ),
                   const SizedBox(height: 4),
-                  _IconWithTextLabel(
+                  _IconTextRow(
                     iconData: Icons.monetization_on,
                     text: text3,
                   ),
                   const SizedBox(height: 4),
-                  _IconWithTextLabel(
+                  _IconTextRow(
                     iconData: Icons.info_outline,
                     text: text4,
                   ),
@@ -504,14 +485,14 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: _CustomColors.grey1, width: 2.0),
+                      border: Border.all(
+                          color: _CustomColors.lightBeige, width: 2.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.delete, color: _CustomColors.grey1),
+                        Icon(Icons.delete, color: _CustomColors.lightBeige),
                         SizedBox(width: 8),
                         Text("興味なし"),
                       ],
@@ -523,15 +504,15 @@ class _CustomDataDisplayWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: _CustomColors.grey1, width: 2.0),
+                      border: Border.all(
+                          color: _CustomColors.lightBeige, width: 2.0),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.favorite_border_outlined,
-                            color: _CustomColors.grey1),
+                            color: _CustomColors.lightBeige),
                         SizedBox(width: 8),
                         Text("お気に入り"),
                       ],
@@ -547,11 +528,11 @@ class _CustomDataDisplayWidget extends StatelessWidget {
   }
 }
 
-class _IconWithTextLabel extends StatelessWidget {
+class _IconTextRow extends StatelessWidget {
   final IconData iconData;
   final String text;
 
-  const _IconWithTextLabel({
+  const _IconTextRow({
     Key? key,
     required this.iconData,
     required this.text,
@@ -572,8 +553,8 @@ class _IconWithTextLabel extends StatelessWidget {
   }
 }
 
-class _CustomFloatingActionButton extends StatelessWidget {
-  const _CustomFloatingActionButton({Key? key}) : super(key: key);
+class _SearchFloatingActionButton extends StatelessWidget {
+  const _SearchFloatingActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -581,7 +562,7 @@ class _CustomFloatingActionButton extends StatelessWidget {
       height: 70.0,
       width: 70.0,
       child: FloatingActionButton(
-        backgroundColor: _CustomColors.primaryColor,
+        backgroundColor: _CustomColors.deepGreen,
         onPressed: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
@@ -621,7 +602,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
             iconData: Icons.person_outline, label: 'マイページ'),
       ],
       unselectedItemColor: Colors.grey,
-      selectedItemColor: _CustomColors.primaryColor,
+      selectedItemColor: _CustomColors.deepGreen,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: const TextStyle(
         fontSize: 10.0,
