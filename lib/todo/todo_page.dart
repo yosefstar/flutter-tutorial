@@ -55,57 +55,58 @@ class TodoPageState extends State<TodoPage> {
                       : '期限なし';
 
                   return Slidable(
-                      key: ValueKey(todo.id),
-                      endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) =>
-                                _deleteTodo(context, todo, index),
-                            backgroundColor: Colors.red,
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
+                    key: ValueKey(todo.id),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) =>
+                              _deleteTodo(context, todo, index),
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'タイトル: ${todo.title}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            todo.content ?? '内容なし',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                '作成日: $createdDateStr',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              const SizedBox(width: 20),
+                              Text(
+                                '期日: $dueDateStr',
+                                style: const TextStyle(
+                                  color: Colors.yellow,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "タイトル: ${todo.title}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            const SizedBox(height: 4.0),
-                            Text(
-                              todo.content ?? "内容なし",
-                              style: const TextStyle(fontSize: 16.0),
-                            ),
-                            const SizedBox(height: 4.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  '作成日: $createdDateStr',
-                                  style: const TextStyle(fontSize: 14.0),
-                                ),
-                                const SizedBox(width: 20.0),
-                                Text(
-                                  '期日: $dueDateStr',
-                                  style: const TextStyle(
-                                    color: Colors.yellow,
-                                    fontSize: 14.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ));
+                    ),
+                  );
                 },
               );
             } else {
@@ -118,15 +119,14 @@ class TodoPageState extends State<TodoPage> {
     );
   }
 
-  void _deleteTodo(BuildContext context, Todo todo, int index) async {
+  Future<void> _deleteTodo(BuildContext context, Todo todo, int index) async {
     await _todoDeleter.deleteTodo(context, todo);
   }
 }
 
 class TodoDeleter {
-  final AppDatabase db;
-
   TodoDeleter({required this.db});
+  final AppDatabase db;
 
   Future<void> deleteTodo(BuildContext context, Todo todo) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -141,20 +141,19 @@ class TodoDeleter {
 }
 
 class CustomTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final bool readOnly;
-
   const CustomTextFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.icon,
     this.onTap,
     this.readOnly = false,
-  }) : super(key: key);
+  });
+  final TextEditingController controller;
+  final String hintText;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -184,12 +183,11 @@ class CustomTextFormField extends StatelessWidget {
 }
 
 class ShowAddTodoDialog extends StatelessWidget {
+  const ShowAddTodoDialog({super.key, required this.db});
   final AppDatabase db;
 
-  const ShowAddTodoDialog({Key? key, required this.db}) : super(key: key);
-
   void _showDialog(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext dialogContext) {
         return AddTodoDialog(db: db);
@@ -208,9 +206,8 @@ class ShowAddTodoDialog extends StatelessWidget {
 }
 
 class AddTodoDialog extends StatefulWidget {
+  const AddTodoDialog({super.key, required this.db});
   final AppDatabase db;
-
-  const AddTodoDialog({Key? key, required this.db}) : super(key: key);
 
   @override
   AddTodoDialogState createState() => AddTodoDialogState();
@@ -240,7 +237,7 @@ class AddTodoDialogState extends State<AddTodoDialog> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
@@ -294,19 +291,18 @@ class AddTodoDialogState extends State<AddTodoDialog> {
         ),
         TextButton(
           onPressed: () {
-            final todoSaver = TodoSaver(
+            TodoSaver(
               formKey: _formKey,
               titleController: _titleController,
               contentController: _contentController,
               selectedDate: _selectedDate,
               db: widget.db,
               scaffoldMessenger: ScaffoldMessenger.of(context),
-              onSuccess: () => Navigator.of(context).pop(), // 成功時の処理
+              onSuccess: () => Navigator.of(context).pop(),
               onError: () => ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('保存に失敗しました。')),
               ),
-            );
-            todoSaver.saveTodo();
+            ).saveTodo();
           },
           style: TextButton.styleFrom(
             backgroundColor: Colors.blue,
@@ -320,15 +316,6 @@ class AddTodoDialogState extends State<AddTodoDialog> {
 }
 
 class TodoSaver {
-  final GlobalKey<FormState> formKey;
-  final TextEditingController titleController;
-  final TextEditingController contentController;
-  final DateTime? selectedDate;
-  final AppDatabase db;
-  final ScaffoldMessengerState scaffoldMessenger;
-  final Function onSuccess;
-  final Function onError;
-
   TodoSaver({
     required this.formKey,
     required this.titleController,
@@ -339,6 +326,14 @@ class TodoSaver {
     required this.onSuccess,
     required this.onError,
   });
+  final GlobalKey<FormState> formKey;
+  final TextEditingController titleController;
+  final TextEditingController contentController;
+  final DateTime? selectedDate;
+  final AppDatabase db;
+  final ScaffoldMessengerState scaffoldMessenger;
+  final void Function() onSuccess;
+  final void Function() onError;
 
   Future<void> saveTodo() async {
     if (formKey.currentState!.validate()) {
@@ -355,7 +350,7 @@ class TodoSaver {
         } else {
           onError();
         }
-      } catch (e) {
+      } on Exception {
         onError();
       }
     }

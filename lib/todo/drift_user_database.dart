@@ -31,7 +31,7 @@ class AppDatabase extends _$AppDatabase {
     try {
       await (delete(todosTable)..where((t) => t.id.equals(id))).go();
       return true;
-    } catch (e) {
+    } on Exception {
       return false;
     }
   }

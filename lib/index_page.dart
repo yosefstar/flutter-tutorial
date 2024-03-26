@@ -78,7 +78,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TodoPage()),
+                  MaterialPageRoute<void>(
+                    builder: (context) => const TodoPage(),
+                  ),
                 );
               },
               child: const Text('Todo'),
