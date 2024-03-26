@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class YoutubePage extends StatelessWidget {
-  const YoutubePage({super.key});
+  YoutubePage({super.key});
 
   @override
   Widget build(BuildContext context) {
