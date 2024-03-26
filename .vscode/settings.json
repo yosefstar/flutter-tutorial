@@ -3,16 +3,13 @@
                 "ARASHI",
                 "Blüemlisalp",
                 "cupertino",
-                "Kandersteg",
-                "Oeschinen",
-                "vsync",
-                "LTRB",
-                "Oeschinen",
                 "interps",
                 "Kandersteg",
                 "LTRB",
                 "Mercari",
+                "nodoc",
                 "Oeschinen",
-                "riverpod"
+                "riverpod",
+                "vsync"
         ]
 }
