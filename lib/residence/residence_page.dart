@@ -94,7 +94,7 @@ class _CustomColors {
 }
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _CustomAppBar({Key? key}) : super(key: key);
+  const _CustomAppBar();
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Spacer(),
           Icon(
             Icons.add_circle,
-            size: 40.0,
+            size: 40,
             color: _CustomColors.deepGreen,
           ),
         ],
@@ -134,18 +134,18 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _CustomChips extends StatelessWidget {
+  const _CustomChips({required this.text});
   final String text;
-  const _CustomChips({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: _CustomColors.lighterGrey,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(25),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         child: Text(
           text,
           style: const TextStyle(
@@ -158,18 +158,16 @@ class _CustomChips extends StatelessWidget {
 }
 
 class _StackNumber extends StatelessWidget {
-  final String number;
-
   const _StackNumber({
-    Key? key,
     required this.number,
-  }) : super(key: key);
+  });
+  final String number;
 
   @override
   Widget build(BuildContext context) {
-    const double size = 16.0;
+    const size = 16.0;
     const Color color = Colors.red;
-    const Color textColor = Colors.white;
+    const textColor = Colors.white;
 
     return Container(
       width: size,
@@ -200,14 +198,6 @@ class _StackNumber extends StatelessWidget {
 }
 
 class Residence {
-  final String imageUrl1;
-  final String imageUrl2;
-  final String text1;
-  final String text2;
-  final String text3;
-  final String text4;
-  final int number;
-
   Residence({
     required this.imageUrl1,
     required this.imageUrl2,
@@ -217,16 +207,23 @@ class Residence {
     required this.text4,
     required this.number,
   });
+  final String imageUrl1;
+  final String imageUrl2;
+  final String text1;
+  final String text2;
+  final String text3;
+  final String text4;
+  final int number;
 }
 
 class _SearchFilterItem extends StatelessWidget {
-  const _SearchFilterItem({Key? key}) : super(key: key);
+  const _SearchFilterItem();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140.0,
-      margin: const EdgeInsets.all(8.0),
+      height: 140,
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -237,27 +234,27 @@ class _SearchFilterItem extends StatelessWidget {
             offset: const Offset(0, 1), // 影の方向と距離
           ),
         ],
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8),
             child: const Row(
               children: [
-                SizedBox(width: 8.0),
+                SizedBox(width: 8),
                 Text(
                   'カウルのおすすめ',
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 8.0),
+                SizedBox(width: 8),
                 Text(
                   '新着3件',
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 14,
                     color: Colors.red,
                   ),
                 ),
@@ -265,20 +262,20 @@ class _SearchFilterItem extends StatelessWidget {
                 Text(
                   '編集',
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 14,
                     color: _CustomColors.deepGreen,
                   ),
                 ),
-                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20.0),
+                Icon(Icons.edit, color: _CustomColors.deepGreen, size: 20),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               color: _CustomColors.lightGrey,
-              borderRadius: BorderRadius.circular(8.0), // 角を丸くする
+              borderRadius: BorderRadius.circular(8), // 角を丸くする
             ),
             child: const Column(
               children: [
@@ -286,13 +283,13 @@ class _SearchFilterItem extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.train,
-                      size: 18.0,
+                      size: 18,
                     ),
-                    SizedBox(width: 8.0),
+                    SizedBox(width: 8),
                     Text(
                       '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 14,
                       ),
                     ),
                   ],
@@ -304,13 +301,13 @@ class _SearchFilterItem extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.monetization_on,
-                          size: 18.0,
+                          size: 18,
                         ),
-                        SizedBox(width: 8.0),
+                        SizedBox(width: 8),
                         Text(
                           '下限なし〜2000万円',
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -324,13 +321,13 @@ class _SearchFilterItem extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          size: 18.0,
+                          size: 18,
                         ),
-                        SizedBox(width: 8.0),
+                        SizedBox(width: 8),
                         Text(
                           '東京駅・品川駅・川崎駅・横浜駅・目黒駅',
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -347,9 +344,8 @@ class _SearchFilterItem extends StatelessWidget {
 }
 
 class _ResidenceItem extends StatelessWidget {
+  const _ResidenceItem({required this.data});
   final Residence data;
-
-  const _ResidenceItem({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -366,6 +362,15 @@ class _ResidenceItem extends StatelessWidget {
 }
 
 class _ResidenceDataDisplay extends StatelessWidget {
+  const _ResidenceDataDisplay({
+    required this.imageUrl1,
+    required this.imageUrl2,
+    required this.text1,
+    required this.text2,
+    required this.text3,
+    required this.text4,
+    required this.number,
+  });
   final String imageUrl1;
   final String imageUrl2;
   final String text1;
@@ -374,24 +379,13 @@ class _ResidenceDataDisplay extends StatelessWidget {
   final String text4;
   final int number;
 
-  const _ResidenceDataDisplay({
-    Key? key,
-    required this.imageUrl1,
-    required this.imageUrl2,
-    required this.text1,
-    required this.text2,
-    required this.text3,
-    required this.text4,
-    required this.number,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -410,7 +404,7 @@ class _ResidenceDataDisplay extends StatelessWidget {
                   height: 200,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
+                      topLeft: Radius.circular(8),
                     ),
                     child: Image.network(
                       imageUrl1,
@@ -424,7 +418,7 @@ class _ResidenceDataDisplay extends StatelessWidget {
                   height: 200,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(8.0),
+                      topRight: Radius.circular(8),
                     ),
                     child: Image.network(
                       imageUrl2,
@@ -436,7 +430,7 @@ class _ResidenceDataDisplay extends StatelessWidget {
             ],
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Column(
@@ -445,14 +439,14 @@ class _ResidenceDataDisplay extends StatelessWidget {
                   Text(
                     text1,
                     style: const TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     '${NumberFormat("#,###").format(number)}万円',
                     style: const TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
                     ),
@@ -477,24 +471,26 @@ class _ResidenceDataDisplay extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Container(
-            padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 16.0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: _CustomColors.lightBeige, width: 2.0),
-                      borderRadius: BorderRadius.circular(8.0),
+                        color: _CustomColors.lightBeige,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.delete, color: _CustomColors.lightBeige),
                         SizedBox(width: 8),
-                        Text("興味なし"),
+                        Text('興味なし'),
                       ],
                     ),
                   ),
@@ -502,19 +498,23 @@ class _ResidenceDataDisplay extends StatelessWidget {
                 const SizedBox(width: 20),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: _CustomColors.lightBeige, width: 2.0),
-                      borderRadius: BorderRadius.circular(8.0),
+                        color: _CustomColors.lightBeige,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.favorite_border_outlined,
-                            color: _CustomColors.lightBeige),
+                        Icon(
+                          Icons.favorite_border_outlined,
+                          color: _CustomColors.lightBeige,
+                        ),
                         SizedBox(width: 8),
-                        Text("お気に入り"),
+                        Text('お気に入り'),
                       ],
                     ),
                   ),
@@ -529,24 +529,22 @@ class _ResidenceDataDisplay extends StatelessWidget {
 }
 
 class _IconTextRow extends StatelessWidget {
+  const _IconTextRow({
+    required this.iconData,
+    required this.text,
+  });
   final IconData iconData;
   final String text;
 
-  const _IconTextRow({
-    Key? key,
-    required this.iconData,
-    required this.text,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    const double iconSize = 18.0;
-    const TextStyle textStyle = TextStyle(fontSize: 14.0);
+    const iconSize = 18.0;
+    const textStyle = TextStyle(fontSize: 14);
 
     return Row(
       children: [
         Icon(iconData, size: iconSize),
-        const SizedBox(width: 8.0),
+        const SizedBox(width: 8),
         Text(text, style: textStyle),
       ],
     );
@@ -554,28 +552,28 @@ class _IconTextRow extends StatelessWidget {
 }
 
 class _SearchFloatingActionButton extends StatelessWidget {
-  const _SearchFloatingActionButton({Key? key}) : super(key: key);
+  const _SearchFloatingActionButton();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 70.0,
-      width: 70.0,
+      height: 70,
+      width: 70,
       child: FloatingActionButton(
         backgroundColor: _CustomColors.deepGreen,
         onPressed: () {},
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.search, color: Colors.white, size: 32.0),
+            Icon(Icons.search, color: Colors.white, size: 32),
             Text(
               '物件',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.0,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -593,60 +591,70 @@ class _CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: [
-        _BottomNavItemFactory.createItem(iconData: Icons.home, label: 'ホーム'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.favorite_border, label: 'お気に入り'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.message, label: 'メッセージ', stackNumber: 1),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.person_outline, label: 'マイページ'),
+        createBottomNavItem(
+          iconData: Icons.home,
+          label: 'ホーム',
+        ),
+        createBottomNavItem(
+          iconData: Icons.favorite_border,
+          label: 'お気に入り',
+        ),
+        createBottomNavItem(
+          iconData: Icons.message,
+          label: 'メッセージ',
+          stackNumber: 1,
+        ),
+        createBottomNavItem(
+          iconData: Icons.person_outline,
+          label: 'マイページ',
+        ),
       ],
       unselectedItemColor: Colors.grey,
       selectedItemColor: _CustomColors.deepGreen,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: const TextStyle(
-        fontSize: 10.0,
+        fontSize: 10,
         fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: const TextStyle(
-        fontSize: 10.0,
+        fontSize: 10,
         fontWeight: FontWeight.bold,
       ),
     );
   }
 }
 
-class _BottomNavItemFactory {
-  static BottomNavigationBarItem createItem({
-    required IconData iconData,
-    required String label,
-    double iconSize = 30.0,
-    int? stackNumber,
-  }) {
-    Widget icon = SizedBox(
-      width: 48.0,
-      height: 48.0,
-      child: Align(
-        alignment: Alignment.center,
-        child: Icon(iconData, size: iconSize),
-      ),
-    );
-    if (stackNumber != null && stackNumber != 0) {
-      icon = Stack(
-        children: [
-          SizedBox(
-              width: 48.0, height: 48.0, child: Icon(iconData, size: iconSize)),
-          Positioned(
-            right: 0,
-            top: 5,
-            child: _StackNumber(number: "$stackNumber"),
-          ),
-        ],
-      );
-    }
-    return BottomNavigationBarItem(
-      icon: icon,
-      label: label,
+BottomNavigationBarItem createBottomNavItem({
+  required IconData iconData,
+  required String label,
+  double iconSize = 30.0,
+  int? stackNumber,
+}) {
+  Widget icon = SizedBox(
+    width: 48,
+    height: 48,
+    child: Align(
+      child: Icon(iconData, size: iconSize),
+    ),
+  );
+  if (stackNumber != null && stackNumber > 0) {
+    icon = Stack(
+      children: [
+        SizedBox(
+          width: 48,
+          height: 48,
+          child: Icon(iconData, size: iconSize),
+        ),
+        Positioned(
+          right: 0,
+          top: 5,
+          child: _StackNumber(number: '$stackNumber'),
+        ),
+      ],
     );
   }
+  return BottomNavigationBarItem(
+    icon: icon,
+    label: label,
+  );
 }

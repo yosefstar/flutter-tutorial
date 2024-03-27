@@ -4,13 +4,12 @@ import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
-import 'package:flutter_tutorial/mercari/mercari_page.dart';
 
 // Project imports:
 import 'package:flutter_tutorial/youtube/youtube_page.dart';
 
 class IndexPage extends StatelessWidget {
-  const IndexPage({Key? key}) : super(key: key);
+  const IndexPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const BuildingLayoutPage()),
+                  MaterialPageRoute<BuildingLayoutPage>(
+                    builder: (context) => const BuildingLayoutPage(),
+                  ),
                 );
               },
               child: const Text('BuildingLayout'),
@@ -33,8 +33,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const AnimationPage()),
+                  MaterialPageRoute<AnimationPage>(
+                    builder: (context) => const AnimationPage(),
+                  ),
                 );
               },
               child: const Text('Animation'),
@@ -43,7 +44,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => YoutubePage()),
+                  MaterialPageRoute<YoutubePage>(
+                    builder: (context) => const YoutubePage(),
+                  ),
                 );
               },
               child: const Text('Youtube'),
@@ -52,7 +55,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ResidencePage()),
+                  MaterialPageRoute<ResidencePage>(
+                    builder: (context) => ResidencePage(),
+                  ),
                 );
               },
               child: const Text('Residence'),
@@ -61,7 +66,9 @@ class IndexPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MercariPage()),
+                  MaterialPageRoute<MercariPage>(
+                    builder: (context) => MercariPage(),
+                  ),
                 );
               },
               child: const Text('Mercari'),

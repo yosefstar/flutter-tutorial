@@ -3,98 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class YoutubePage extends StatelessWidget {
-  YoutubePage({super.key});
+  const YoutubePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: _buildThemeData(),
-      child: Scaffold(
-        appBar: const _CustomAppBar(),
-        body: ListView.builder(
-          // _dummyVideoDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとして、＋2する。
-          itemCount: _dummyVideoData.length + 2,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const _VideosCardsSection();
-            } else if (index == 1) {
-              return const _VideosHeader();
-            } else {
-              // _dummyVideoDataの中に、_VideosCardsSectionと_VideosHeaderがあるものとしたので、indexを-2する。
-              return _VideoList(videoInfo: _dummyVideoData[index - 2]);
-            }
-          },
+      data: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: _CustomColors.darkGrey,
+          foregroundColor: Colors.white,
         ),
-        bottomNavigationBar: const _CustomBottomNavigationBar(),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: _CustomColors.darkGrey,
+          selectedItemColor: Colors.white,
+        ),
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blueGrey,
       ),
-    );
-  }
-
-  final List<_VideoInfo> _dummyVideoData = [
-    _VideoInfo(
-      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-      iconUrl:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      title: 'デザイナーが教える!サムネイル作成、3つのコツ',
-      channelName: 'ARASHI',
-      streamNumber: 1276543,
-      date: 1,
-      videoTime: '12:34',
-    ),
-    _VideoInfo(
-      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-      iconUrl:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
-      channelName: 'チャンネル2',
-      streamNumber: 2000,
-      date: 3,
-      videoTime: '5:27',
-    ),
-    _VideoInfo(
-      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-      iconUrl:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      title: 'ビデオタイトル3',
-      channelName: 'チャンネル3',
-      streamNumber: 157832,
-      date: 2,
-      videoTime: '1:47',
-    ),
-    _VideoInfo(
-      imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-      iconUrl:
-          'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-      title: 'ビデオタイトル4',
-      channelName: 'チャンネル4',
-      streamNumber: 20,
-      date: 1,
-      videoTime: '3:57',
-    ),
-  ];
-
-  ThemeData _buildThemeData() {
-    return ThemeData(
-      appBarTheme: const AppBarTheme(
-        backgroundColor: _CustomColors.darkGrey,
-        foregroundColor: Colors.white,
+      child: const Scaffold(
+        appBar: _CustomAppBar(),
+        body: _CustomListView(),
+        bottomNavigationBar: _CustomBottomNavigationBar(),
       ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: _CustomColors.darkGrey,
-        selectedItemColor: Colors.white,
-      ),
-      brightness: Brightness.dark,
-      primarySwatch: Colors.blueGrey,
     );
   }
 }
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _CustomAppBar({Key? key}) : super(key: key);
+  const _CustomAppBar();
 
   @override
   Widget build(BuildContext context) {
-    const String appTitle = 'Youtube';
+    const appTitle = 'Youtube';
     return AppBar(
       automaticallyImplyLeading: false,
       title: Row(
@@ -109,8 +49,13 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         _CustomIconButton(iconData: Icons.notifications_none, onPressed: () {}),
         _CustomIconButton(iconData: Icons.search, onPressed: () {}),
         ClipOval(
-            child: Image.asset('images/icon_user.png',
-                width: 30, height: 30, fit: BoxFit.cover)),
+          child: Image.asset(
+            'images/icon_user.png',
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          ),
+        ),
         const SizedBox(width: 16),
       ],
     );
@@ -120,38 +65,56 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+class _CustomListView extends StatelessWidget {
+  const _CustomListView();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: _dummyVideoData.length + 2,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return const _VideosCardsSection();
+        } else if (index == 1) {
+          return const _VideosHeader();
+        } else {
+          return _VideoItemList(index: index - 2);
+        }
+      },
+    );
+  }
+}
+
 class _VideosCardsSection extends StatelessWidget {
-  const _VideosCardsSection({Key? key}) : super(key: key);
+  const _VideosCardsSection();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12.0),
-      height: 240.0,
+      padding: const EdgeInsets.all(12),
+      height: 240,
       child: _VideosCardsGridView(cardItems: _cardItems),
     );
   }
 }
 
 class _VideosCardsGridView extends StatelessWidget {
+  const _VideosCardsGridView({required this.cardItems});
   final List<_VideosCardsItem> cardItems;
-
-  const _VideosCardsGridView({Key? key, required this.cardItems})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 2, // 横に2つのカード
-      crossAxisSpacing: 4.0,
-      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4,
+      mainAxisSpacing: 4,
       childAspectRatio: 4 / 1,
       children: List.generate(cardItems.length, (index) {
         return Center(
           child: Card(
             color: cardItems[index].color,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0), // 角の丸みを設定
+              borderRadius: BorderRadius.circular(4), // 角の丸みを設定
             ),
             child: SizedBox(
               height: 50,
@@ -179,15 +142,19 @@ class _VideosCardsGridView extends StatelessWidget {
       }),
     );
   }
+
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _VideosCardsItem {
+  _VideosCardsItem({
+    required this.iconData,
+    required this.text,
+    required this.color,
+  });
   final IconData iconData;
   final String text;
   final Color color;
-
-  _VideosCardsItem(
-      {required this.iconData, required this.text, required this.color});
 }
 
 class _CustomColors {
@@ -203,33 +170,51 @@ class _CustomColors {
 
 final List<_VideosCardsItem> _cardItems = [
   _VideosCardsItem(
-      iconData: Icons.local_fire_department,
-      text: '急上昇',
-      color: _CustomColors.trending),
+    iconData: Icons.local_fire_department,
+    text: '急上昇',
+    color: _CustomColors.trending,
+  ),
   _VideosCardsItem(
-      iconData: Icons.music_note, text: '音楽', color: _CustomColors.music),
+    iconData: Icons.music_note,
+    text: '音楽',
+    color: _CustomColors.music,
+  ),
   _VideosCardsItem(
-      iconData: Icons.games, text: 'ゲーム', color: _CustomColors.games),
+    iconData: Icons.games,
+    text: 'ゲーム',
+    color: _CustomColors.games,
+  ),
   _VideosCardsItem(
-      iconData: Icons.article, text: 'ニュース', color: _CustomColors.news),
+    iconData: Icons.article,
+    text: 'ニュース',
+    color: _CustomColors.news,
+  ),
   _VideosCardsItem(
-      iconData: Icons.highlight, text: '学び', color: _CustomColors.learning),
+    iconData: Icons.highlight,
+    text: '学び',
+    color: _CustomColors.learning,
+  ),
   _VideosCardsItem(
-      iconData: Icons.live_tv, text: 'ライブ', color: _CustomColors.live),
+    iconData: Icons.live_tv,
+    text: 'ライブ',
+    color: _CustomColors.live,
+  ),
   _VideosCardsItem(
-      iconData: Icons.sports, text: 'スポーツ', color: _CustomColors.sports),
+    iconData: Icons.sports,
+    text: 'スポーツ',
+    color: _CustomColors.sports,
+  ),
 ];
 
 class _VideosHeader extends StatelessWidget {
-  const _VideosHeader({Key? key}) : super(key: key);
+  const _VideosHeader();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.0,
+      height: 56,
       color: _CustomColors.darkGrey,
       child: const Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(width: 20),
           Text(
@@ -247,14 +232,6 @@ class _VideosHeader extends StatelessWidget {
 }
 
 class _VideoInfo {
-  final String imageUrl;
-  final String iconUrl;
-  final String title;
-  final String channelName;
-  final int streamNumber;
-  final int date;
-  final String videoTime;
-
   _VideoInfo({
     required this.imageUrl,
     required this.iconUrl,
@@ -264,17 +241,66 @@ class _VideoInfo {
     required this.date,
     required this.videoTime,
   });
+  final String imageUrl;
+  final String iconUrl;
+  final String title;
+  final String channelName;
+  final int streamNumber;
+  final int date;
+  final String videoTime;
 }
 
-class _VideoList extends StatelessWidget {
-  final _VideoInfo videoInfo;
-  const _VideoList({Key? key, required this.videoInfo}) : super(key: key);
+final List<_VideoInfo> _dummyVideoData = [
+  _VideoInfo(
+    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+    iconUrl:
+        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+    title: 'デザイナーが教える!サムネイル作成、3つのコツ',
+    channelName: 'ARASHI',
+    streamNumber: 1276543,
+    date: 1,
+    videoTime: '12:34',
+  ),
+  _VideoInfo(
+    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+    iconUrl:
+        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+    title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
+    channelName: 'チャンネル2',
+    streamNumber: 2000,
+    date: 3,
+    videoTime: '5:27',
+  ),
+  _VideoInfo(
+    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+    iconUrl:
+        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+    title: 'ビデオタイトル3',
+    channelName: 'チャンネル3',
+    streamNumber: 157832,
+    date: 2,
+    videoTime: '1:47',
+  ),
+  _VideoInfo(
+    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
+    iconUrl:
+        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
+    title: 'ビデオタイトル4',
+    channelName: 'チャンネル4',
+    streamNumber: 20,
+    date: 1,
+    videoTime: '3:57',
+  ),
+];
+
+class _VideoItemList extends StatelessWidget {
+  const _VideoItemList({required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final formattedViewCount =
-        _ViewCountFormatter.format(videoInfo.streamNumber);
-
+    final videoInfo = _dummyVideoData[index];
+    final formattedViewCount = formatViewCount(videoInfo.streamNumber);
     return Column(
       children: <Widget>[
         Stack(
@@ -284,12 +310,12 @@ class _VideoList extends StatelessWidget {
               videoInfo.imageUrl,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  const Icon(Icons.equalizer, color: Colors.white, size: 24.0),
-                  const SizedBox(width: 8.0),
+                  const Icon(Icons.equalizer, color: Colors.white, size: 24),
+                  const SizedBox(width: 8),
                   _VideoTime(time: videoInfo.videoTime),
                 ],
               ),
@@ -297,7 +323,7 @@ class _VideoList extends StatelessWidget {
           ],
         ),
         Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           height: 76,
           color: _CustomColors.darkGrey,
           child: Row(
@@ -351,41 +377,38 @@ class _VideoList extends StatelessWidget {
   }
 }
 
-class _ViewCountFormatter {
-  static String format(int viewCount) {
-    if (viewCount < 10000) {
-      // 1万未満の場合はそのまま表示
-      return NumberFormat("#,###").format(viewCount);
-    } else if (viewCount < 100000) {
-      // 1万以上10万未満の場合は、小数点第一位までの万単位で表示
-      double inTenThousands = viewCount / 10000;
-      return '${inTenThousands.toStringAsFixed(1)}万';
-    } else {
-      // 10万以上の場合は、整数の万単位で表示
-      int inTenThousands = (viewCount / 10000).floor();
-      return '$inTenThousands万';
-    }
+String formatViewCount(int viewCount) {
+  if (viewCount < 10000) {
+    // 1万未満の場合はそのまま表示
+    return NumberFormat('#,###').format(viewCount);
+  } else if (viewCount < 100000) {
+    // 1万以上10万未満の場合は、小数点第一位までの万単位で表示
+    final inTenThousands = viewCount / 10000;
+    return '${inTenThousands.toStringAsFixed(1)}万';
+  } else {
+    // 10万以上の場合は、整数の万単位で表示
+    final inTenThousands = (viewCount / 10000).floor();
+    return '$inTenThousands万';
   }
 }
 
 class _VideoTime extends StatelessWidget {
+  const _VideoTime({required this.time});
   final String time;
-
-  const _VideoTime({Key? key, required this.time}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 1.0),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
       decoration: BoxDecoration(
         color: Colors.black,
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
         time,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 16.0,
+          fontSize: 16,
         ),
       ),
     );
@@ -393,8 +416,8 @@ class _VideoTime extends StatelessWidget {
 }
 
 class _VideoProfileIcon extends StatelessWidget {
+  const _VideoProfileIcon({required this.url});
   final String url;
-  const _VideoProfileIcon({Key? key, required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -420,24 +443,36 @@ class _CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: [
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.home_outlined, label: 'ホーム'),
-        _BottomNavItemFactory.createItem(iconData: Icons.explore, label: '検索'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.add_circle_outline, label: '', iconSize: 40),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.slow_motion_video_outlined, label: '登録チャンネル'),
-        _BottomNavItemFactory.createItem(
-            iconData: Icons.smart_display_outlined, label: 'ライブラリ'),
+        createBottomNavItem(
+          iconData: Icons.home_outlined,
+          label: 'ホーム',
+        ),
+        createBottomNavItem(
+          iconData: Icons.explore,
+          label: '検索',
+        ),
+        createBottomNavItem(
+          iconData: Icons.add_circle_outline,
+          label: '',
+          iconSize: 40,
+        ),
+        createBottomNavItem(
+          iconData: Icons.slow_motion_video_outlined,
+          label: '登録チャンネル',
+        ),
+        createBottomNavItem(
+          iconData: Icons.smart_display_outlined,
+          label: 'ライブラリ',
+        ),
       ],
       unselectedItemColor: Colors.white,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: const TextStyle(
-        fontSize: 10.0,
+        fontSize: 10,
         fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: const TextStyle(
-        fontSize: 10.0,
+        fontSize: 10,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -445,14 +480,12 @@ class _CustomBottomNavigationBar extends StatelessWidget {
 }
 
 class _CustomIconButton extends StatelessWidget {
-  final IconData iconData;
-  final VoidCallback onPressed;
-
   const _CustomIconButton({
-    Key? key,
     required this.iconData,
     required this.onPressed,
-  }) : super(key: key);
+  });
+  final IconData iconData;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -463,15 +496,13 @@ class _CustomIconButton extends StatelessWidget {
   }
 }
 
-class _BottomNavItemFactory {
-  static BottomNavigationBarItem createItem({
-    required IconData iconData,
-    required String label,
-    double iconSize = 24.0,
-  }) {
-    return BottomNavigationBarItem(
-      icon: Icon(iconData, size: iconSize),
-      label: label,
-    );
-  }
+BottomNavigationBarItem createBottomNavItem({
+  required IconData iconData,
+  required String label,
+  double iconSize = 24.0,
+}) {
+  return BottomNavigationBarItem(
+    icon: Icon(iconData, size: iconSize),
+    label: label,
+  );
 }
