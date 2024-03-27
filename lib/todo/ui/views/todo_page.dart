@@ -53,7 +53,9 @@ class TodoPage extends ConsumerWidget {
                 child: ListTile(
                   title: Text(todo.title),
                   subtitle: Text(
-                      '${todo.content ?? "内容なし"}\n作成日: $createdDateStr 期日: $dueDateStr'),
+                    '${todo.content ?? "内容なし"}\n'
+                    '作成日: $createdDateStr 期日: $dueDateStr',
+                  ),
                   isThreeLine: true,
                 ),
               );
