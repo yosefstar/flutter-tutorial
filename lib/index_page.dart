@@ -1,7 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_tutorial/animation/animation_page.dart';
-import 'package:flutter_tutorial/async/async_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
@@ -73,17 +72,6 @@ class IndexPage extends StatelessWidget {
                 );
               },
               child: const Text('Mercari'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<AsyncPage>(
-                    builder: (context) => const AsyncPage(),
-                  ),
-                );
-              },
-              child: const Text('AsyncPage'),
             ),
           ],
         ),
