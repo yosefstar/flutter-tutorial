@@ -4,7 +4,7 @@ import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
-import 'package:flutter_tutorial/todo/todo_page.dart';
+import 'package:flutter_tutorial/todo/ui/views/todo_page.dart';
 
 // Project imports:
 import 'package:flutter_tutorial/youtube/youtube_page.dart';

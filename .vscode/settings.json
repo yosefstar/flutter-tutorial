@@ -4,15 +4,15 @@
         "AUTOINCREMENT",
         "Blüemlisalp",
         "cupertino",
+        "datasource",
         "Deleter",
         "Insertable",
         "Kandersteg",
-        "Oeschinen",
-        "vsync",
-        "Mercari",
         "LTRB",
         "Mercari",
         "Oeschinen",
-        "Todos"
+        "riverpod",
+        "Todos",
+        "vsync"
     ]
 }

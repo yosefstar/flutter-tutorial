@@ -1,126 +1,73 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_tutorial/todo/drift_user_database.dart';
+import 'package:flutter_tutorial/todo/data/datasource/drift_user_database.dart';
+import 'package:flutter_tutorial/todo/ui/view_models/todo_view_model.dart';
 import 'package:intl/intl.dart'; // DateFormatを使用するために必要
 
-class TodoPage extends StatefulWidget {
+class TodoPage extends ConsumerWidget {
   const TodoPage({super.key});
 
   @override
-  TodoPageState createState() => TodoPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // StateNotifierProviderから状態を取得
+    final todoState = ref.watch(todosNotifierProvider);
 
-class TodoPageState extends State<TodoPage> {
-  final AppDatabase db = AppDatabase();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  late final TodoDeleter _todoDeleter;
-
-  @override
-  void initState() {
-    super.initState();
-    _todoDeleter = TodoDeleter(db: db);
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    _dateController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: StreamBuilder<List<Todo>>(
-          stream: db.watchAllTodos(),
-          builder: (context, AsyncSnapshot<List<Todo>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              final todos = snapshot.data ?? [];
-              if (todos.isEmpty) {
-                return const Text('登録してるToDoはありません');
-              }
-              return ListView.builder(
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  final todo = todos[index];
-                  final createdDateStr =
-                      DateFormat('yyyy-MM-dd').format(todo.createdDate);
-                  final dueDateStr = todo.dueDate != null
-                      ? DateFormat('yyyy-MM-dd').format(todo.dueDate!)
-                      : '期限なし';
-
-                  return Slidable(
-                    key: ValueKey(todo.id),
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) =>
-                              _deleteTodo(context, todo, index),
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'タイトル: ${todo.title}',
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            todo.content ?? '内容なし',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                '作成日: $createdDateStr',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              const SizedBox(width: 20),
-                              Text(
-                                '期日: $dueDateStr',
-                                style: const TextStyle(
-                                  color: Colors.yellow,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
+      appBar: AppBar(
+        title: const Text('Todos'),
       ),
-      floatingActionButton: ShowAddTodoDialog(db: db),
+      body: todoState.when(
+        initial: () => const Center(child: Text('データを読み込んでいます...')),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        loaded: (todos) {
+          if (todos.isEmpty) {
+            return const Center(child: Text('登録してるToDoはありません'));
+          }
+          return ListView.builder(
+            itemCount: todos.length,
+            itemBuilder: (context, index) {
+              final todo = todos[index];
+              final createdDateStr =
+                  DateFormat('yyyy-MM-dd').format(todo.createdDate);
+              final dueDateStr = todo.dueDate != null
+                  ? DateFormat('yyyy-MM-dd').format(todo.dueDate!)
+                  : '期限なし';
+
+              return Slidable(
+                key: ValueKey(todo.id),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) =>
+                          _deleteTodo(context, ref, todo.id),
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  title: Text(todo.title),
+                  subtitle: Text(
+                      '${todo.content ?? "内容なし"}\n作成日: $createdDateStr 期日: $dueDateStr'),
+                  isThreeLine: true,
+                ),
+              );
+            },
+          );
+        },
+        error: (error) => Center(child: Text('エラーが発生しました: $error')),
+      ),
     );
   }
 
-  Future<void> _deleteTodo(BuildContext context, Todo todo, int index) async {
-    await _todoDeleter.deleteTodo(context, todo);
+  Future<void> _deleteTodo(BuildContext context, WidgetRef ref, int id) async {
+    // StateNotifierを使用してTodoを削除
+    await ref.read(todosNotifierProvider.notifier).deleteTodo(id);
   }
 }
 

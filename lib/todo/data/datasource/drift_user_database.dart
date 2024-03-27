@@ -23,8 +23,8 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
-  Stream<List<Todo>> watchAllTodos() {
-    return select(todosTable).watch();
+  Future<List<Todo>> getAllTodos() async {
+    return select(todosTable).get();
   }
 
   Future<bool> deleteTodo(int id) async {
