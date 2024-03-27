@@ -7,6 +7,7 @@ import 'package:drift/native.dart';
 
 part 'drift_user_database.g.dart';
 
+// これがmodelの役割をしている
 @DataClassName('Todo')
 class TodosTable extends Table {
   IntColumn get id => integer().autoIncrement()();

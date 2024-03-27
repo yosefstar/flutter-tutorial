@@ -1,8 +1,6 @@
-import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_tutorial/todo/data/datasource/drift_user_database.dart';
 import 'package:flutter_tutorial/todo/ui/view_models/todo_view_model.dart';
 import 'package:intl/intl.dart'; // DateFormatを使用するために必要
 
@@ -12,7 +10,7 @@ class TodoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // StateNotifierProviderから状態を取得
-    final todoState = ref.watch(todosNotifierProvider);
+    final todoState = ref.watch(todosViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,8 +39,11 @@ class TodoPage extends ConsumerWidget {
                   motion: const ScrollMotion(),
                   children: [
                     SlidableAction(
-                      onPressed: (context) =>
-                          _deleteTodo(context, ref, todo.id),
+                      onPressed: (context) {
+                        ref
+                            .read(todosViewModelProvider.notifier) // ここを変更
+                            .deleteTodo(todo.id);
+                      },
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                       icon: Icons.delete,
@@ -64,28 +65,8 @@ class TodoPage extends ConsumerWidget {
         },
         error: (error) => Center(child: Text('エラーが発生しました: $error')),
       ),
+      floatingActionButton: const ShowAddTodoDialog(),
     );
-  }
-
-  Future<void> _deleteTodo(BuildContext context, WidgetRef ref, int id) async {
-    // StateNotifierを使用してTodoを削除
-    await ref.read(todosNotifierProvider.notifier).deleteTodo(id);
-  }
-}
-
-class TodoDeleter {
-  TodoDeleter({required this.db});
-  final AppDatabase db;
-
-  Future<void> deleteTodo(BuildContext context, Todo todo) async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final isSuccess = await db.deleteTodo(todo.id);
-    if (isSuccess) {
-    } else {
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(content: Text('削除に失敗しました。')),
-      );
-    }
   }
 }
 
@@ -131,98 +112,86 @@ class CustomTextFormField extends StatelessWidget {
   }
 }
 
-class ShowAddTodoDialog extends StatelessWidget {
-  const ShowAddTodoDialog({super.key, required this.db});
-  final AppDatabase db;
+class ShowAddTodoDialog extends ConsumerWidget {
+  const ShowAddTodoDialog({super.key});
 
-  void _showDialog(BuildContext context) {
+  void _showDialog(BuildContext context, WidgetRef ref) {
     showDialog<void>(
       context: context,
       builder: (BuildContext dialogContext) {
-        return AddTodoDialog(db: db);
+        return const AddTodoDialog();
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
-      onPressed: () => _showDialog(context),
+      onPressed: () => _showDialog(context, ref),
       tooltip: 'Add Todo',
       child: const Icon(Icons.add),
     );
   }
 }
 
-class AddTodoDialog extends StatefulWidget {
-  const AddTodoDialog({super.key, required this.db});
-  final AppDatabase db;
+class AddTodoDialog extends ConsumerWidget {
+  const AddTodoDialog({super.key});
 
   @override
-  AddTodoDialogState createState() => AddTodoDialogState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formKey = GlobalKey<FormState>();
+    final titleController = TextEditingController();
+    final contentController = TextEditingController();
+    final dateController = TextEditingController();
+    DateTime? selectedDate;
 
-class AddTodoDialogState extends State<AddTodoDialog> {
-  late TextEditingController _titleController;
-  late TextEditingController _contentController;
-  late TextEditingController _dateController;
-  DateTime? _selectedDate;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _titleController = TextEditingController();
-    _contentController = TextEditingController();
-    _dateController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    _dateController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        _dateController.text = DateFormat('yyyy/MM/dd').format(picked);
-      });
+    Future<void> selectDate(BuildContext context) async {
+      final picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2025),
+      );
+      if (picked != null && picked != selectedDate) {
+        selectedDate = picked;
+        dateController.text = DateFormat('yyyy/MM/dd').format(picked);
+      }
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
+    Future<void> saveTodo() async {
+      if (formKey.currentState!.validate()) {
+        final navigator = Navigator.of(context);
+        // ViewModelを通じて新しいToDoを追加
+        await ref.read(todosViewModelProvider.notifier).addNewTodo(
+              titleController.text,
+              contentController.text,
+              selectedDate,
+            );
+
+        if (navigator.mounted) {
+          navigator.pop();
+        }
+      }
+    }
+
     return AlertDialog(
       content: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: ListBody(
             children: <Widget>[
-              CustomTextFormField(
-                controller: _titleController,
-                hintText: 'タイトルを入力してください',
-                icon: Icons.title,
+              TextFormField(
+                controller: titleController,
+                decoration: const InputDecoration(hintText: 'タイトルを入力してください'),
               ),
-              CustomTextFormField(
-                controller: _contentController,
-                hintText: '内容を入力してください',
-                icon: Icons.description,
+              TextFormField(
+                controller: contentController,
+                decoration: const InputDecoration(hintText: '内容を入力してください'),
               ),
-              CustomTextFormField(
-                controller: _dateController,
-                hintText: '期限を選択してください',
-                icon: Icons.date_range,
-                onTap: () => _selectDate(context),
+              TextFormField(
+                controller: dateController,
+                decoration: const InputDecoration(hintText: '期限を選択してください'),
+                onTap: () => selectDate(context),
                 readOnly: true,
               ),
             ],
@@ -232,76 +201,13 @@ class AddTodoDialogState extends State<AddTodoDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-          ),
           child: const Text('キャンセル'),
         ),
         TextButton(
-          onPressed: () {
-            TodoSaver(
-              formKey: _formKey,
-              titleController: _titleController,
-              contentController: _contentController,
-              selectedDate: _selectedDate,
-              db: widget.db,
-              scaffoldMessenger: ScaffoldMessenger.of(context),
-              onSuccess: () => Navigator.of(context).pop(),
-              onError: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('保存に失敗しました。')),
-              ),
-            ).saveTodo();
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-          ),
+          onPressed: saveTodo,
           child: const Text('保存'),
         ),
       ],
     );
-  }
-}
-
-class TodoSaver {
-  TodoSaver({
-    required this.formKey,
-    required this.titleController,
-    required this.contentController,
-    required this.selectedDate,
-    required this.db,
-    required this.scaffoldMessenger,
-    required this.onSuccess,
-    required this.onError,
-  });
-  final GlobalKey<FormState> formKey;
-  final TextEditingController titleController;
-  final TextEditingController contentController;
-  final DateTime? selectedDate;
-  final AppDatabase db;
-  final ScaffoldMessengerState scaffoldMessenger;
-  final void Function() onSuccess;
-  final void Function() onError;
-
-  Future<void> saveTodo() async {
-    if (formKey.currentState!.validate()) {
-      final todo = TodosTableCompanion(
-        title: Value(titleController.text),
-        content: Value(contentController.text),
-        dueDate: Value(selectedDate ?? DateTime.now()),
-        createdDate: Value(DateTime.now()),
-      );
-      try {
-        final id = await db.into(db.todosTable).insert(todo);
-        if (id > 0) {
-          onSuccess();
-        } else {
-          onError();
-        }
-      } on Exception {
-        onError();
-      }
-    }
   }
 }

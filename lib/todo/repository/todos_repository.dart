@@ -16,7 +16,7 @@ class TodosRepository {
     return queryResult;
   }
 
-  Future<void> addTodo(Todo todo) async {
+  Future<void> saveTodo(TodosTableCompanion todo) async {
     await db.into(db.todosTable).insert(todo);
   }
 
