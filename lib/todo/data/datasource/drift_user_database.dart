@@ -24,6 +24,10 @@ class AppDatabase extends _$AppDatabase {
     return select(todosTable).get();
   }
 
+  Future<void> saveTodo(TodosTableCompanion todo) async {
+    await into(todosTable).insert(todo);
+  }
+
   Future<bool> deleteTodo(int id) async {
     try {
       await (delete(todosTable)..where((t) => t.id.equals(id))).go();

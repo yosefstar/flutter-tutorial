@@ -11,16 +11,15 @@ class TodosRepository {
   final AppDatabase db;
 
   Future<List<Todo>> getTodos() async {
-    final queryResult = await db.select(db.todosTable).get();
-    return queryResult;
+    return db.getAllTodos();
   }
 
   Future<void> saveTodo(TodosTableCompanion todo) async {
-    await db.into(db.todosTable).insert(todo);
+    await db.saveTodo(todo);
   }
 
   Future<void> deleteTodo(int id) async {
-    await (db.delete(db.todosTable)..where((tbl) => tbl.id.equals(id))).go();
+    await db.deleteTodo(id);
   }
 }
 
