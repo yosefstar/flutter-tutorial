@@ -70,48 +70,6 @@ class TodoPage extends ConsumerWidget {
   }
 }
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.icon,
-    this.onTap,
-    this.readOnly = false,
-  });
-  final TextEditingController controller;
-  final String hintText;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final bool readOnly;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Icon(icon),
-        const SizedBox(width: 12),
-        Expanded(
-          child: TextFormField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: hintText,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return '値を入力してください';
-              }
-              return null;
-            },
-            onTap: onTap,
-            readOnly: readOnly,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class ShowAddTodoDialog extends ConsumerWidget {
   const ShowAddTodoDialog({super.key});
 
@@ -183,16 +141,34 @@ class AddTodoDialog extends ConsumerWidget {
               TextFormField(
                 controller: titleController,
                 decoration: const InputDecoration(hintText: 'タイトルを入力してください'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '値を入力してください';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: contentController,
                 decoration: const InputDecoration(hintText: '内容を入力してください'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '値を入力してください';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: dateController,
                 decoration: const InputDecoration(hintText: '期限を選択してください'),
                 onTap: () => selectDate(context),
                 readOnly: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '値を入力してください';
+                  }
+                  return null;
+                },
               ),
             ],
           ),
