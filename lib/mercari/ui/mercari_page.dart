@@ -1,110 +1,44 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tutorial/mercari/ui/product_data_state.dart';
+import 'product_view_model.dart'; // productDataListProviderを含むファイルをインポート
 
-class MercariPage extends StatelessWidget {
-  MercariPage({super.key});
+class MercariPage extends ConsumerWidget {
+  const MercariPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // productDataListProviderからデータを非同期に取得
+    final productListAsyncValue = ref.watch(productDataListProvider);
+
     return Scaffold(
-      appBar: const _PostingAppBar(),
-      floatingActionButton: const _PostingFloatingActionButton(),
       body: ColoredBox(
         color: _CustomColors.lightGrey,
-        child: ListView.builder(
-          itemCount: _productList.length +
-              3, // _MainPhoto, _ShortCutCardList, と _PostingListBar を含むため +3
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return const _MainPhoto(); // 最初のアイテム
-            } else if (index == 1) {
-              return const _ShortCutCardList(); // 2番目のアイテム
-            } else if (index == 2) {
-              return const _PostingDataHeadBar(); // 3番目のアイテム
-            } else {
-              final data =
-                  _productList[index - 3]; // productDataList のインデックスを調整
-              return _PostingItem(data: data);
-            }
-          },
+        child: productListAsyncValue.when(
+          data: (productList) => ListView.builder(
+            itemCount: productList.length + 3, // ヘッダー部分を考慮して+3
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const _MainPhoto(); // 最初のアイテム
+              } else if (index == 1) {
+                return const _ShortCutCardList(); // 2番目のアイテム
+              } else if (index == 2) {
+                return const _PostingDataHeadBar(); // 3番目のアイテム
+              } else {
+                // productListからデータを取得して表示
+                final data = productList[index - 3];
+                return _PostingItem(data: data);
+              }
+            },
+          ),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stack) => Text('Error: $error'),
         ),
       ),
       bottomNavigationBar: const _CustomBottomNavigationBar(),
     );
   }
-
-  final List<_Product> _productList = [
-    _Product(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-    _Product(
-      produceImageUrl1:
-          'https://thumb.photo-ac.com/e8/e84d3dd4bf93d46b76ee4452e8ab2332_t.jpeg',
-      productName: 'sony a7iii',
-      priceJPY: 2000,
-      numberOfSearcher: 200,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'panasonic b6ttt',
-      priceJPY: 1500,
-      numberOfSearcher: 80,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sharp u2hhh',
-      priceJPY: 5500,
-      numberOfSearcher: 850,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'intel core i9',
-      priceJPY: 800,
-      numberOfSearcher: 15,
-    ),
-    _Product(
-      produceImageUrl1:
-          'http://flat-icon-design.com/f/f_object_164/s512_f_object_164_0bg.png',
-      productName: 'sony b9uuu',
-      priceJPY: 2200,
-      numberOfSearcher: 150,
-    ),
-  ];
 }
 
 class _CustomColors {
@@ -113,8 +47,8 @@ class _CustomColors {
   static const Color lightGrey = Color(0xFFEAEAE9);
 }
 
-class _PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _PostingAppBar();
+class PostingAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const PostingAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -298,8 +232,8 @@ class _PostingDataHeadBar extends StatelessWidget {
   }
 }
 
-class _Product {
-  _Product({
+class Product {
+  Product({
     required this.produceImageUrl1,
     required this.productName,
     required this.priceJPY,
@@ -312,13 +246,15 @@ class _Product {
 }
 
 class _PostingItem extends StatelessWidget {
+  // _Product から ProductData へ変更
+
   const _PostingItem({required this.data});
-  final _Product data;
+  final ProductData data;
 
   @override
   Widget build(BuildContext context) {
     return _PostingDataListView(
-      produceImageUrl1: data.produceImageUrl1,
+      productImageUrl1: data.productImageUrl1,
       productName: data.productName,
       priceJPY: data.priceJPY,
       numberOfSearcher: data.numberOfSearcher,
@@ -328,12 +264,12 @@ class _PostingItem extends StatelessWidget {
 
 class _PostingDataListView extends StatelessWidget {
   const _PostingDataListView({
-    required this.produceImageUrl1,
+    required this.productImageUrl1,
     required this.productName,
     required this.priceJPY,
     required this.numberOfSearcher,
   });
-  final String produceImageUrl1;
+  final String productImageUrl1;
   final String productName;
   final int priceJPY;
   final int numberOfSearcher;
@@ -358,7 +294,7 @@ class _PostingDataListView extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: Image.network(
-                      produceImageUrl1,
+                      productImageUrl1,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -430,8 +366,8 @@ class _PostingButton extends StatelessWidget {
   }
 }
 
-class _PostingFloatingActionButton extends StatelessWidget {
-  const _PostingFloatingActionButton();
+class PostingFloatingActionButton extends StatelessWidget {
+  const PostingFloatingActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -547,13 +483,12 @@ class _StackNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const size = 16.0;
     const Color color = Colors.red;
     const textColor = Colors.white;
 
     return Container(
-      width: size,
-      height: size,
+      width: 16,
+      height: 16,
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
@@ -571,7 +506,7 @@ class _StackNumber extends StatelessWidget {
           number,
           style: const TextStyle(
             color: textColor,
-            fontSize: size * 0.75,
+            fontSize: 16 * 0.75,
           ),
         ),
       ),

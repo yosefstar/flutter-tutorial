@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
-import 'package:flutter_tutorial/mercari/mercari_page.dart';
+import 'package:flutter_tutorial/qiita/ui/qiita_page.dart';
+import 'package:flutter_tutorial/mercari/ui/mercari_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
 
 // Project imports:
@@ -67,11 +68,22 @@ class IndexPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<MercariPage>(
-                    builder: (context) => MercariPage(),
+                    builder: (context) => const MercariPage(),
                   ),
                 );
               },
-              child: const Text('Mercari'),
+              child: const Text('Residence'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<QiitaPage>(
+                    builder: (context) => const QiitaPage(),
+                  ),
+                );
+              },
+              child: const Text('Qiita'),
             ),
           ],
         ),
