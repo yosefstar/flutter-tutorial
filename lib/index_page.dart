@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tutorial/animation/animation_page.dart';
 import 'package:flutter_tutorial/building/building_layout_page.dart';
 import 'package:flutter_tutorial/mercari/mercari_page.dart';
+import 'package:flutter_tutorial/qiita/ui/qiita_page.dart';
 import 'package:flutter_tutorial/residence/residence_page.dart';
 import 'package:flutter_tutorial/qiita/ui/qiita_page.dart';
 
