@@ -116,7 +116,6 @@ class AsyncPageState extends State<AsyncPage> {
             TextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  // バリデーションが成功した場合のみ保存処理を実行
                   _userInfoStorage
                       .saveUserInfo(
                     nameController.text,
