@@ -5,7 +5,7 @@ import 'package:flutter_tutorial/todo/repository/todos_repository.dart';
 import 'package:flutter_tutorial/todo/ui/state/todo_state.dart';
 
 class TodosViewModel extends StateNotifier<TodoState> {
-  TodosViewModel(this.ref) : super(const TodoState.initial()) {
+  TodosViewModel(this.ref) : super(const TodoState.loading()) {
     loadTodos();
   }
 

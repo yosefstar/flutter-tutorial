@@ -16,9 +16,7 @@ class TodoPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Todos'),
       ),
-      body: todoState.when(
-        initial: () => const Center(child: Text('データを読み込んでいます...')),
-        loading: () => const Center(child: CircularProgressIndicator()),
+      body: todoState.maybeWhen(
         loaded: (todos) {
           if (todos.isEmpty) {
             return const Center(child: Text('登録してるToDoはありません'));
@@ -41,7 +39,7 @@ class TodoPage extends ConsumerWidget {
                     SlidableAction(
                       onPressed: (context) {
                         ref
-                            .read(todosViewModelProvider.notifier) // ここを変更
+                            .read(todosViewModelProvider.notifier)
                             .deleteTodo(todo.id);
                       },
                       backgroundColor: Colors.red,
@@ -64,6 +62,9 @@ class TodoPage extends ConsumerWidget {
           );
         },
         error: (error) => Center(child: Text('エラーが発生しました: $error')),
+        orElse: () => const Center(
+            child:
+                CircularProgressIndicator()), // これがinitialと他の未指定状態に対するデフォルトの処理です
       ),
       floatingActionButton: const ShowAddTodoDialog(),
     );
