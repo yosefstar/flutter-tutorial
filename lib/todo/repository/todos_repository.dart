@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_tutorial/todo/data/datasource/database_provider.dart';
 import 'package:flutter_tutorial/todo/data/datasource/drift_user_database.dart';
 
 final todosRepositoryProvider = FutureProvider<TodosRepository>((ref) async {
