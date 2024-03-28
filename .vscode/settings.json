@@ -1,14 +1,18 @@
 {
-        "cSpell.words": [
-                "ARASHI",
-                "Blüemlisalp",
-                "cupertino",
-                "Kandersteg",
-                "Oeschinen",
-                "vsync",
-                "Mercari",
-                "LTRB",
-                "Mercari",
-                "Oeschinen"
-        ]
+    "cSpell.words": [
+        "ARASHI",
+        "AUTOINCREMENT",
+        "Blüemlisalp",
+        "cupertino",
+        "datasource",
+        "Deleter",
+        "Insertable",
+        "Kandersteg",
+        "LTRB",
+        "Mercari",
+        "Oeschinen",
+        "riverpod",
+        "Todos",
+        "vsync"
+    ]
 }
