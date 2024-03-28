@@ -1,30 +1,69 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_tutorial/youtube/ui/video_info_state.dart';
+import 'package:flutter_tutorial/youtube/ui/youtube_view_model.dart';
 import 'package:intl/intl.dart';
 
-class YoutubePage extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class YoutubePage extends ConsumerWidget {
   const YoutubePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final videoInfoState = ref.watch(videoInfoProvider);
+
+    return videoInfoState.when(
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stack) => _createErrorUI(error),
+      data: _createDataUI,
+    );
+  }
+
+  Scaffold _createErrorUI(Object error) {
+    return Scaffold(
+      body: Center(
+        child: Text('An error occurred: $error'),
+      ),
+    );
+  }
+
+  Theme _createDataUI(List<VideoInfo> videoInfos) {
     return Theme(
-      data: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: _CustomColors.darkGrey,
-          foregroundColor: Colors.white,
+      data: _themeData(),
+      child: Scaffold(
+        appBar: const _CustomAppBar(),
+        body: ListView.builder(
+          itemCount: videoInfos.length + 2,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return const _VideosCardsSection();
+            } else if (index == 1) {
+              return const _VideosHeader();
+            } else {
+              final videoInfo = videoInfos[index - 2];
+              return _VideoList(videoInfo: videoInfo);
+            }
+          },
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: _CustomColors.darkGrey,
-          selectedItemColor: Colors.white,
-        ),
-        brightness: Brightness.dark,
-        primarySwatch: Colors.blueGrey,
+        bottomNavigationBar: const _CustomBottomNavigationBar(),
       ),
-      child: const Scaffold(
-        appBar: _CustomAppBar(),
-        body: _CustomListView(),
-        bottomNavigationBar: _CustomBottomNavigationBar(),
+    );
+  }
+
+  ThemeData _themeData() {
+    return ThemeData(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: _CustomColors.darkGrey,
+        foregroundColor: Colors.white,
       ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: _CustomColors.darkGrey,
+        selectedItemColor: Colors.white,
+      ),
+      brightness: Brightness.dark,
+      primarySwatch: Colors.blueGrey,
     );
   }
 }
@@ -63,26 +102,6 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _CustomListView extends StatelessWidget {
-  const _CustomListView();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _dummyVideoData.length + 2,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return const _VideosCardsSection();
-        } else if (index == 1) {
-          return const _VideosHeader();
-        } else {
-          return _VideoItemList(index: index - 2);
-        }
-      },
-    );
-  }
 }
 
 class _VideosCardsSection extends StatelessWidget {
@@ -142,8 +161,6 @@ class _VideosCardsGridView extends StatelessWidget {
       }),
     );
   }
-
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _VideosCardsItem {
@@ -231,76 +248,14 @@ class _VideosHeader extends StatelessWidget {
   }
 }
 
-class _VideoInfo {
-  _VideoInfo({
-    required this.imageUrl,
-    required this.iconUrl,
-    required this.title,
-    required this.channelName,
-    required this.streamNumber,
-    required this.date,
-    required this.videoTime,
-  });
-  final String imageUrl;
-  final String iconUrl;
-  final String title;
-  final String channelName;
-  final int streamNumber;
-  final int date;
-  final String videoTime;
-}
-
-final List<_VideoInfo> _dummyVideoData = [
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'デザイナーが教える!サムネイル作成、3つのコツ',
-    channelName: 'ARASHI',
-    streamNumber: 1276543,
-    date: 1,
-    videoTime: '12:34',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'Flutterについて。Flutterについて。Flutterについて。Flutterについて。Flutterについて。',
-    channelName: 'チャンネル2',
-    streamNumber: 2000,
-    date: 3,
-    videoTime: '5:27',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル3',
-    channelName: 'チャンネル3',
-    streamNumber: 157832,
-    date: 2,
-    videoTime: '1:47',
-  ),
-  _VideoInfo(
-    imageUrl: 'https://yososhi.com/wp-content/uploads/2020/03/20200322-2.jpg',
-    iconUrl:
-        'http://flat-icon-design.com/f/f_object_174/s512_f_object_174_0bg.png',
-    title: 'ビデオタイトル4',
-    channelName: 'チャンネル4',
-    streamNumber: 20,
-    date: 1,
-    videoTime: '3:57',
-  ),
-];
-
-class _VideoItemList extends StatelessWidget {
-  const _VideoItemList({required this.index});
-  final int index;
+class _VideoList extends StatelessWidget {
+  const _VideoList({required this.videoInfo});
+  final VideoInfo videoInfo;
 
   @override
   Widget build(BuildContext context) {
-    final videoInfo = _dummyVideoData[index];
     final formattedViewCount = formatViewCount(videoInfo.streamNumber);
+
     return Column(
       children: <Widget>[
         Stack(
@@ -325,7 +280,7 @@ class _VideoItemList extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           height: 76,
-          color: _CustomColors.darkGrey,
+          color: Colors.grey[850], // _CustomColors.darkGreyの代わり
           child: Row(
             children: [
               _VideoProfileIcon(
